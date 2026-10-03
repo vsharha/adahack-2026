@@ -187,7 +187,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="animate-fade-in border-b bg-gradient-to-b from-primary/5 to-background">
+      <section className="animate-fade-in bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="flex items-center justify-between">
