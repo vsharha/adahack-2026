@@ -3,7 +3,11 @@
 import { GoalCard } from "@/components/goal-card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { householdSuggestions, interestGroups } from "@/data/seed";
+import {
+  householdSuggestions,
+  interestGroups,
+  streetPostcode,
+} from "@/data/seed";
 import { dispatch, useDemoState, useMe } from "@/lib/demo-store";
 import { goalsForUser } from "@/lib/progress";
 import type { Goal } from "@/lib/types";
@@ -11,7 +15,7 @@ import type { Goal } from "@/lib/types";
 function scopeLabel(goal: Goal): string {
   switch (goal.level) {
     case "postcode":
-      return "Everyone in EH8";
+      return `Everyone in ${streetPostcode}`;
     case "group":
       return `${interestGroups.find((g) => g.id === goal.groupId)?.name}`;
     case "household":

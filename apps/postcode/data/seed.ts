@@ -6,6 +6,9 @@ import type {
   User,
 } from "@/lib/types";
 
+/** The demo street's full postcode, shared by every household on it. */
+export const streetPostcode = "EH8 9YL";
+
 export const interestGroups: InterestGroup[] = [
   { id: "gardening", name: "Gardening and growing" },
   { id: "walking-cycling", name: "Walking and cycling" },

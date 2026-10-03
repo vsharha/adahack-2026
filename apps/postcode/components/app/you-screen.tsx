@@ -4,7 +4,7 @@ import { useState } from "react";
 import { DeleteAccountDialog } from "@/components/app/delete-account-dialog";
 import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/ui/button";
-import { households, interestGroups } from "@/data/seed";
+import { households, interestGroups, streetPostcode } from "@/data/seed";
 import { dispatch, isPremade, useDemoState, useMe } from "@/lib/demo-store";
 import {
   type Appearance,
@@ -71,7 +71,7 @@ export function YouScreen() {
         <Avatar user={me} className="size-20 text-3xl" />
         <h1 className="mt-3 text-2xl font-bold">{me.name}</h1>
         <p className="text-muted-foreground">
-          {house?.label}, EH8
+          {house?.label}, {streetPostcode}
           {housemates.length > 0 &&
             ` · with ${housemates.map((u) => u.name).join(" and ")}`}
         </p>

@@ -5,12 +5,13 @@ import { useState } from "react";
 import { Avatar } from "@/components/avatar";
 import { StreetView } from "@/components/street-view";
 import { Button } from "@/components/ui/button";
-import { households, interestGroups } from "@/data/seed";
+import { households, interestGroups, streetPostcode } from "@/data/seed";
 import { dispatch, nextHousehold, useDemoState } from "@/lib/demo-store";
 import type { InterestId, User } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const demoPostcode = "EH8 9YL";
+/** The postcode district the demo street is in; other districts are not on the app yet. */
+const streetDistrict = streetPostcode.split(" ")[0];
 
 const steps = ["postcode", "street", "name", "interests"] as const;
 type Step = (typeof steps)[number];
@@ -66,7 +67,7 @@ export function Onboarding({
     setLocating(true);
     setPostcodeError(null);
     setTimeout(() => {
-      setPostcode(demoPostcode);
+      setPostcode(streetPostcode);
       setLocating(false);
     }, 900);
   }
@@ -77,9 +78,9 @@ export function Onboarding({
       setPostcodeError("Enter a full UK postcode, like EH8 9YL.");
       return;
     }
-    if (district !== "EH8") {
+    if (district !== streetDistrict) {
       setPostcodeError(
-        `Greener by postcode isn't in ${district} yet. Try an EH8 postcode.`,
+        `Greener by postcode isn't in ${district} yet. Try an ${streetDistrict} postcode.`,
       );
       return;
     }

@@ -5,6 +5,7 @@ import { ActivityFeed } from "@/components/activity-feed";
 import { Avatar } from "@/components/avatar";
 import { StreetView } from "@/components/street-view";
 import { Button } from "@/components/ui/button";
+import { streetPostcode } from "@/data/seed";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
   goalsForUser,
@@ -73,7 +74,7 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
       <section>
         <div className="flex items-baseline justify-between px-5">
           <h2 className="text-4xl font-bold tracking-tight text-foreground">
-            EH8
+            {streetPostcode}
           </h2>
           <p className="text-sm text-muted-foreground">
             {neighbours} neighbours on the app
@@ -117,7 +118,7 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
               <Avatar
                 key={u.id}
                 user={u}
-                className="-mr-2 size-8 text-sm ring-2 ring-moss"
+                className="-mr-2 size-8 text-sm ring-2 ring-background"
               />
             ))}
             <p className="ml-4 text-sm text-on-moss/90">
