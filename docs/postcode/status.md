@@ -10,8 +10,9 @@ Each feature has a build state: works, mocked, planned or cut.
 - A mocked feature says which parts are mocked and how to reproduce the demo.
 - A cut feature keeps its line with the reason, so it is not proposed again.
 
-| Feature | State | Verification or reason |
-| ------- | ----- | ---------------------- |
+| Feature                                                                                                                                       | State  | Verification or reason                                                                                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Demo seed data: 12 anonymous households, 14 users, the 8 interest groups, goals, pledges and completed actions (`apps/postcode/data/seed.ts`) | Mocked | All seeded. The goals and household suggestions are hand-written placeholders until the pre-generated suggestions from the EH8 data replace them. The EH8 area snapshot is not built yet; its shape is `AreaSnapshot` in `apps/postcode/lib/types.ts`. |
 
 ## Impact evidence
 
