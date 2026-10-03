@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
@@ -53,6 +52,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Summary } from "@/components/Summary";
+import { HelpModal } from "@/components/HelpModal";
+import { HoldingsTable } from "@/components/HoldingsTable";
 import { Frontier } from "@/components/Frontier";
 import { Map } from "@/components/Map";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -185,13 +186,14 @@ export default function Home() {
             </h1>
           </div>
           <div className="flex items-center gap-2">
+            <HelpModal />
             <ThemeToggle />
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="border-b bg-gradient-to-b from-primary/5 to-background">
+      <section className="animate-fade-in border-b bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="flex items-center justify-between">
@@ -263,7 +265,7 @@ export default function Home() {
       </section>
 
       {/* Key Results */}
-      <section className="container mx-auto px-4 py-8 -mt-8">
+      <section className="animate-fade-in-delay-1 container mx-auto px-4 py-8 -mt-8">
         <div className="max-w-6xl mx-auto">
           <Summary
             report={reportData}
@@ -274,7 +276,7 @@ export default function Home() {
       </section>
 
       {/* Portfolio Comparison */}
-      <section className="container mx-auto px-4 py-12">
+      <section className="animate-fade-in-delay-2 container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto space-y-8">
           <div>
             <h2 className="text-3xl font-heading font-bold mb-3">
@@ -639,79 +641,12 @@ export default function Home() {
               Portfolio Holdings
             </h2>
             <p className="text-muted-foreground max-w-3xl">
-              Individual credits in the diversified candidate portfolio, sorted
-              by cost. Search and sort to explore the composition.
+              Search, filter and sort the individual credits in the diversified
+              candidate. The map and portfolio totals always show the full allocation.
             </p>
           </div>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Diversified Candidate Credits</CardTitle>
-              <div className="flex gap-2">
-                <Badge variant="outline">{filteredHoldings.length} projects</Badge>
-                <Badge variant="outline">
-                  {formatCurrency(diversifiedPortfolio.cost_usd)} total
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-4 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search by project name or country..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2 text-sm border rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    aria-label="Clear search"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-              <ScrollArea className="h-[400px]">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Project</TableHead>
-                      <TableHead>Country</TableHead>
-                      <TableHead className="text-right">Tonnes</TableHead>
-                      <TableHead className="text-right">Cost</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredHoldings.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
-                          No projects match "{searchQuery}"
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      filteredHoldings.map((holding) => (
-                        <TableRow key={holding.credit_id} className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                          <TableCell className="font-medium max-w-[250px] truncate" title={holding.project_name}>
-                            {holding.project_name}
-                          </TableCell>
-                          <TableCell>{holding.country}</TableCell>
-                          <TableCell className="text-right">
-                            {formatNumber(holding.tonnes)}
-                          </TableCell>
-                          <TableCell className="text-right font-medium">
-                            {formatCurrencyPrecise(holding.cost_usd)}
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </ScrollArea>
-            </CardContent>
-          </Card>
+          <HoldingsTable holdings={holdings} />
         </div>
       </section>
 
@@ -775,6 +710,7 @@ export default function Home() {
               </div>
 
               <div className="flex gap-4 pt-4 border-t">
+                <a href="/data/optiver-executive-summary.pdf" download className="inline-flex items-center gap-2 text-primary hover:underline"><Download className="w-4 h-4" />Download PDF summary</a>
                 <a
                   href="/data/report.json"
                   download
