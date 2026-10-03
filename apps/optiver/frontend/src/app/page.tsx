@@ -643,8 +643,6 @@ export default function Home() {
                     <TableRow>
                       <TableHead>Project</TableHead>
                       <TableHead>Country</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Registry</TableHead>
                       <TableHead className="text-right">Tonnes</TableHead>
                       <TableHead className="text-right">Cost</TableHead>
                     </TableRow>
@@ -652,16 +650,14 @@ export default function Home() {
                   <TableBody>
                     {holdings.map((holding) => (
                       <TableRow key={holding.credit_id}>
-                        <TableCell className="font-medium max-w-[200px] truncate">
+                        <TableCell className="font-medium max-w-[250px] truncate" title={holding.project_name}>
                           {holding.project_name}
                         </TableCell>
                         <TableCell>{holding.country}</TableCell>
-                        <TableCell>{holding.project_type}</TableCell>
-                        <TableCell>{holding.registry}</TableCell>
                         <TableCell className="text-right">
                           {formatNumber(holding.tonnes)}
                         </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="text-right font-medium">
                           {formatCurrencyPrecise(holding.cost_usd)}
                         </TableCell>
                       </TableRow>
