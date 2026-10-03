@@ -26,6 +26,18 @@ test("shared-risk selection updates linked results", async ({ page }) => {
   await expect(page.locator(".comparison-head")).toContainText("ρ=0.3");
 });
 
+test("full-group shock check shows both failure and resilience", async ({
+  page,
+}) => {
+  const drill = page.locator("#shock");
+  await expect(drill).toContainText("66,668 tCO₂e");
+  await expect(drill).toContainText("Target missed");
+
+  await drill.getByRole("button", { name: /Country China/ }).click();
+  await expect(drill).toContainText("108,336 tCO₂e");
+  await expect(drill).toContainText("Target met");
+});
+
 test("theme and copy controls work", async ({ page, context }) => {
   await page.getByRole("button", { name: "Toggle theme" }).click();
   await page.getByRole("menuitem", { name: /Dark/ }).click();

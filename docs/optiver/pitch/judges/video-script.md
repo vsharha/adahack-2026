@@ -64,24 +64,22 @@ cd /home/bugra2426/Downloads/adahack-2026
 **Visual:** Click correlation toggle (ρ=0 → 0.3 → 0.6)  
 **Audio:**
 
-> "This slider changes correlation assumptions in real time.  
-> Watch the success rates update: 99.3%, 98.3%, 97%.
+> "This control switches between saved simulations with different shared-risk assumptions.
+> Watch the modelled success rates update: 99.3%, 98.3%, 97%.
 >
 > We simulate 10,000 failure scenarios across different correlation strengths  
 > to stress-test each portfolio."
 
 ---
 
-### 1:15-1:40 — Holdings & Map (25 sec)
+### 1:15-1:40 — Full-group failure drill (25 sec)
 
-**Visual:** Scroll to holdings table, type "China" in search  
-**Visual:** Click Map tab  
+**Visual:** Scroll to Shock check; select VCS, then China
 **Audio:**
 
-> "The holdings table shows all 13 projects — searchable, filterable, sortable.
->
-> The map shows geographic distribution. Diversification across countries,  
-> developers, and registries reduces correlated failure risk."
+> "A hypothetical failure of every VCS project would leave 66,668 tonnes: below target.
+> A full failure of the largest country group, China, leaves 108,336 tonnes: above target.
+> This drill shows severity, not the probability of either event."
 
 ---
 

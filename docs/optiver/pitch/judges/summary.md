@@ -43,6 +43,7 @@ Spending roughly **2× more** than the bare minimum buys **30 percentage points 
 
 ## What the Tool Produces
 
+- **Interactive failure drill**: A full VCS registry failure leaves 66,668 tonnes and misses the target; a full China group failure leaves 108,336 tonnes and meets it. These are hypothetical simultaneous failures with buffer recovery, not estimated event probabilities.
 - **Markdown report**: Human-readable summary with portfolio comparison and stress-test results.
 - **JSON export**: Machine-readable data for integration with dashboards or further analysis.
 - **CSV holdings**: Selected projects with IDs, quantities, costs, countries, and risk attributes.

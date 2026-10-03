@@ -19,4 +19,4 @@ pnpm --dir apps/optiver/frontend build
 pnpm verify:optiver
 ```
 
-The dashboard can switch between three shared-risk assumptions and filter holdings without changing the underlying portfolio. Downloads are snapshots from the latest data refresh, including a PDF summary at the representative ρ = 0.3 setting.
+The dashboard can switch between three saved shared-risk assumptions, test a hypothetical full failure of the largest registry, country, project-type or developer exposure, and filter holdings without changing the underlying portfolio. The failure drill recalculates remaining tonnes from the saved holdings and buffer fractions; it does not estimate an event probability. Downloads are snapshots from the latest data refresh, including a PDF summary at the representative ρ = 0.3 setting.

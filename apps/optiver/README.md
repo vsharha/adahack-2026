@@ -12,7 +12,7 @@ bash apps/optiver/start.sh
 
 The script regenerates and audits the report, cost curve and downloads, then starts the dashboard at <http://localhost:3000>. Refreshing the saved data runs the simulation and may take a few minutes. If you only need to view the committed snapshot, run `pnpm --dir apps/optiver/frontend dev` from the repository root.
 
-In the dashboard, choose a shared-risk scenario (ρ = 0, 0.3 or 0.6), compare the three portfolios, inspect the cost curve and map, and search or filter the 13 selected holdings. The PDF summary and data downloads reflect the saved run. The PDF does not change with the selected scenario or table filters.
+In the dashboard, choose a shared-risk scenario (ρ = 0, 0.3 or 0.6), compare the three portfolios, inspect the cost curve and map, run the deterministic group-failure drill, and search or filter the 13 selected holdings. The drill shows how many tonnes remain if every project in one exposure group fails together, including buffer recovery; it is not a failure probability. The PDF summary and data downloads reflect the saved run. The PDF does not change with the selected scenario, drill or table filters.
 
 ## Saved result
 

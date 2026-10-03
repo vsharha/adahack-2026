@@ -41,6 +41,7 @@ import { Frontier } from "@/components/Frontier";
 import { Map } from "@/components/Map";
 import { Hero } from "@/components/Hero";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ShockCheck } from "@/components/ShockCheck";
 
 const reportData = getReportData();
 const holdings = getHoldings();
@@ -64,6 +65,7 @@ const sections = [
   ["comparison", "Comparison"],
   ["cost-curve", "Cost curve"],
   ["exposure", "Exposure"],
+  ["shock", "Shock check"],
   ["holdings", "Holdings"],
   ["method", "Method"],
 ] as const;
@@ -334,7 +336,9 @@ export default function Home() {
                           <XAxis
                             type="number"
                             domain={[0, "dataMax"]}
-                            tickFormatter={(value) => `${value}%`}
+                            tickFormatter={(value) =>
+                              `${Number(value).toFixed(0)}%`
+                            }
                             tick={{ fontSize: 11 }}
                             stroke="var(--muted-foreground)"
                           />
@@ -381,6 +385,25 @@ export default function Home() {
               </TabsContent>
             ))}
           </Tabs>
+        </div>
+      </section>
+
+      <section id="shock" className="page-section">
+        <div className="page-wrap">
+          <SectionHead
+            eyebrow="Failure drill"
+            title="What if a shared risk breaks?"
+          >
+            Choose the largest exposure in each category. The check removes the
+            affected credits from this saved portfolio and applies their buffer
+            recovery, so you can see whether the 100,000-tonne target still
+            holds.
+          </SectionHead>
+          <ShockCheck
+            holdings={holdings}
+            exposures={diversifiedPortfolio.exposures_by_tonnes}
+            target={reportData.target}
+          />
         </div>
       </section>
 

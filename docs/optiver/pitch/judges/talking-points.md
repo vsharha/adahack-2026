@@ -17,7 +17,7 @@ The diversified portfolio buys 166,671 **nominal** tonnes across six countries. 
 - A Python CLI reads 4,355 supplied projects, validates inputs, compares two cheap baselines and searches six diversified allocation templates.
 - Each project can fail as a whole. The model includes supplied ratings, reversal flags and buffer recovery, plus assumed shared country, developer, registry and project-type factors.
 - The search uses 2,000 training scenarios per setting. A selected candidate is checked on 10,000 fresh scenarios per setting; the dashboard presents that saved run.
-- A cost curve, holdings table, map, concentration breakdown and PDF summary help judges inspect the trade-off.
+- A cost curve, holdings table, map, concentration breakdown, deterministic group-failure drill and PDF summary help judges inspect the trade-off. The drill shows severity if a whole group fails, not the probability of that event.
 
 ## Be clear about the limits
 

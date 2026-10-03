@@ -30,7 +30,7 @@ These are configurable engineering defaults, not confirmed organiser rules: a 10
 
 ## Demo scope
 
-Offline dataset snapshot, validated inputs, bounded portfolio search, independent evaluation scenarios, baseline comparison, concentration and stress reporting, CSV/JSON/Markdown outputs, and a Next.js web app displaying the results. The web app uses static demo data copied from a fresh backend run; no live API is implemented. The search is a heuristic, not a proof of global optimality.
+Offline dataset snapshot, validated inputs, bounded portfolio search, independent evaluation scenarios, baseline comparison, concentration and stress reporting, CSV/JSON/Markdown outputs, and a Next.js web app displaying the results. The web app also has a deterministic full-group failure drill calculated from saved holdings; it is a severity illustration, not a probability estimate. The web app uses static demo data copied from a fresh backend run; no live API is implemented. The search is a heuristic, not a proof of global optimality.
 
 ## Open organiser questions
 

@@ -20,11 +20,11 @@ Use **Stress the shared risks** and select ρ=0.6. "This switches between saved 
 
 Point to the concentration list: "Diversification helps, but we still have 60% of purchased tonnes in one registry. We show that exposure rather than hiding it."
 
-## 2:00–2:35 — How it works
+## 2:00–2:35 — Show the edge case
 
-"We use 4,355 supplied projects with synthetic prices and failure ratings. A Python search tries six allocation templates, then evaluates the chosen portfolio on fresh scenarios. Failures can be shared through country, developer, registry and project type. The dashboard shows the saved results and lets you inspect the holdings."
+Open **Shock check**. Start with VCS: "If every project in this registry failed together, even after buffer recovery, the portfolio would deliver only 66,668 tonnes and miss the target." Select China: "A complete failure of the largest country exposure still leaves 108,336 tonnes, above target."
 
-Show the map or search one holding by ID. Avoid trying to cover every chart.
+This is a deliberately severe, deterministic check. It does not claim either event is likely. "Under the hood we use 4,355 supplied projects, try six allocation templates, and evaluate the selected candidate on fresh scenarios."
 
 ## 2:35–3:00 — Limits and close
 
