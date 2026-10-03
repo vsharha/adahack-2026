@@ -11,6 +11,7 @@ AdaHack 2026 challenge: Build a carbon credit portfolio that delivers 100,000 tC
 ```
 
 This will:
+
 1. Generate a fresh portfolio report from the backend
 2. Copy the data to the frontend
 3. Start the Next.js dev server on http://localhost:3000
@@ -90,11 +91,11 @@ apps/optiver/
 
 ## Key Outputs
 
-| File | Description |
-|------|-------------|
-| `report.md` | Human-readable summary with tables |
-| `report.json` | Machine-readable data for frontend |
-| `portfolio.csv` | Selected projects with details |
+| File            | Description                        |
+| --------------- | ---------------------------------- |
+| `report.md`     | Human-readable summary with tables |
+| `report.json`   | Machine-readable data for frontend |
+| `portfolio.csv` | Selected projects with details     |
 
 ---
 
