@@ -36,7 +36,7 @@ export type DemoEvent =
   | { type: "goal-unlocked"; goalId: string }
   | { type: "action-completed"; actionId: string; userId: string };
 
-const storageKey = "postcode-demo-state-v2";
+const storageKey = "postcode-demo-state-v3";
 const premadeIds = new Set(premadeUsers.map((u) => u.id));
 
 export function isPremade(userId: string): boolean {
@@ -142,6 +142,8 @@ function reduce(state: DemoState, action: DemoAction): DemoState {
             userId: user.id,
             householdId: user.householdId,
             completedAt: new Date().toISOString(),
+            status: "self-reported",
+            contributionPoints: goal.points,
             reactions: [],
           },
         ],
@@ -201,6 +203,21 @@ function load(): DemoState {
   try {
     const saved = localStorage.getItem(storageKey);
     if (saved) return JSON.parse(saved) as DemoState;
+    const previous = localStorage.getItem("postcode-demo-state-v2");
+    if (previous) {
+      const old = JSON.parse(previous) as DemoState;
+      const points = new Map(old.goals.map((goal) => [goal.id, goal.points]));
+      return {
+        ...old,
+        actions: old.actions.map((action) => ({
+          ...action,
+          status: "self-reported",
+          contributionPoints: points.get(action.goalId) ?? 0,
+        })),
+        rewardEarnings: [],
+        redemptions: [],
+      };
+    }
   } catch {
     // Storage can be unavailable (private windows); the seed still works.
   }

@@ -65,7 +65,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
       <header className="flex items-baseline justify-between gap-3">
         <p className="text-sm text-muted-foreground">{scope}</p>
         <p className="shrink-0 tabular-nums text-sm text-moss-ink">
-          +{goal.points} points
+          +{goal.points} contribution
         </p>
       </header>
 
@@ -73,6 +73,9 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
         <h3 className="text-lg leading-snug font-bold">{goal.title}</h3>
         <p>{goal.description}</p>
         <p className="text-sm text-muted-foreground">Why here: {goal.basis}</p>
+        <p className="text-xs text-muted-foreground">
+          Self-reported · no reward points
+        </p>
       </div>
 
       {goal.level !== "household" && (

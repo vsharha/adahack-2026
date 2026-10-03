@@ -11,7 +11,7 @@ import {
   setAppearance,
   useAppearance,
 } from "@/lib/appearance";
-import { householdPoints } from "@/lib/progress";
+import { householdPoints, rewardBalance } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
 const appearances: { value: Appearance; label: string }[] = [
@@ -77,10 +77,10 @@ export function YouScreen() {
         </p>
       </header>
 
-      <dl className="grid grid-cols-3 divide-x rounded-xl border bg-card text-center">
+      <dl className="grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
         <div className="flex flex-col gap-1 p-3">
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-            Household points
+            Your contribution
           </dt>
           <dd className="tabular-nums text-xl font-bold">
             {householdPoints(state, me.householdId)}
@@ -88,9 +88,21 @@ export function YouScreen() {
         </div>
         <div className="flex flex-col gap-1 p-3">
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-            Pledges
+            Available for rewards
           </dt>
-          <dd className="tabular-nums text-xl font-bold">{pledges}</dd>
+          <dd className="tabular-nums text-xl font-bold">
+            {rewardBalance(state, me.householdId)}
+          </dd>
+        </div>
+      </dl>
+      <p className="text-sm text-muted-foreground">
+        Both totals belong to your household. Your contribution keeps your house
+        green; spending rewards never changes it.
+      </p>
+      <dl className="grid grid-cols-2 gap-4 text-center">
+        <div>
+          <dt className="text-sm text-muted-foreground">Pledges</dt>
+          <dd className="tabular-nums font-bold">{pledges}</dd>
         </div>
         <div className="flex flex-col gap-1 p-3">
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">

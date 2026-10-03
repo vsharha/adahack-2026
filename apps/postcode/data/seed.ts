@@ -91,6 +91,8 @@ export const householdSuggestions: HouseholdSuggestion[] = [
 export const initialState: DemoState = {
   users: premadeUsers,
   currentUserId: null,
+  rewardEarnings: [],
+  redemptions: [],
   goals: [
     {
       id: "g-car-free-school-run",
@@ -186,6 +188,8 @@ export const initialState: DemoState = {
   actions: [
     {
       id: "a1",
+      status: "self-reported",
+      contributionPoints: 10,
       goalId: "g-seed-swap",
       userId: "isla",
       householdId: "h9",
@@ -198,6 +202,8 @@ export const initialState: DemoState = {
     },
     {
       id: "a2",
+      status: "self-reported",
+      contributionPoints: 10,
       goalId: "g-seed-swap",
       userId: "margaret",
       householdId: "h7",
@@ -207,6 +213,8 @@ export const initialState: DemoState = {
     },
     {
       id: "a3",
+      status: "self-reported",
+      contributionPoints: 10,
       goalId: "g-h1-thermostat",
       userId: "priya",
       householdId: "h1",

@@ -91,7 +91,7 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
         <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
           <div className="flex flex-col gap-1 p-3">
             <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-              Street points
+              Street contribution
             </dt>
             <dd className="tabular-nums text-xl font-bold">{total}</dd>
           </div>

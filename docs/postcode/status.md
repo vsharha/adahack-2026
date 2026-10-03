@@ -33,6 +33,8 @@ Each feature has a build state: works, mocked, planned or cut.
 
 | Saved local context on Street | Works | Checked in the Codex browser on 3 October 2026, commit `Add saved Postcode local context`. Street showed Nicolson Square Gardens, the dated 3 October air forecast (18–27 European AQI) and 2024 EH8 electricity (2,807 kWh per meter across 12,539 meters). Source links, district/model-grid labels and the saved-forecast date were visible. No browser errors; the existing THREE.Clock deprecation warning remains. `pnpm fix:postcode` and `pnpm verify:postcode` passed. |
 
+| Separate contribution and reward balances | Works | Checked in the Codex browser on 3 October 2026, commit `Separate contribution and reward balances`. Existing Priya state migrated to 60 contribution and zero available rewards without losing her reports or pledges. Street retained 220 contribution. Goals and activity labelled private reports as self-reported with no rewards. Old browser storage remains intact; the new store uses version 3. `pnpm fix:postcode` and `pnpm verify:postcode` passed. |
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

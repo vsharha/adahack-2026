@@ -62,16 +62,34 @@ export interface Reaction {
   emoji: string;
 }
 
-/** A self-reported completed action; nothing verifies it. */
+/** A reported action; points are recorded when the report becomes eligible. */
 export interface CompletedAction {
   id: string;
   goalId: string;
   userId: string;
   householdId: string;
   completedAt: string;
+  status: "self-reported" | "pending" | "confirmed" | "declined";
+  contributionPoints: number;
   note?: string;
   photoUrl?: string;
   reactions: Reaction[];
+}
+
+export interface RewardEarning {
+  actionId: string;
+  householdId: string;
+  points: number;
+  earnedAt: string;
+}
+
+export interface Redemption {
+  id: string;
+  householdId: string;
+  offerId: string;
+  cost: number;
+  redeemedAt: string;
+  voucherCode: string;
 }
 
 /** Everything the demo changes in the browser; the rest of the seed is fixed. */
@@ -83,6 +101,8 @@ export interface DemoState {
   goals: Goal[];
   pledges: Pledge[];
   actions: CompletedAction[];
+  rewardEarnings: RewardEarning[];
+  redemptions: Redemption[];
 }
 
 export interface GreenSpace {

@@ -34,18 +34,23 @@ export function goalsForUser(state: DemoState, user: User): Goal[] {
 }
 
 export function householdPoints(state: DemoState, householdId: string): number {
-  const pointsByGoal = new Map(state.goals.map((g) => [g.id, g.points]));
   return state.actions
     .filter((a) => a.householdId === householdId)
-    .reduce((sum, a) => sum + (pointsByGoal.get(a.goalId) ?? 0), 0);
+    .reduce((sum, a) => sum + a.contributionPoints, 0);
 }
 
 export function totalPoints(state: DemoState): number {
-  const pointsByGoal = new Map(state.goals.map((g) => [g.id, g.points]));
-  return state.actions.reduce(
-    (sum, a) => sum + (pointsByGoal.get(a.goalId) ?? 0),
-    0,
-  );
+  return state.actions.reduce((sum, a) => sum + a.contributionPoints, 0);
+}
+
+export function rewardBalance(state: DemoState, householdId: string): number {
+  const earned = state.rewardEarnings
+    .filter((earning) => earning.householdId === householdId)
+    .reduce((sum, earning) => sum + earning.points, 0);
+  const spent = state.redemptions
+    .filter((redemption) => redemption.householdId === householdId)
+    .reduce((sum, redemption) => sum + redemption.cost, 0);
+  return earned - spent;
 }
 
 export function hasHouseholdCompleted(

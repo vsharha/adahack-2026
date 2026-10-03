@@ -145,6 +145,9 @@ export function ActivityFeed({ limit }: { limit?: number }) {
                 <span className="font-bold">{goal?.title.toLowerCase()}</span>
               </p>
               {action.note && <p className="text-sm">“{action.note}”</p>}
+              <p className="text-xs text-muted-foreground">
+                Self-reported · +{action.contributionPoints} contribution
+              </p>
               <div className="flex flex-wrap items-center gap-1.5">
                 <time
                   dateTime={action.completedAt}
