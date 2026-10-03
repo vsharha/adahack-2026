@@ -262,7 +262,7 @@ export function Onboarding({
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              autoComplete="given-name"
+              autoComplete="off"
               autoFocus
               maxLength={24}
               placeholder="Your first name"
