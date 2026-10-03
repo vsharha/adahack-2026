@@ -8,12 +8,17 @@
     "build:optiver": "pnpm --filter optiver build",
     "check": "pnpm -r run check",
     "lint": "eslint --cache --max-warnings 0 . && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
-    "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore . && pnpm fix:compsoc && pnpm fix:optiver",
+    "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore . && uv --directory apps/compsoc/backend run ruff check --fix && uv --directory apps/compsoc/backend run ruff format && uv --directory apps/optiver/backend run ruff check --fix && uv --directory apps/optiver/backend run ruff format",
     "verify": "pnpm check && pnpm check:compsoc && pnpm check:optiver && pnpm lint",
+    "verify:postcode": "scripts/app-checks.sh verify postcode",
+    "verify:compsoc": "scripts/app-checks.sh verify compsoc",
+    "verify:optiver": "scripts/app-checks.sh verify optiver",
+    "fix:postcode": "scripts/app-checks.sh fix postcode",
+    "fix:compsoc": "scripts/app-checks.sh fix compsoc",
+    "fix:optiver": "scripts/app-checks.sh fix optiver",
     "check:compsoc": "uv --directory apps/compsoc/backend run ruff check && uv --directory apps/compsoc/backend run ruff format --check && uv --directory apps/compsoc/backend run pyright",
-    "fix:compsoc": "uv --directory apps/compsoc/backend run ruff check --fix && uv --directory apps/compsoc/backend run ruff format",
     "check:optiver": "uv --directory apps/optiver/backend run ruff check && uv --directory apps/optiver/backend run ruff format --check && uv --directory apps/optiver/backend run pyright",
-    "fix:optiver": "uv --directory apps/optiver/backend run ruff check --fix && uv --directory apps/optiver/backend run ruff format"
+    "prepare": "git config core.hooksPath .githooks"
   },
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {

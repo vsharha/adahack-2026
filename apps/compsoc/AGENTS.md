@@ -20,14 +20,14 @@ Run these inside `apps/compsoc/backend/`:
 - `uv add <package>` adds a dependency; `uv add --dev <package>` adds a development tool. Commit `pyproject.toml` and `uv.lock` together.
 - `uv run <command>` runs a command in the project environment, for example `uv run python script.py`.
 
-From the repository root, `pnpm check:compsoc` runs Ruff linting, the Ruff format check and Pyright, and `pnpm fix:compsoc` applies Ruff fixes and formatting. The root `pnpm verify` and `pnpm fix` include them.
+From the repository root, `pnpm check:compsoc` runs Ruff linting, the Ruff format check and Pyright, and `pnpm verify:compsoc` adds ESLint and Prettier on this project's folders, and `pnpm fix:compsoc` applies its Ruff, ESLint and Prettier fixes. The root `pnpm verify` and `pnpm fix` include them.
 
 ## Frontend
 
 `frontend/` is empty. The framework, and how the frontend gets results from the backend, are not chosen yet. Ask the user before scaffolding it. Setting it up needs these shared changes, with the user's approval:
 
 - `pnpm-workspace.yaml` matches only `apps/*`, so add `apps/compsoc/frontend` for pnpm to see the frontend's `package.json`.
-- Add `dev:compsoc` and `build:compsoc` scripts to the root `package.json`, and make sure `pnpm verify` type-checks and lints the frontend. The root ESLint config is Next.js-specific; a frontend on another framework needs its own lint setup.
+- Add `dev:compsoc` and `build:compsoc` scripts to the root `package.json`, and make the frontend a pnpm workspace package, so `pnpm verify:compsoc` type-checks it. The root ESLint config is Next.js-specific; a frontend on another framework needs its own lint setup.
 - Record the frontend's commands here.
 
 ## Data

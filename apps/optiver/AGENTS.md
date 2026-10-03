@@ -20,7 +20,7 @@ Run these inside `apps/optiver/backend/`:
 - `uv add <package>` adds a dependency; `uv add --dev <package>` adds a development tool. Commit `pyproject.toml` and `uv.lock` together.
 - `uv run <command>` runs a command in the project environment.
 
-From the repository root, `pnpm check:optiver` runs Ruff linting, the Ruff format check and Pyright, and `pnpm fix:optiver` applies Ruff fixes and formatting. The root `pnpm verify` and `pnpm fix` include them.
+From the repository root, `pnpm check:optiver` runs Ruff linting, the Ruff format check and Pyright, and `pnpm verify:optiver` adds ESLint and Prettier on this project's folders, and `pnpm fix:optiver` applies its Ruff, ESLint and Prettier fixes. The root `pnpm verify` and `pnpm fix` include them.
 
 Run `uv --directory apps/optiver/backend run python -m optiver` from the repository root. Run tests with `uv --directory apps/optiver/backend run python -m unittest discover -s tests -v`. There is no HTTP server or API.
 

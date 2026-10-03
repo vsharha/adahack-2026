@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Runs the checks for each app the outgoing commits touch, and refuses the
+# push if any fail. Changes outside an app's folders run every check, because
+# shared files can affect any project. Installed by `pnpm install`.
+set -uo pipefail
+
+zero=0000000000000000000000000000000000000000
+changed=""
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue
+  # Compare from where the histories split, so only the outgoing commits count
+  # even when the remote has moved on.
+  if [ "$remote_sha" != "$zero" ] && git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+    base="$(git merge-base "$remote_sha" "$local_sha" 2>/dev/null || true)"
+  else
+    base="$(git merge-base origin/main "$local_sha" 2>/dev/null || true)"
+  fi
+  if [ -z "$base" ]; then
+    changed+=$'\n<unknown>'
+  else
+    changed+=$'\n'"$(git diff --name-only "$base" "$local_sha")"
+  fi
+done
+
+apps=""
+run_all=false
+while IFS= read -r file; do
+  case "$file" in
+    "") ;;
+    apps/postcode/* | docs/postcode/*) apps+=" postcode" ;;
+    apps/optiver/* | docs/optiver/*) apps+=" optiver" ;;
+    apps/compsoc/* | docs/compsoc/*) apps+=" compsoc" ;;
+    *) run_all=true ;;
+  esac
+done <<< "$changed"
+
+fail() {
+  echo >&2
+  echo "Push refused: fix the failing checks above, then push again." >&2
+  echo "Do not bypass this with --no-verify." >&2
+  exit 1
+}
+
+if $run_all; then
+  echo "pre-push: shared files changed, running pnpm verify" >&2
+  pnpm verify || fail
+  exit 0
+fi
+
+for app in $(echo "$apps" | tr ' ' '\n' | sort -u); do
+  echo "pre-push: running pnpm verify:$app" >&2
+  pnpm "verify:$app" || fail
+done

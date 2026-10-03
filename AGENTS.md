@@ -29,8 +29,9 @@ A pnpm monorepo holding the Postcode Lottery Next.js app and the CompSoc and Opt
 
 - `pnpm dev:postcode` starts the Postcode Lottery dev server on port 3000.
 - `pnpm build:postcode` builds the Postcode Lottery app.
-- `pnpm fix` applies ESLint fixes and Prettier formatting, then Ruff fixes and formatting to the CompSoc and Optiver backends.
-- `pnpm verify` type-checks the Postcode Lottery app, runs Ruff and Pyright on the CompSoc and Optiver backends, then checks linting and formatting. ESLint warnings fail it.
+- `pnpm verify:<app>` checks one app (`postcode`, `optiver` or `compsoc`): the type check of any pnpm workspace package under `apps/<app>`, Ruff and Pyright on its Python backend if it has one, then ESLint and Prettier on `apps/<app>` and `docs/<app>`. ESLint warnings fail it. `pnpm fix:<app>` applies the same app's Ruff, ESLint and Prettier fixes. Both run `scripts/app-checks.sh`.
+- `pnpm verify` and `pnpm fix` do the same for the whole repository, including shared files.
+- A pre-push hook in `.githooks/pre-push`, installed by `pnpm install`, runs `pnpm verify:<app>` for each app the outgoing commits touch, or `pnpm verify` when they touch anything outside the apps' `apps/` and `docs/` folders, and refuses the push if a check fails.
 
 Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cover both Python backends. Project-specific commands are in `apps/compsoc/AGENTS.md` and `apps/optiver/AGENTS.md`. Optiver starts with Python only and an empty frontend; brainstorm and record its product direction before building features.
 
@@ -70,9 +71,9 @@ When the user makes or changes a decision about the product or how it is built, 
 - Before starting each task, run `git pull --rebase --autostash`, so files you read reflect teammates' latest pushes.
 - Commit automatically after each working change, without asking first. Commit as the user, never as the agent.
 - Subject line only, short, describing what was done. Match the style of previous commits.
-- Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
+- Before committing, run `pnpm fix:<app>`, then `pnpm verify:<app>`, for the app you changed, and fix any failure; use `pnpm fix` and `pnpm verify` when you changed shared files. Never run the repository-wide `pnpm fix` for an app-only change, because it rewrites other projects' files. Skip both when they have already run since the last change to files other than documentation.
 - Stage only the files you changed, by path. Never `git add -A` or `git add .`.
-- Push once per task, when handing the finished task back to the user, without asking first. Run `git pull --rebase --autostash` so history stays linear without merge commits, then `pnpm verify` so the task's commits are checked on top of teammates' work, then `git push`. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `apps/optiver/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and sync both Python projects with `uv sync --directory apps/compsoc/backend` and `uv sync --directory apps/optiver/backend` before `pnpm verify`.
+- Push once per task, when handing the finished task back to the user, without asking first. Run `git pull --rebase --autostash` so history stays linear without merge commits, then `git push`; the pre-push hook checks the task's commits on top of teammates' work, and a push it refuses must not be retried until the failing checks pass. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `apps/optiver/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and sync both Python projects with `uv sync --directory apps/compsoc/backend` and `uv sync --directory apps/optiver/backend` before pushing.
 - Push straight after any commit that changes `pnpm-lock.yaml`, `uv.lock`, a `package.json` or a `pyproject.toml`, following the same steps, because these files conflict easily between teammates.
 - If the push is rejected because the remote moved, pull and push again. If the pull stops on a conflict, resolve it as described under "Protecting shared work", or stop and ask.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
