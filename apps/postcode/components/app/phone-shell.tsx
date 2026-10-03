@@ -10,8 +10,8 @@ function Splash() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 bg-moss text-on-moss">
       <Sprout className="size-12" />
-      <p className="font-sign text-lg font-semibold tracking-[0.2em]">
-        GREENER BY POSTCODE
+      <p className="font-heading text-lg font-bold tracking-tight">
+        Greener by postcode
       </p>
     </div>
   );

@@ -126,8 +126,8 @@ export function Onboarding({
               checkPostcode();
             }}
           >
-            <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss-ink">
-              GREENER BY POSTCODE
+            <p className="font-heading text-base font-bold tracking-tight text-moss-ink">
+              Greener by postcode
             </p>
             <h1 className="mt-3 text-3xl leading-tight font-bold">
               Find your street
@@ -198,7 +198,7 @@ export function Onboarding({
                 </li>
               ))}
             </ul>
-            <div className="-mx-6 mt-6">
+            <div className="mt-6">
               <StreetDrawing youHouseholdId={householdId} showNeighbours />
             </div>
             <p className="mt-4">

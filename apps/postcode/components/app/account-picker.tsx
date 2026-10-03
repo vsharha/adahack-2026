@@ -19,8 +19,8 @@ export function AccountPicker({ onJoin }: { onJoin: () => void }) {
 
   return (
     <div className="flex h-full flex-col px-6 pt-[calc(var(--status-bar)+3.5rem)] pb-8">
-      <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss-ink">
-        GREENER BY POSTCODE
+      <p className="font-heading text-base font-bold tracking-tight text-moss-ink">
+        Greener by postcode
       </p>
       <h1 className="mt-3 text-3xl leading-tight font-bold">
         Who&apos;s using the app?

@@ -208,7 +208,10 @@ export function StreetDrawing({
   }
 
   return (
-    <div ref={scroller} className="overflow-x-auto overscroll-x-contain">
+    <div
+      ref={scroller}
+      className="overflow-x-auto overscroll-x-contain rounded-illustration bg-secondary"
+    >
       <svg
         viewBox="0 -20 1200 360"
         className="h-auto w-full min-w-[720px]"

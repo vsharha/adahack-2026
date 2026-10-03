@@ -71,14 +71,14 @@ export function StreetScreen() {
 
       <section>
         <div className="flex items-baseline justify-between px-5">
-          <h2 className="font-sign text-4xl font-semibold text-foreground">
+          <h2 className="text-4xl font-bold tracking-tight text-foreground">
             EH8
           </h2>
           <p className="text-sm text-muted-foreground">
             {neighbours} neighbours on the app
           </p>
         </div>
-        <div className="mt-2">
+        <div className="mx-5 mt-3">
           <StreetDrawing youHouseholdId={me.householdId} />
         </div>
         <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
@@ -99,7 +99,7 @@ export function StreetScreen() {
 
       {needsYou && (
         <section className="mx-5 rounded-2xl bg-moss p-5 text-on-moss">
-          <p className="font-mono text-sm text-on-moss/80">
+          <p className="text-sm text-on-moss/80">
             {needsYou.missing === 1
               ? "1 more neighbour needed"
               : `${needsYou.missing} more neighbours needed`}

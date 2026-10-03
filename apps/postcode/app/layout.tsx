@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import {
   Atkinson_Hyperlegible_Mono,
   Atkinson_Hyperlegible_Next,
-  Cinzel,
 } from "next/font/google";
 import { appearanceScript } from "@/lib/appearance-script";
 import { cn } from "@/lib/utils";
@@ -16,7 +15,6 @@ const data = Atkinson_Hyperlegible_Mono({
   subsets: ["latin"],
   variable: "--font-data",
 });
-const sign = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
 
 export const metadata: Metadata = {
   title: {
@@ -36,7 +34,7 @@ export default function RootLayout({
       lang="en"
       // The script in <head> sets data-theme before React hydrates.
       suppressHydrationWarning
-      className={cn("font-sans", body.variable, data.variable, sign.variable)}
+      className={cn("font-sans", body.variable, data.variable)}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />

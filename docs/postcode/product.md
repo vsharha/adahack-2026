@@ -1,6 +1,6 @@
 # Postcode Lottery: product
 
-The brief is in [`brief.md`](brief.md). Nothing below is built yet; [`status.md`](status.md) records what is.
+The brief is in [`brief.md`](brief.md). [`status.md`](status.md) records what is built, mocked, planned or cut.
 
 ## What it is
 
@@ -41,7 +41,7 @@ Not yet checked against existing projects. Candidates to check include condition
 - Goals exist at three levels, postcode-wide, interest group and household, so people can act alone, with like-minded neighbours or with the whole area. 3 October 2026.
 - Postcode and group goals use a conditional pledge threshold, and households pick their own goals from suggestions or write their own; acting together is the brief's ask, and a threshold removes the reason not to act alone. 3 October 2026.
 - Users choose interests when joining, from eight premade groups (listed above), and are placed in the matching groups; groups form around what neighbours already care about. 3 October 2026.
-- Houses in the locality visual are anonymous, not tied to real addresses; the exact visual is still to be designed. 3 October 2026.
+- Houses in the locality visual are anonymous sandstone tenements, not tied to real addresses; neighbours see their household's progress without revealing where they live. 3 October 2026.
 - Each completed action gives its household points, which colour its house; the locality greens by total points, with goals as milestones; this shows progress continuously rather than only when goals complete. 3 October 2026.
 - Households self-report completed actions, with an optional photo, and neighbours can react; trust-based reporting keeps friction low, and no data source could verify the actions. 3 October 2026.
 - Goal suggestions are LLM-generated from the local data, including nearby grants. In production they would run on a locally hosted model or a sustainable provider; for the demo they are pre-generated and shipped as data, so the demo needs no live model call or API key. 3 October 2026.
@@ -58,4 +58,5 @@ Not yet checked against existing projects. Candidates to check include condition
 - The locality visual is built in 2D (SVG) first and upgraded to three.js once the core loop works, with 2D kept as fallback. 3 October 2026.
 - The frontend uses Tailwind CSS v4 and shadcn/ui, the repository's styling stack for any framework that supports them; it gives ready-made components and keeps the design consistent. 3 October 2026.
 - Every colour in the app, including the street drawing, avatars and phone mockup, is a design token in `apps/postcode/app/globals.css`, and a theme is one set of token values selected by `data-theme` on `<html>`. The design follows a reference the team liked: soft leaf green on navy (dark) or on a cool white (light), with the street at evening with lit windows in dark and in daylight in light. An "Appearance" setting on the You tab offers System, Light and Dark; System, the default, follows the device setting, as real phone apps do, and lets the presenter pick whichever reads better at the judging table. 3 October 2026.
+- Headings and brand text use Trebuchet MS where installed, with Atkinson Hyperlegible Next as fallback and body text, and Atkinson Hyperlegible Mono for numbers. Arched corners frame the street and celebration, and leaf shapes identify interests; avatars stay circular and goal cards keep moderate corners. This adopts the third mockup's friendly typography and shapes while keeping the Edinburgh street and readability for families and older neighbours. 3 October 2026.
 - If time runs short, cut the 3D visual first, then neighbour reactions. The three goal levels, pledges, points, data panels and the 2D visual are kept. 3 October 2026.
