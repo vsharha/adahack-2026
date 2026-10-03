@@ -51,7 +51,7 @@ export function Summary({
       <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border border-b border-border">
         <div className="p-6">
           <p className="text-sm text-muted-foreground">Delivery target</p>
-          <p className="font-heading text-4xl md:text-5xl font-semibold mt-2 tabular-nums">
+          <p className="font-heading text-4xl md:text-5xl mt-2 tabular-nums">
             {formatTonnes(report.target)}
             <span className="text-sm font-sans ml-2">tCO₂e</span>
           </p>
@@ -61,7 +61,7 @@ export function Summary({
         </div>
         <div className="p-6">
           <p className="text-sm text-muted-foreground">Portfolio cost</p>
-          <p className="font-heading text-4xl md:text-5xl font-semibold mt-2 tabular-nums">
+          <p className="font-heading text-4xl md:text-5xl mt-2 tabular-nums">
             {portfolio ? formatCurrency(portfolio.cost_usd) : "—"}
           </p>
           <p className="text-xs text-muted-foreground mt-2">
@@ -74,7 +74,7 @@ export function Summary({
           </p>
           <p
             key={correlation}
-            className="scenario-value font-heading text-4xl md:text-5xl font-semibold tracking-tight text-accent mt-2 tabular-nums"
+            className="scenario-value font-heading text-4xl md:text-5xl text-accent mt-2 tabular-nums"
           >
             {evaluation ? formatPercentage(evaluation.success_rate) : "—"}
           </p>

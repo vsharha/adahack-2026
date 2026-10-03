@@ -34,7 +34,7 @@ export function Hero({
             </p>
           </div>
 
-          <div className="hero-card hero-card-bracket">
+          <div className="hero-card hero-card-constraints">
             <p className="hero-card-label">Constraints</p>
             <dl className="hero-card-lines">
               <div>

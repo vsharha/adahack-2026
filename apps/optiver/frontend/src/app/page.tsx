@@ -107,7 +107,7 @@ export default function Home() {
     <header className="site-nav">
       <div className="site-nav-inner">
         <a href="#top" className="wordmark">
-          Carbon/risk
+          Carbon<span className="wordmark-slash">/</span>risk
         </a>
         <nav aria-label="Sections" className="site-nav-links">
           {sections.map(([id, label]) => (

@@ -33,7 +33,7 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button variant="outline" size="icon" className="relative rounded-full">
           <CurrentIcon className="h-4 w-4" />
           <span className="sr-only">Toggle theme</span>
         </Button>

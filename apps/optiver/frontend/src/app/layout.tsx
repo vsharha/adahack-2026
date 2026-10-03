@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Source_Code_Pro } from "next/font/google";
+import { Libre_Baskerville, Roboto, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeSync } from "@/components/theme-sync";
 import { appearanceInitScript } from "@/lib/appearance-script";
 
-const grotesk = Hanken_Grotesk({
-  variable: "--font-grotesk",
+// Closest free match to the Century Expanded headlines on optiver.com.
+const serif = Libre_Baskerville({
+  variable: "--font-serif-face",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400"],
 });
 
-// Greek subset carries ρ, the shared-risk symbol used throughout the page.
+// Greek subsets carry ρ, the shared-risk symbol used throughout the page.
+const sans = Roboto({
+  variable: "--font-sans-face",
+  subsets: ["latin", "greek"],
+  weight: ["300", "400", "500"],
+});
+
 const mono = Source_Code_Pro({
   variable: "--font-mono-face",
   subsets: ["latin", "greek"],
@@ -36,7 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${grotesk.variable} ${mono.variable} h-full antialiased`}
+      className={`${serif.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

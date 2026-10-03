@@ -112,7 +112,7 @@ export function Map({ holdings }: { holdings: HoldingRow[] }) {
                 onClick={() => setSelected(c.country)}
                 aria-pressed={selected === c.country}
                 className={cn(
-                  "min-h-9 rounded-md border px-3 font-mono text-xs transition-colors",
+                  "min-h-9 rounded-full border px-3.5 text-xs font-medium transition-colors",
                   selected === c.country
                     ? "bg-primary text-primary-foreground border-primary"
                     : "bg-card border-border hover:border-foreground/40",
@@ -147,10 +147,10 @@ export function Map({ holdings }: { holdings: HoldingRow[] }) {
           aria-live="polite"
         >
           <p className="eyebrow">Country exposure</p>
-          <h3 className="font-heading text-2xl font-semibold tracking-tight mt-2">
+          <h3 className="font-heading text-2xl mt-2">
             {active?.country ?? "No holdings"}
           </h3>
-          <p className="font-heading text-4xl font-semibold tracking-tight tabular-nums mt-4">
+          <p className="font-heading text-4xl tabular-nums mt-4">
             {formatNumber(active?.tonnes ?? 0)}
             <span className="font-mono text-sm font-normal text-muted-foreground ml-2">
               t

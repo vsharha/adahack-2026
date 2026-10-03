@@ -43,45 +43,20 @@ function arc(
   });
 }
 
-// "CO₂" embossed as stroked polylines; v grows downward like screen space.
-const GLYPH: { pts: Pt[]; w: number }[] = [
-  { pts: arc(-0.34, -0.02, 0.27, 45, 315, 32), w: 0.095 },
-  { pts: arc(0.27, -0.02, 0.25, 0, 360, 40), w: 0.095 },
-  {
-    pts: [...arc(0.6, 0.215, 0.065, 180, 385, 14), [0.53, 0.35], [0.67, 0.35]],
-    w: 0.05,
-  },
-];
+const DOME_RADIUS = 0.66;
 
 function smooth(edge0: number, edge1: number, x: number) {
   const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
   return t * t * (3 - 2 * t);
 }
 
-function segmentDistance(px: number, py: number, a: Pt, b: Pt) {
-  const dx = b[0] - a[0];
-  const dy = b[1] - a[1];
-  const t = Math.min(
-    1,
-    Math.max(0, ((px - a[0]) * dx + (py - a[1]) * dy) / (dx * dx + dy * dy)),
-  );
-  return Math.hypot(a[0] + t * dx - px, a[1] + t * dy - py);
-}
-
-/** Relief height in [0, 1]: the raised glyph plus the coin's raised rim. */
+/** Relief height in [0, 1]: a raised dome, like a globe, inside a raised rim. */
 function height(u: number, v: number) {
   const r = Math.hypot(u, v);
   const rim = smooth(0.8, 0.845, r) * (1 - smooth(0.945, 0.98, r));
-  let signed = Infinity;
-  for (const stroke of GLYPH) {
-    for (let i = 1; i < stroke.pts.length; i++) {
-      const d =
-        segmentDistance(u, v, stroke.pts[i - 1], stroke.pts[i]) - stroke.w;
-      if (d < signed) signed = d;
-    }
-  }
-  const glyph = 1 - smooth(-0.008, 0.014, signed);
-  return Math.max(glyph, rim * 0.75);
+  const d = r / DOME_RADIUS;
+  const dome = d < 1 ? Math.sqrt(1 - d * d) : 0;
+  return Math.max(dome, rim * 0.75);
 }
 
 /** Ramer–Douglas–Peucker, so flat runs of a hatch line collapse to two points. */
@@ -178,7 +153,7 @@ function buildCoin() {
 const noSubscription = () => () => {};
 
 /**
- * A carbon credit as an object: one tonne, stamped CO₂, with a milled edge.
+ * A carbon credit as an object: a milled coin with a raised globe on its face.
  * Drawn only in the browser: Node and Chrome round the trigonometry
  * differently, so server-built paths would not match on hydration.
  */

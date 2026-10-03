@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-grotesk);
-  --font-heading: var(--font-grotesk);
-  --font-display: var(--font-grotesk);
+  --font-sans: var(--font-sans-face);
+  --font-heading: var(--font-serif-face);
+  --font-display: var(--font-serif-face);
   --font-mono: var(--font-mono-face);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -49,85 +49,101 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Mint paper, forest ink, lime on the dark call to action. */
+/*
+ * Palette follows optiver.com: navy #021129 with #11274a panels, white type,
+ * steel blue #b3cfe3, and the signal orange #ff3300 kept for small marks.
+ * Light mode mirrors it with navy ink on cool white.
+ */
 :root {
   color-scheme: light;
-  --background: #fbfdf9;
-  --foreground: #0e1a0c;
-  --primary: #14230f;
-  --primary-hover: #24391d;
-  --primary-foreground: #cff5a7;
+  --background: #f4f7fa;
+  --foreground: #011735;
+  --primary: #011735;
+  --primary-hover: #11274a;
+  --primary-foreground: #ffffff;
   --card: #ffffff;
-  --card-foreground: #0e1a0c;
+  --card-foreground: #011735;
   --popover: #ffffff;
-  --popover-foreground: #0e1a0c;
-  --secondary: #eef5e7;
-  --secondary-foreground: #14230f;
-  --muted: #e6efde;
-  --muted-foreground: #55634e;
-  --accent: #3d7a2a;
+  --popover-foreground: #011735;
+  --secondary: #e6edf4;
+  --secondary-foreground: #011735;
+  --muted: #dde6ef;
+  --muted-foreground: #4a5d75;
+  --accent: #1f5f8b;
   --accent-foreground: #ffffff;
-  --destructive: #b4432b;
-  --border: #d3dfca;
-  --input: #c5d4ba;
-  --ring: #3d7a2a;
-  --chart-1: #14230f;
-  --chart-2: #7da36a;
-  --chart-3: #3d7a2a;
-  --chart-4: #b5cfa5;
-  --chart-5: #55634e;
-  --radius: 0.25rem;
-  --hero-panel: #edf5e6;
-  --hero-card: #f7fbf3;
-  --hero-ink: #14230f;
+  --signal: #ff3300;
+  --destructive: #c42b0a;
+  --border: #ccd8e4;
+  --input: #b6c6d6;
+  --ring: #1f5f8b;
+  --chart-1: #011735;
+  --chart-2: #1f5f8b;
+  --chart-3: #6f93b3;
+  --chart-4: #3c5b7c;
+  --chart-5: #6a7f96;
+  --radius: 0.75rem;
+  --hero-panel: #e6edf4;
+  --hero-card: #ffffff;
+  --hero-ink: #011735;
+  --receipt-bg: #011735;
+  --receipt-fg: #ffffff;
+  --receipt-muted: #b3cfe3;
+  --selection-bg: #b3cfe3;
+  --selection-fg: #011735;
   --coin-fill: var(--hero-panel);
-  --sidebar: #fbfdf9;
-  --sidebar-foreground: #0e1a0c;
-  --sidebar-primary: #14230f;
-  --sidebar-primary-foreground: #cff5a7;
-  --sidebar-accent: #eef5e7;
-  --sidebar-accent-foreground: #14230f;
-  --sidebar-border: #d3dfca;
-  --sidebar-ring: #3d7a2a;
+  --sidebar: #f4f7fa;
+  --sidebar-foreground: #011735;
+  --sidebar-primary: #011735;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e6edf4;
+  --sidebar-accent-foreground: #011735;
+  --sidebar-border: #ccd8e4;
+  --sidebar-ring: #1f5f8b;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #0a1208;
-  --foreground: #e5f1dc;
-  --primary: #cff5a7;
-  --primary-hover: #e1fbc6;
-  --primary-foreground: #0e1a0c;
-  --card: #152313;
-  --card-foreground: #e5f1dc;
-  --popover: #172715;
-  --popover-foreground: #e5f1dc;
-  --secondary: #16251a;
-  --secondary-foreground: #e5f1dc;
-  --muted: #1b2c18;
-  --muted-foreground: #a3b897;
-  --accent: #8fd46a;
-  --accent-foreground: #0e1a0c;
-  --destructive: #f08a72;
-  --border: #2b3f26;
-  --input: #34492e;
-  --ring: #8fd46a;
-  --chart-1: #cff5a7;
-  --chart-2: #7da36a;
-  --chart-3: #8fd46a;
-  --chart-4: #4c6a42;
-  --chart-5: #a3b897;
-  --hero-panel: #101b0e;
-  --hero-card: #132011;
-  --hero-ink: #d9efc8;
-  --sidebar: #101b0e;
-  --sidebar-foreground: #e5f1dc;
-  --sidebar-primary: #cff5a7;
-  --sidebar-primary-foreground: #0e1a0c;
-  --sidebar-accent: #1b2c18;
-  --sidebar-accent-foreground: #e5f1dc;
-  --sidebar-border: #2b3f26;
-  --sidebar-ring: #8fd46a;
+  --background: #021129;
+  --foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-hover: #dce8f2;
+  --primary-foreground: #011735;
+  --card: #11274a;
+  --card-foreground: #ffffff;
+  --popover: #11274a;
+  --popover-foreground: #ffffff;
+  --secondary: #0b1d3b;
+  --secondary-foreground: #ffffff;
+  --muted: #1c3459;
+  --muted-foreground: #aab6c6;
+  --accent: #b3cfe3;
+  --accent-foreground: #011735;
+  --signal: #ff3300;
+  --destructive: #ff7a5c;
+  --border: #26406a;
+  --input: #3c5b7c;
+  --ring: #b3cfe3;
+  --chart-1: #ffffff;
+  --chart-2: #b3cfe3;
+  --chart-3: #7fa3c2;
+  --chart-4: #5b7fa3;
+  --chart-5: #aab6c6;
+  --hero-panel: #0a1c3a;
+  --hero-card: #11274a;
+  --hero-ink: #b3cfe3;
+  --receipt-bg: #ffffff;
+  --receipt-fg: #011735;
+  --receipt-muted: #4a5d75;
+  --selection-bg: #b3cfe3;
+  --selection-fg: #011735;
+  --sidebar: #0a1c3a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #011735;
+  --sidebar-accent: #11274a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #26406a;
+  --sidebar-ring: #b3cfe3;
 }
 
 @layer base {
@@ -159,18 +175,14 @@
     @apply font-sans;
   }
   h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading;
+  h2 {
+    @apply font-heading font-normal;
   }
 }
 
 ::selection {
-  background: var(--primary-foreground);
-  color: var(--foreground);
+  background: var(--selection-bg);
+  color: var(--selection-fg);
 }
 a:focus-visible,
 button:focus-visible {
@@ -178,73 +190,79 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
-/* Navigation */
+/* Navigation: a floating bar, as on optiver.com */
 .site-nav {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--background);
-  border-bottom: 1px solid var(--border);
+  padding: 10px 10px 0;
 }
 .site-nav-inner {
-  max-width: 1440px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 8px 8px 8px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+  backdrop-filter: blur(14px);
 }
 .wordmark {
   font:
-    700 22px/1 var(--font-grotesk),
+    500 20px/1 var(--font-sans-face),
     sans-serif;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
   white-space: nowrap;
+}
+.wordmark-slash {
+  color: var(--signal);
+  margin: 0 1px;
 }
 .site-nav-links {
   display: none;
 }
 .site-nav-links a {
   font:
-    400 15px/1 var(--font-mono-face),
-    monospace;
+    400 15px/1 var(--font-sans-face),
+    sans-serif;
+  color: var(--muted-foreground);
   padding: 10px 2px;
+  transition: color 150ms ease-out;
 }
 .site-nav-links a:hover {
-  color: var(--accent);
+  color: var(--foreground);
 }
 
-/* Hero: the mint panel, the coin and its data cards */
+/* Hero: the panel, the coin and its data cards */
 .hero {
-  padding: 12px 12px 0;
+  padding: 14px 12px 0;
 }
 .hero-panel {
   background: var(--hero-panel);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: clamp(40px, 7vw, 88px) 16px clamp(44px, 6vw, 76px);
   text-align: center;
   overflow: hidden;
 }
 .hero-kicker {
   font:
-    500 12px/1.4 var(--font-mono-face),
-    monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+    400 15px/1.4 var(--font-sans-face),
+    sans-serif;
   color: var(--muted-foreground);
   margin-bottom: 18px;
 }
+/* A 1.12 line-height keeps descenders inside their own line box, so the next
+   line's selection highlight cannot paint over them. */
 .hero-title {
-  position: relative;
-  z-index: 1;
-  max-width: 11.5em;
+  max-width: 13em;
   margin: 0 auto;
   font:
-    600 clamp(2.6rem, 7vw, 6.25rem)/0.96 var(--font-grotesk),
-    sans-serif;
-  letter-spacing: -0.045em;
+    400 clamp(2.4rem, 5.6vw, 4.75rem)/1.12 var(--font-serif-face),
+    serif;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 .hero-stage {
@@ -254,6 +272,7 @@ button:focus-visible {
   margin: 20px auto 0;
 }
 .hero-coin {
+  order: -2;
   justify-self: center;
   width: min(74vw, 330px);
   height: auto;
@@ -265,66 +284,33 @@ button:focus-visible {
     400 12.5px/1.55 var(--font-mono-face),
     monospace;
   background: var(--hero-card);
-  padding: 12px 16px 14px;
-}
-.hero-card-mandate {
-  border: 1px solid var(--hero-ink);
-  border-radius: 2px;
-}
-.hero-card-bracket {
-  --tick: var(--hero-ink);
-  border: 1px solid color-mix(in srgb, var(--hero-ink) 16%, transparent);
-  background-image:
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick)),
-    linear-gradient(var(--tick), var(--tick));
-  background-repeat: no-repeat;
-  background-size:
-    8px 1px,
-    1px 8px,
-    8px 1px,
-    1px 8px,
-    8px 1px,
-    1px 8px,
-    8px 1px,
-    1px 8px;
-  background-position:
-    0 0,
-    0 0,
-    100% 0,
-    100% 0,
-    0 100%,
-    0 100%,
-    100% 100%,
-    100% 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 18px 16px;
 }
 .hero-card-label {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font:
+    500 13px/1.3 var(--font-sans-face),
+    sans-serif;
+  color: var(--muted-foreground);
 }
 .hero-card-label::before {
   content: "▸";
-  color: var(--accent);
+  color: var(--signal);
   font-size: 10px;
 }
 .hero-card-value {
-  margin-top: 4px;
-  font-size: 14px;
+  margin-top: 6px;
+  font-size: 15px;
   font-variant-numeric: tabular-nums;
 }
 .hero-card-lines {
   display: grid;
-  gap: 1px;
-  margin-top: 6px;
+  gap: 2px;
+  margin-top: 8px;
   color: var(--muted-foreground);
 }
 .hero-card-lines > div {
@@ -339,60 +325,58 @@ button:focus-visible {
 .hero-receipt {
   order: -1;
   text-align: left;
-  background: var(--card);
-  border: 1px solid color-mix(in srgb, var(--hero-ink) 9%, transparent);
-  border-radius: 8px;
-  padding: 18px 20px 20px;
-}
-.hero-coin {
-  order: -2;
+  background: var(--receipt-bg);
+  color: var(--receipt-fg);
+  border-radius: 18px;
+  padding: 20px 22px 22px;
 }
 .hero-receipt-badge {
   display: inline-grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 6px;
-  background: var(--primary);
-  color: var(--primary-foreground);
+  border-radius: 10px;
+  background: var(--signal);
+  color: #ffffff;
   font:
     500 17px/1 var(--font-mono-face),
     monospace;
 }
 .hero-receipt-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 16px;
+  gap: 12px 16px;
   margin-top: 14px;
 }
 .hero-receipt-name {
   font:
-    500 14px/1.3 var(--font-grotesk),
+    500 15px/1.3 var(--font-sans-face),
     sans-serif;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 .hero-receipt-meta {
   font:
     400 12.5px/1.5 var(--font-mono-face),
     monospace;
-  color: var(--muted-foreground);
+  color: var(--receipt-muted);
   font-variant-numeric: tabular-nums;
 }
 .hero-receipt-amount {
   font:
-    600 clamp(1.6rem, 2.4vw, 2rem)/1 var(--font-grotesk),
-    sans-serif;
-  letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
+    400 clamp(1.7rem, 2.4vw, 2.1rem)/1 var(--font-serif-face),
+    serif;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 .hero-lede {
-  max-width: 36rem;
+  max-width: 38rem;
   margin: 28px auto 0;
-  font-size: clamp(1rem, 1.4vw, 1.2rem);
-  line-height: 1.5;
-  color: color-mix(in srgb, var(--foreground) 80%, transparent);
+  font:
+    300 clamp(1.1rem, 1.7vw, 1.45rem)/1.45 var(--font-sans-face),
+    sans-serif;
+  color: var(--muted-foreground);
   text-wrap: balance;
 }
 .hero-actions {
@@ -401,19 +385,19 @@ button:focus-visible {
   justify-content: center;
   align-items: center;
   gap: 8px 24px;
-  margin-top: 26px;
+  margin-top: 28px;
 }
 .hero-cta {
   display: inline-flex;
   align-items: center;
   min-height: 48px;
-  padding: 0 22px;
-  border-radius: 4px;
+  padding: 0 26px;
+  border-radius: 999px;
   background: var(--primary);
   color: var(--primary-foreground);
   font:
-    500 15px/1 var(--font-mono-face),
-    monospace;
+    500 14px/1 var(--font-sans-face),
+    sans-serif;
   transition: background-color 150ms ease-out;
 }
 .hero-cta:hover {
@@ -424,14 +408,14 @@ button:focus-visible {
   align-items: center;
   min-height: 44px;
   font:
-    500 14px/1 var(--font-mono-face),
-    monospace;
+    500 14px/1 var(--font-sans-face),
+    sans-serif;
   text-decoration: underline;
   text-underline-offset: 4px;
   cursor: pointer;
 }
 .hero-link:hover {
-  color: var(--accent);
+  color: var(--muted-foreground);
 }
 
 @media (min-width: 640px) {
@@ -450,8 +434,8 @@ button:focus-visible {
 }
 
 @media (min-width: 768px) {
-  .site-nav-inner {
-    padding: 12px 32px;
+  .site-nav {
+    padding: 12px 20px 0;
   }
   .hero {
     padding: 16px 20px 0;
@@ -461,7 +445,7 @@ button:focus-visible {
 @media (min-width: 1024px) {
   .site-nav-links {
     display: flex;
-    gap: 32px;
+    gap: 28px;
   }
 }
 
@@ -475,7 +459,7 @@ button:focus-visible {
     position: relative;
     max-width: 1080px;
     height: clamp(420px, 38vw, 520px);
-    margin-top: -12px;
+    margin-top: -4px;
   }
   .hero-coin {
     position: absolute;
@@ -494,10 +478,10 @@ button:focus-visible {
     width: clamp(240px, 24vw, 300px);
   }
   .hero-card-mandate {
-    top: 30%;
+    top: 28%;
   }
-  .hero-card-bracket {
-    top: 52%;
+  .hero-card-constraints {
+    top: 50%;
   }
   .hero-receipt {
     right: 3%;
@@ -514,39 +498,30 @@ button:focus-visible {
 }
 .page-section {
   padding: 56px 0;
-  scroll-margin-top: 64px;
+  scroll-margin-top: 80px;
 }
 .section-head {
   max-width: 46rem;
   margin-bottom: 28px;
 }
 .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   font:
-    500 12px/1.3 var(--font-mono-face),
-    monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+    400 16px/1.3 var(--font-sans-face),
+    sans-serif;
   color: var(--muted-foreground);
 }
-.eyebrow::before {
-  content: "▸";
-  color: var(--accent);
-  font-size: 10px;
-}
 .section-title {
-  margin-top: 12px;
+  margin-top: 10px;
   font:
-    600 clamp(2rem, 3.6vw, 3rem)/1.02 var(--font-grotesk),
-    sans-serif;
-  letter-spacing: -0.04em;
+    400 clamp(2rem, 3.8vw, 3.25rem)/1.12 var(--font-serif-face),
+    serif;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 .section-lede {
-  margin-top: 12px;
+  margin-top: 14px;
   max-width: 42rem;
+  font-size: 17px;
   line-height: 1.6;
   color: var(--muted-foreground);
 }
@@ -555,18 +530,18 @@ button:focus-visible {
     padding: 0 40px;
   }
   .page-section {
-    padding: 72px 0;
+    padding: 80px 0;
   }
 }
 
 .summary-board {
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .comparison-board {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
 }
 .comparison-head,
@@ -581,18 +556,18 @@ button:focus-visible {
   color: var(--muted-foreground);
   background: var(--secondary);
   font:
-    500 11px var(--font-mono-face),
-    monospace;
+    500 12px var(--font-sans-face),
+    sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
 }
 .comparison-row {
   min-height: 100px;
   border-top: 1px solid var(--border);
 }
 .comparison-row-featured {
-  background: color-mix(in srgb, var(--accent) 7%, var(--card));
-  box-shadow: inset 3px 0 0 var(--accent);
+  background: color-mix(in srgb, var(--signal) 6%, var(--card));
+  box-shadow: inset 3px 0 0 var(--signal);
 }
 .comparison-name {
   display: flex;
@@ -602,9 +577,8 @@ button:focus-visible {
 .comparison-name strong {
   display: block;
   font:
-    600 22px/1.15 var(--font-grotesk),
+    500 20px/1.2 var(--font-sans-face),
     sans-serif;
-  letter-spacing: -0.02em;
 }
 .comparison-name small {
   display: block;
@@ -617,9 +591,8 @@ button:focus-visible {
 .comparison-measure strong {
   display: block;
   font:
-    600 28px/1.1 var(--font-grotesk),
-    sans-serif;
-  letter-spacing: -0.03em;
+    400 28px/1.15 var(--font-serif-face),
+    serif;
   font-variant-numeric: tabular-nums;
 }
 .measure-track {
@@ -633,18 +606,18 @@ button:focus-visible {
 .measure-track > span {
   display: block;
   height: 100%;
-  background: var(--chart-2);
+  background: var(--chart-3);
 }
 .comparison-row-featured .measure-track > span {
-  background: var(--primary);
+  background: var(--signal);
 }
 .comparison-note {
   border-top: 1px solid var(--border);
   padding: 13px 24px;
   color: var(--muted-foreground);
   font:
-    400 12px/1.5 var(--font-mono-face),
-    monospace;
+    400 13px/1.5 var(--font-sans-face),
+    sans-serif;
 }
 @media (max-width: 700px) {
   .comparison-head {
@@ -667,7 +640,7 @@ button:focus-visible {
   display: grid;
   grid-template-columns: minmax(250px, 0.85fr) minmax(0, 1.4fr);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--card);
 }
@@ -694,7 +667,7 @@ button:focus-visible {
 }
 .shock-choice[data-selected="true"] {
   background: var(--secondary);
-  box-shadow: inset 3px 0 0 var(--accent);
+  box-shadow: inset 3px 0 0 var(--signal);
 }
 .shock-choice-type,
 .shock-choice-share,
@@ -714,7 +687,7 @@ button:focus-visible {
 }
 .shock-choice-name {
   font:
-    600 17px/1.2 var(--font-grotesk),
+    500 17px/1.2 var(--font-sans-face),
     sans-serif;
   overflow-wrap: anywhere;
 }
@@ -732,16 +705,16 @@ button:focus-visible {
 }
 .shock-result-head strong {
   font:
-    600 clamp(2rem, 3.4vw, 3.5rem)/1 var(--font-grotesk),
-    sans-serif;
-  letter-spacing: -0.04em;
+    400 clamp(2rem, 3.4vw, 3.25rem)/1.1 var(--font-serif-face),
+    serif;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 }
 .shock-verdict-pass,
 .shock-verdict-fail {
   font:
-    600 14px/1 var(--font-mono-face),
-    monospace;
+    500 14px/1 var(--font-sans-face),
+    sans-serif;
 }
 .shock-verdict-pass {
   color: var(--accent);
@@ -753,12 +726,12 @@ button:focus-visible {
   position: relative;
   height: 18px;
   background: var(--muted);
-  border-radius: 3px;
+  border-radius: 999px;
 }
 .shock-rail span {
   display: block;
   height: 100%;
-  border-radius: 3px;
+  border-radius: 999px;
   transition: width 220ms ease;
 }
 .shock-remaining-pass {
@@ -790,7 +763,7 @@ button:focus-visible {
 .shock-facts dd {
   margin-top: 5px;
   font:
-    600 18px/1.2 var(--font-grotesk),
+    500 18px/1.2 var(--font-sans-face),
     sans-serif;
   font-variant-numeric: tabular-nums;
 }
@@ -936,7 +909,7 @@ button:focus-visible {
   .hero-card-mandate {
     animation-delay: 480ms;
   }
-  .hero-card-bracket {
+  .hero-card-constraints {
     animation-delay: 580ms;
   }
   .hero-receipt {
