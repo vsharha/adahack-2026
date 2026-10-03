@@ -152,7 +152,9 @@ export function ActivityFeed({
             {user && <Avatar user={user} />}
             <div className="min-w-0 flex-1 space-y-2">
               <p>
-                <span className="font-bold">{user?.name}</span>{" "}
+                <span className="font-bold">
+                  {user?.name ?? "Former neighbour"}
+                </span>{" "}
                 <span className="text-muted-foreground">({house?.label})</span>{" "}
                 {action.status === "self-reported"
                   ? "reported completing"
@@ -166,7 +168,7 @@ export function ActivityFeed({
                 {action.status === "pending" &&
                   "Awaiting confirmation · no points awarded yet"}
                 {action.status === "confirmed" &&
-                  `Organiser-confirmed by ${findUser(state, action.confirmedBy ?? null)?.name} · +${action.contributionPoints} contribution`}
+                  `Organiser-confirmed by ${findUser(state, action.confirmedBy ?? null)?.name ?? "another organiser"} · +${action.contributionPoints} contribution · +${state.rewardEarnings.find((earning) => earning.actionId === action.id)?.points ?? 0} rewards`}
                 {action.status === "declined" &&
                   `Declined: ${action.declineReason} · no points awarded`}
               </p>

@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { initialState } from "../data/seed";
 import { reduceDemoState } from "../lib/demo-reducer";
-import { householdPoints } from "../lib/progress";
+import { householdPoints, rewardBalance } from "../lib/progress";
+import { rewardMonth, rewardsEarnedThisMonth } from "../lib/rewards";
 import type { DemoState } from "../lib/types";
 
 const now = "2026-10-03T12:00:00Z";
@@ -46,6 +47,7 @@ test("pending claims award nothing and confirmation awards contribution once", (
   const claim = state.actions.at(-1)!;
   assert.equal(claim.status, "pending");
   assert.equal(householdPoints(state, "h1"), before);
+  assert.equal(rewardBalance(state, "h1"), 0);
   assert.equal(
     reduceDemoState(state, { type: "report-attendance", goalId }, now),
     state,
@@ -65,6 +67,8 @@ test("pending claims award nothing and confirmation awards contribution once", (
     now,
   );
   assert.equal(householdPoints(state, "h1"), before + 20);
+  assert.equal(rewardBalance(state, "h1"), 20);
+  assert.equal(state.rewardEarnings.length, 1);
   assert.equal(
     reduceDemoState(
       state,
@@ -164,4 +168,109 @@ test("private reports are restricted to the household that owns the goal", () =>
     ),
     state,
   );
+});
+
+test("the monthly cap makes a partial award without reducing contribution", () => {
+  let state = as(heldActivity(), "priya");
+  state.rewardEarnings = [
+    { actionId: "earlier", householdId: "h1", points: 95, earnedAt: now },
+  ];
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const claim = state.actions.at(-1)!;
+  const before = householdPoints(state, "h1");
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: claim.id },
+    now,
+  );
+  assert.equal(state.rewardEarnings.at(-1)?.points, 5);
+  assert.equal(rewardsEarnedThisMonth(state, "h1", now), 100);
+  assert.equal(householdPoints(state, "h1"), before + 20);
+});
+
+test("reaching the allowance does not prevent participation or contribution", () => {
+  let state = as(heldActivity(), "priya");
+  state.rewardEarnings = [
+    { actionId: "earlier", householdId: "h1", points: 100, earnedAt: now },
+  ];
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const claim = state.actions.at(-1)!;
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: claim.id },
+    now,
+  );
+  assert.equal(state.rewardEarnings.at(-1)?.points, 0);
+  assert.equal(state.actions.at(-1)?.contributionPoints, 20);
+  assert.equal(state.actions.at(-1)?.status, "confirmed");
+});
+
+test("UK calendar months count confirmation time and retain previous balances", () => {
+  assert.equal(rewardMonth("2026-09-30T23:30:00Z"), "2026-10");
+  assert.equal(rewardMonth("2026-10-31T23:30:00Z"), "2026-10");
+  const state = structuredClone(initialState);
+  state.rewardEarnings = [
+    {
+      actionId: "september",
+      householdId: "h1",
+      points: 100,
+      earnedAt: "2026-09-15T12:00:00Z",
+    },
+    { actionId: "october", householdId: "h1", points: 20, earnedAt: now },
+    { actionId: "neighbour", householdId: "h7", points: 80, earnedAt: now },
+  ];
+  state.redemptions = [
+    {
+      id: "r1",
+      householdId: "h1",
+      offerId: "repair",
+      cost: 20,
+      redeemedAt: now,
+      voucherCode: "DEMO-TEST",
+    },
+  ];
+  assert.equal(rewardsEarnedThisMonth(state, "h1", now), 20);
+  assert.equal(rewardBalance(state, "h1"), 100);
+  assert.equal(rewardsEarnedThisMonth(state, "h1", "2026-11-01T12:00:00Z"), 0);
+  assert.equal(rewardBalance(state, "h1"), 100);
+});
+
+test("housemates share claims and reward allowance", () => {
+  let state = as(heldActivity(), "priya");
+  state.users.push({
+    id: "housemate",
+    name: "Housemate",
+    householdId: "h1",
+    interests: [],
+  });
+  state.rewardEarnings = [
+    { actionId: "earlier", householdId: "h1", points: 95, earnedAt: now },
+  ];
+  state = as(state, "housemate");
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const claim = state.actions.at(-1)!;
+  state = as(state, "priya");
+  assert.equal(
+    reduceDemoState(state, { type: "report-attendance", goalId }, now),
+    state,
+  );
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: claim.id },
+    now,
+  );
+  assert.equal(rewardsEarnedThisMonth(state, "h1", now), 100);
+  state = reduceDemoState(
+    state,
+    { type: "delete-user", userId: "housemate" },
+    now,
+  );
+  assert.equal(
+    state.actions.find((action) => action.id === claim.id)?.status,
+    "confirmed",
+  );
+  assert.equal(rewardsEarnedThisMonth(state, "h1", now), 100);
 });

@@ -43,6 +43,8 @@ Light mode at 320 × 760 had no horizontal overflow; the bar sat 12px from each 
 
 | Dated litter pick with attendance confirmation | Works | Checked in the Codex browser on 3 October 2026, commit `Add organiser-confirmed activity participation`. Priya’s pledge took the litter pick from 2 to 3 and opened the going-ahead celebration. Margaret marked the activity as held; Priya reported attendance and saw “Awaiting confirmation · no points awarded yet”. Margaret confirmed on Activity and the report showed her name and +20 contribution. Approval was separate from reactions. Five unit tests covered prerequisites, duplicate awards, same-household approval, declined claims and household-goal access. `pnpm fix:postcode` and `pnpm verify:postcode` passed after correcting two initial type errors. |
 
+| Organiser-confirmed rewards with a household monthly allowance | Works | Checked in the Codex browser on 3 October 2026, commit `Cap household reward earnings by month`. The fresh demo showed 0 of 100 on You; reporting previewed 20 contribution and 20 rewards. Margaret’s confirmation displayed +20 of each. Nine unit tests passed, including a 95-to-100 partial reward, full contribution at the cap, UK calendar-month boundaries, balance carry-forward, household sharing and retained confirmed records after account deletion. `pnpm fix:postcode` and `pnpm verify:postcode` passed. The allowance and rewards are demo settings, not funded partner commitments. |
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

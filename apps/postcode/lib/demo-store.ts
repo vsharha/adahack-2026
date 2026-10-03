@@ -21,7 +21,24 @@ const eventListeners = new Set<(event: DemoEvent) => void>();
 
 function addDemoActivity(saved: DemoState): DemoState {
   const goal = initialState.goals.find((item) => item.id === "g-litter-pick");
-  if (!goal || saved.goals.some((item) => item.id === goal.id)) return saved;
+  if (!goal) return saved;
+  if (saved.goals.some((item) => item.id === goal.id))
+    return {
+      ...saved,
+      goals: saved.goals.map((item) =>
+        item.id === goal.id &&
+        item.activity &&
+        item.activity.rewardPoints === undefined
+          ? {
+              ...item,
+              activity: {
+                ...item.activity,
+                rewardPoints: goal.activity?.rewardPoints ?? 0,
+              },
+            }
+          : item,
+      ),
+    };
   return {
     ...saved,
     goals: [goal, ...saved.goals],

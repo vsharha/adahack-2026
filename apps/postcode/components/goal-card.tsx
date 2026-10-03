@@ -76,7 +76,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
         <p className="text-sm text-muted-foreground">Why here: {goal.basis}</p>
         <p className="text-xs text-muted-foreground">
           {goal.activity
-            ? "Contribution awarded after organiser confirmation"
+            ? `Organiser-confirmed · up to ${goal.activity.rewardPoints} reward points`
             : "Self-reported · no reward points"}
         </p>
       </div>

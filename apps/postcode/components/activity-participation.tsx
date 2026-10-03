@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import type { Goal } from "@/lib/types";
+import { rewardAward } from "@/lib/rewards";
 
 const date = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -29,6 +30,15 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
       findUser(state, pledge.userId)?.householdId === me.householdId,
   );
   const organiser = activity.organiserIds.includes(me.id);
+  const available = rewardAward(
+    state,
+    me.householdId,
+    activity.rewardPoints,
+    new Date().toISOString(),
+  );
+  const awarded =
+    state.rewardEarnings.find((earning) => earning.actionId === claim?.id)
+      ?.points ?? 0;
   const names = activity.organiserIds
     .map((id) => findUser(state, id)?.name)
     .filter(Boolean)
@@ -71,7 +81,7 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
         <p className="text-sm font-bold text-moss-ink" role="status">
           Attendance confirmed by{" "}
           {findUser(state, claim.confirmedBy ?? null)?.name} · +
-          {claim.contributionPoints} contribution
+          {claim.contributionPoints} contribution · +{awarded} rewards
         </p>
       ) : (
         <>
@@ -86,15 +96,24 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
             </p>
           )}
           {pledged ? (
-            <Button
-              onClick={() =>
-                dispatch({ type: "report-attendance", goalId: goal.id })
-              }
-            >
-              {claim?.status === "declined"
-                ? "Report attendance again"
-                : "Report attendance"}
-            </Button>
+            <>
+              <p className="text-sm text-muted-foreground">
+                If confirmed now: +{goal.points} contribution and +{available}{" "}
+                reward points.{" "}
+                {available < activity.rewardPoints &&
+                  "Your monthly reward allowance limits this award."}{" "}
+                The allowance is checked when confirmed.
+              </p>
+              <Button
+                onClick={() =>
+                  dispatch({ type: "report-attendance", goalId: goal.id })
+                }
+              >
+                {claim?.status === "declined"
+                  ? "Report attendance again"
+                  : "Report attendance"}
+              </Button>
+            </>
           ) : (
             <p className="text-sm text-muted-foreground">
               Join this activity to report attendance.

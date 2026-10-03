@@ -109,6 +109,7 @@ export const initialState: DemoState = {
         id: "litter-pick-2026-10-03",
         scheduledAt: "2026-10-03T10:00:00Z",
         organiserIds: ["margaret", "isla"],
+        rewardPoints: 20,
       },
     },
     {

@@ -12,6 +12,7 @@ import {
   useAppearance,
 } from "@/lib/appearance";
 import { householdPoints, rewardBalance } from "@/lib/progress";
+import { monthlyRewardLimit, rewardsEarnedThisMonth } from "@/lib/rewards";
 import { cn } from "@/lib/utils";
 
 const appearances: { value: Appearance; label: string }[] = [
@@ -64,6 +65,11 @@ export function YouScreen() {
   );
   const pledges = state.pledges.filter((p) => p.userId === me.id).length;
   const done = state.actions.filter((a) => a.userId === me.id).length;
+  const earned = rewardsEarnedThisMonth(
+    state,
+    me.householdId,
+    new Date().toISOString(),
+  );
 
   return (
     <div className="space-y-6 px-5 pt-8 pb-6">
@@ -99,6 +105,33 @@ export function YouScreen() {
         Both totals belong to your household. Your contribution keeps your house
         green; spending rewards never changes it.
       </p>
+      <section
+        className="space-y-2 rounded-xl border bg-card p-4"
+        aria-labelledby="reward-allowance"
+      >
+        <h2 id="reward-allowance" className="font-bold">
+          Monthly reward allowance
+        </h2>
+        <p className="tabular-nums">
+          {earned} of {monthlyRewardLimit} reward points earned this month
+        </p>
+        <progress
+          value={earned}
+          max={monthlyRewardLimit}
+          aria-label="Reward points earned this month"
+          className="h-2 w-full accent-moss"
+        />
+        <p className="text-sm text-muted-foreground">
+          Trial setting · household allowance, across all eligible activities.
+          Rewards count in the month they are confirmed, in UK time. Spending
+          does not reopen the allowance. Your balance carries forward.
+        </p>
+        {earned >= monthlyRewardLimit && (
+          <p className="text-sm font-bold text-moss-ink">
+            Keep joining in: contribution points are still available.
+          </p>
+        )}
+      </section>
       <dl className="grid grid-cols-2 gap-4 text-center">
         <div>
           <dt className="text-sm text-muted-foreground">Pledges</dt>

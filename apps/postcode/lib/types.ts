@@ -44,6 +44,7 @@ export type Goal = GoalScope & {
     id: string;
     scheduledAt: string;
     organiserIds: string[];
+    rewardPoints: number;
     heldAt?: string;
   };
 };

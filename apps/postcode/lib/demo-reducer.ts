@@ -5,6 +5,7 @@ import {
   isUnlocked,
 } from "@/lib/progress";
 import { findUser, isPremade, nextHousehold } from "@/lib/households";
+import { rewardAward } from "@/lib/rewards";
 import type { DemoState, InterestId, User } from "@/lib/types";
 
 export type DemoAction =
@@ -64,7 +65,7 @@ export function reduceDemoState(
           state.currentUserId === action.userId ? null : state.currentUserId,
         pledges: state.pledges.filter((p) => p.userId !== action.userId),
         actions: state.actions
-          .filter((a) => a.userId !== action.userId)
+          .filter((a) => a.userId !== action.userId || a.status === "confirmed")
           .map((a) => ({
             ...a,
             reactions: a.reactions.filter((r) => r.userId !== action.userId),
@@ -200,6 +201,23 @@ export function reduceDemoState(
         return state;
       return {
         ...state,
+        rewardEarnings:
+          action.type === "confirm-attendance"
+            ? [
+                ...state.rewardEarnings,
+                {
+                  actionId: claim.id,
+                  householdId: claim.householdId,
+                  points: rewardAward(
+                    state,
+                    claim.householdId,
+                    goal.activity.rewardPoints,
+                    now,
+                  ),
+                  earnedAt: now,
+                },
+              ]
+            : state.rewardEarnings,
         actions: state.actions.map((item) =>
           item.id !== claim.id
             ? item
