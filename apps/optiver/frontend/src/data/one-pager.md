@@ -2,7 +2,7 @@
 
 ## Challenge Objective
 
-Build a portfolio delivering **100,000 tonnes CO₂e** on a **$1,000,000 budget** with **95% reliability** under project failures.
+Build a portfolio delivering **100,000 tonnes CO₂e** on a **$1,000,000 budget** that survives project failures. This demo tests a team-chosen **95% modelled reliability** requirement.
 
 ## Key Results
 

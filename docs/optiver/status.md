@@ -90,3 +90,7 @@ After the latest pull on 2026-10-03, `pnpm fix:optiver`, `pnpm verify:optiver`, 
 ## UI redesign verification
 
 The 2026-10-03 redesign uses a portfolio research desk layout, an exact mandate panel, and aligned strategy comparisons. Hero status labels and singled-out word colors were removed after user feedback. The linked shared-risk toggle updates the summary, comparison, cost curve and risk table; the browser console had no errors. A 390×844 Chromium view showed no horizontal overflow. `pnpm --dir apps/optiver/frontend build`, the standalone TypeScript check, `pnpm verify:optiver`, and four Playwright tests passed. Verification commit: `Improve Optiver portfolio research UI`.
+
+## Judge-readiness review
+
+On 2026-10-03, the saved report and holdings passed `python -m optiver.audit`, all 21 backend tests and `pnpm verify:optiver` passed, and the live scenario control changed the displayed target-hit rate from 99.3% to 98.3% without browser console warnings or errors. The one-pager was refreshed to identify 95% reliability as a team-chosen demo requirement, rendered as one A4 page and inspected for clipping. The judge script, talking points and checklist were aligned with the saved results. The PDF remains a saved ρ=0.3 summary. Verification commit: `Prepare Optiver judge demo and clarify assumptions`.

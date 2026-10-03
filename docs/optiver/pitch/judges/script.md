@@ -1,149 +1,41 @@
-# Optiver - 3-Minute Judge Pitch Script
+# Optiver: three-minute judge pitch
 
-**AdaHack 2026 • Optiver Challenge: Carbon Portfolio Diversity**
+The figures below are from the saved challenge run. Speak to the screen rather than reading every line.
 
----
+## 0:00–0:30 — The problem
 
-## 🎤 Hook (30 seconds)
+"The brief asks us to deliver 100,000 tonnes of carbon credits within a budget and survive unexpected failures. Buying only the cheapest credits costs about $94,000, but in our simulation that portfolio misses the target about one time in three."
 
-> "What if I told you the cheapest carbon portfolio fails **32% of the time**?"
+Show the hero's target and budget. The $1 million ceiling comes from the supplied workbook; the 95% reliability threshold is our demo choice.
 
-[Pause for effect]
+## 0:30–1:15 — The trade-off
 
-> "That's the problem we solved with Optiver."
+Scroll to **The cost of being wrong**. "We compare the cheapest nominal portfolio, the cheapest expected-delivery portfolio, and our diversified candidate. Our candidate buys 166,671 nominal tonnes across 13 projects for $181,659. It costs about $87,000 more than the cheapest portfolio, while its modelled target-hit rate is 97–99% across our tested settings."
 
----
+Do not describe nominal tonnes as delivered tonnes. The portfolios are fixed in the saved run.
 
-## 📌 Problem (30 seconds)
+## 1:15–2:00 — Surviving shared failures
 
-> "Companies buy carbon offsets to meet sustainability goals. But projects fail — wildfires, fraud, poor management. A cheap portfolio might look good on paper but miss your 100,000 tonne target when projects actually fail."
+Use **Stress the shared risks** and select ρ=0.6. "This switches between saved simulations that assume different amounts of shared risk. The diversified candidate still hits the target in 96.99% of 10,000 scenarios at this strongest setting. The cheaper portfolio hits it in 69.06%."
 
-> "The challenge: **minimize cost while surviving the unexpected.**"
+Point to the concentration list: "Diversification helps, but we still have 60% of purchased tonnes in one registry. We show that exposure rather than hiding it."
 
----
+## 2:00–2:35 — How it works
 
-## 💡 Solution (60 seconds)
+"We use 4,355 supplied projects with synthetic prices and failure ratings. A Python search tries six allocation templates, then evaluates the chosen portfolio on fresh scenarios. Failures can be shared through country, developer, registry and project type. The dashboard shows the saved results and lets you inspect the holdings."
 
-> "We built Optiver — a Python portfolio optimizer that compares three strategies:"
+Show the map or search one holding by ID. Avoid trying to cover every chart.
 
-[Gesture to screen]
+## 2:35–3:00 — Limits and close
 
-> "**Cheapest nominal** — buy the lowest-cost projects until you hit 100,000 tonnes. Costs $94,000. But it **fails 32% of the time** under our stress tests."
+"The risk settings and 95% requirement are our assumptions. This is a bounded search, so we cannot claim the cheapest possible portfolio. No credits were purchased or retired; these are modelled challenge outcomes, not measured climate impact. The value is making the cost of resilience visible."
 
-> "**Cheapest expected** — adjust for failure probability. Costs $115,000. Better, but still **fails 15% of the time**."
+Close by naming what each teammate contributed, using the team's actual contributions. Invite one question.
 
-> "**Our diversified candidate** — spreads risk across countries, developers, and registries. Costs $182,000 — about 2× more — but **hits the target 97 to 99% of the time** across different correlation scenarios."
+## If a judge asks
 
-> "The trade-off is clear: **spending twice as much buys thirty percentage points higher reliability.** For a buyer who must credibly claim 100,000 tonnes delivered, that matters."
-
----
-
-## 🖥️ Demo (45 seconds)
-
-[Switch to live app at localhost:3000]
-
-> "Let me show you how it works."
-
-[Point to portfolio comparison chart]
-
-> "This chart shows all three strategies side-by-side — cost in blue, success rate in amber."
-
-[Click correlation toggle from ρ=0 to ρ=0.6]
-
-> "This slider changes the correlation assumption — how likely projects are to fail together. Watch the success rates update in real time."
-
-[Scroll to holdings table, type "China" in search]
-
-> "The holdings table shows all 13 projects in our diversified portfolio. You can search, filter by country or type, and sort by cost or tonnes."
-
-[Click on Map tab if available, or point to pie charts]
-
-> "This map shows where the projects are located. This pie chart shows we have 60% in VCS registry — a concentration risk we flag for the user."
-
----
-
-## 🔬 Method (30 seconds)
-
-> "Under the hood, we simulate **10,000 failure scenarios** using Gaussian shared factors for country, developer, registry, and project type. We select on 2,000 training scenarios, then evaluate on 10,000 fresh ones to avoid overfitting."
-
-> "This is a **bounded heuristic** — we test six allocation templates and pick the cheapest that passes. It's not a proven global optimum, but it consistently finds feasible portfolios."
-
----
-
-## ⚠️ Caveats (15 seconds)
-
-> "Important: prices and ratings are **synthetic** — provided by organisers, not real market data. Correlation strengths are **assumptions** — we test 0, 0.3, and 0.6 because organisers didn't specify. Results are **modelled outcomes**, not guaranteed delivery."
-
----
-
-## 🏁 Close (30 seconds)
-
-> "To recap: Optiver helps buyers understand the **cost vs. reliability trade-off** in carbon portfolio construction."
-
-> "The cheapest option fails a third of the time. Our diversified approach succeeds 97-99% of the time at roughly double the cost."
-
-> "All code is in this repo. Run `./apps/optiver/start.sh` to reproduce these results. The judge summary in `docs/optiver/pitch/judges/summary.md` has the full breakdown."
-
-> "Thank you — happy to take questions!"
-
----
-
-## 📋 Quick Reference Card
-
-| Metric               | Cheapest Nominal | Cheapest Expected | Diversified |
-| -------------------- | ---------------- | ----------------- | ----------- |
-| Cost                 | $94,277          | $115,294          | $181,659    |
-| Projects             | 2                | 1                 | 13          |
-| Success Rate (ρ=0.6) | 69%              | 85%               | **97%**     |
-| 95% CI Lower Bound   | 68%              | 84%               | **96.6%**   |
-
-**Key soundbites:**
-
-- "Spending 2× more buys 30 percentage points higher reliability"
-- "10,000 stress scenarios, 6 allocation templates, 1 validated candidate"
-- "Synthetic prices, assumed correlations, modelled outcomes"
-
----
-
-## 🎯 Backup Questions & Answers
-
-**Q: Why not just buy the cheapest projects?**
-
-> A: Because they fail together. The cheapest nominal portfolio has only 2 projects — if either fails, you miss your target 32% of the time.
-
-**Q: Is 97% a guarantee?**
-
-> A: No — it's modelled under our assumptions. Real-world failure rates could differ. We report confidence intervals to show statistical uncertainty.
-
-**Q: Could there be a cheaper portfolio you missed?**
-
-> A: Yes — we test 6 templates, not all possible combinations. We report "cheapest candidate found" not "minimum possible cost."
-
-**Q: What about carbon quality beyond failure risk?**
-
-> A: Great question — we have vintage, removal vs. reduction, and status fields. Future versions could add a quality score alongside cost.
-
-**Q: How long does it take to run?**
-
-> A: About 30 seconds on a laptop for the full 10,000 scenarios. The CLI is pure Python with no external dependencies.
-
----
-
-## ⏱️ Timing Breakdown
-
-| Section   | Target   | Actual   |
-| --------- | -------- | -------- |
-| Hook      | 30 sec   | 30 sec   |
-| Problem   | 30 sec   | 30 sec   |
-| Solution  | 60 sec   | 60 sec   |
-| Demo      | 45 sec   | 45 sec   |
-| Method    | 30 sec   | 30 sec   |
-| Caveats   | 15 sec   | 15 sec   |
-| Close     | 30 sec   | 30 sec   |
-| **Total** | **4:00** | **4:00** |
-
-_Adjust demo length to hit 3-minute target if needed._
-
----
-
-_Prepared for AdaHack 2026 Optiver challenge judges. All figures from default CLI run with seeds 20261003/20261004._
+- **Why 95%?** It is a team-chosen reliability requirement; the brief does not set one.
+- **Is 97% guaranteed?** No. It is the simulated hit rate under the strongest of three assumed shared-risk settings; real failure rates could differ.
+- **Is this the cheapest feasible allocation?** We tested six templates and chose the cheapest candidate found. We did not solve for a global optimum.
+- **What does ρ mean?** Total shared latent variance in our model, not a measured correlation between failures.
+- **What reduces emissions?** This tool helps assess the reliability of carbon-credit delivery. It does not measure or directly reduce operational emissions.

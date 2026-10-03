@@ -564,8 +564,9 @@ def generate_one_pager(
         "## Challenge Objective",
         "",
         f"Build a portfolio delivering **{target:,.0f} tonnes CO₂e** "
-        f"on a **${budget:,.0f} budget** "
-        f"with **{reliability:.0%} reliability** under project failures.",
+        f"on a **${budget:,.0f} budget** that survives project failures. "
+        f"This demo tests a team-chosen **{reliability:.0%} modelled reliability** "
+        "requirement.",
         "",
         "## Key Results",
         "",
