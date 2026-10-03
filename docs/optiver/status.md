@@ -47,7 +47,7 @@ On 2026-10-03 the production frontend build and source-data audit passed; browse
 
 ## P1 judge demo features
 
-Verified 2026-10-03; implementation/verification commit: `Add Optiver cost curve and geographic portfolio demo`.
+Verified 2026-10-03; implementation/verification commit: `e49651f` (UI, snapshots and tests); CLI implementation also included in `1d7288f`.
 
 | Feature                      | State | Verification                                                                                                                                                                                                                                                                                                                  |
 | ---------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -58,4 +58,4 @@ Verified 2026-10-03; implementation/verification commit: `Add Optiver cost curve
 | Shared-risk scenario control | Works | 0/0.3/0.6 selections update summary, portfolio comparison, frontier hit rates and risk table together. Browser verified 99.3% → 98.3% → 97.0%; costs/allocations unchanged.                                                                                                                                                   |
 | Presentation accuracy fixes  | Works | Pie includes Other to preserve full-portfolio denominator; risk copy describes modelled percentile and unconditional shortfall; intervals use two decimals. Missing candidate has an explicit empty state.                                                                                                                    |
 
-Validation: 16 backend tests pass; Optiver frontend type check and production build pass. Fresh browser load and scenario/map interactions have no console errors. Repository-wide verification initially encountered unrelated Postcode 3D TypeScript errors; final check outcome is recorded with the handoff.
+Validation: 16 backend tests pass; Optiver frontend type check and production build pass. Fresh browser load and scenario/map interactions have no console errors. Final `pnpm verify` remains blocked by unrelated Postcode `street-scene.tsx` JSX/Three.js TypeScript errors. Optiver Ruff/Pyright, ESLint/Prettier, source-export audit, 16 tests, frontend TypeScript and production build pass. Browser checks covered 390×844 and desktop; no horizontal overflow or fresh-load console errors. Separate teammate edits were preserved.

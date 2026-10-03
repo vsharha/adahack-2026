@@ -34,4 +34,4 @@ Review commit: `Record remaining Optiver demo gaps` (the commit introducing this
 
 The P1 implementation fixes the risk definitions and confidence precision, retains the full developer pie denominator with an Other slice, and guards missing candidates. Downloads are now served from public data, including the new cost curve. Summary, cost curve and country map are verified with the scenario selector and map interactions. Optiver type checking/build pass; 16 backend tests pass. The workspace registration, refresh wiring and advertised holdings controls still need separate work. The map is explicitly country-level because project coordinates are absent from the dataset.
 
-Follow-up commit: `Add Optiver cost curve and geographic portfolio demo`.
+Follow-up commit: `e49651f` (UI, snapshots and tests); CLI implementation also included in `1d7288f`.
