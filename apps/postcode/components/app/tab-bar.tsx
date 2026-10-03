@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, House, Sprout, UserRound } from "lucide-react";
+import { Bell, Gift, House, Sprout, UserRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,7 @@ const tabs = [
   { id: "street", label: "Street", icon: House },
   { id: "goals", label: "Goals", icon: Sprout },
   { id: "activity", label: "Activity", icon: Bell },
+  { id: "rewards", label: "Rewards", icon: Gift },
   { id: "you", label: "You", icon: UserRound },
 ] as const;
 
@@ -30,10 +31,10 @@ export function TabBar({ badges }: { badges?: Partial<Record<Tab, number>> }) {
       aria-label="Main navigation"
       className="absolute inset-x-3 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+0.5rem))] z-40 rounded-full border border-border/70 bg-card/90 p-1.5 shadow-[0_8px_28px_-8px_var(--device-shadow)] backdrop-blur-xl md:bottom-6"
     >
-      <div className="relative grid grid-cols-4">
+      <div className="relative grid grid-cols-5">
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 w-1/4 rounded-full bg-moss motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)]"
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/5 rounded-full bg-moss motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)]"
           style={{
             transform: `translateX(${Math.max(0, activeIndex) * 100}%)`,
             opacity: activeIndex < 0 ? 0 : 1,
