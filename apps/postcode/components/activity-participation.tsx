@@ -1,6 +1,5 @@
 "use client";
 
-import { Check } from "lucide-react";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
@@ -34,54 +33,50 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
     claim?.status === "confirmed" ? 2 : claim?.status === "pending" ? 1 : 0;
   if (!pledged && !organiser) return null;
 
+  const confirmer = findUser(state, claim?.confirmedBy ?? null)?.name;
+  const caption = [
+    "Pledged · report attendance after the activity",
+    "Reported · waiting for an organiser to confirm",
+    `${confirmer} confirmed · +${claim?.contributionPoints} contribution · +${awarded} rewards`,
+  ][stage];
+
   return (
-    <section
-      className="space-y-3 border-t pt-3"
-      aria-label="Activity participation"
-    >
+    <section className="space-y-3" aria-label="Activity participation">
       {pledged && (
-        <ol className="grid grid-cols-3 gap-2" aria-label="Activity progress">
-          {["Pledged", "Reported", "Confirmed"].map((step, index) => (
-            <li
-              key={step}
-              aria-current={index === stage ? "step" : undefined}
-              className={cn(
-                "flex items-center justify-center gap-1 text-xs",
-                index <= stage
-                  ? "font-bold text-moss-ink"
-                  : "text-muted-foreground",
-              )}
-            >
-              {index < stage || stage === 2 ? (
-                <Check className="size-3 shrink-0" aria-hidden />
-              ) : null}
-              {step}
-            </li>
-          ))}
-        </ol>
+        <div className="space-y-1.5">
+          <ol className="grid grid-cols-3 gap-1" aria-label="Activity progress">
+            {["Pledged", "Reported", "Confirmed"].map((step, index) => (
+              <li
+                key={step}
+                aria-current={index === stage ? "step" : undefined}
+                className={cn(
+                  "h-1.5 rounded-full",
+                  index <= stage ? "bg-foreground/70" : "bg-muted",
+                )}
+              >
+                <span className="sr-only">
+                  {step}
+                  {index <= stage && ", done"}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <p className="text-xs text-muted-foreground" role="status">
+            {caption}
+          </p>
+        </div>
       )}
       {claim?.status === "pending" ? (
-        <>
-          <p className="text-sm text-muted-foreground" role="status">
-            Waiting for one organiser to confirm.
-          </p>
-          <Link
-            href={notificationHref({ tab: "activity", actionId: claim.id })}
-            className={buttonVariants({ variant: "outline" })}
-          >
-            View report
-          </Link>
-        </>
+        <Link
+          href={notificationHref({ tab: "activity", actionId: claim.id })}
+          className={buttonVariants({ variant: "outline" })}
+        >
+          View report
+        </Link>
       ) : claim?.status === "confirmed" ? (
-        <>
-          <p className="text-sm text-moss-ink" role="status">
-            {findUser(state, claim.confirmedBy ?? null)?.name} confirmed · +
-            {claim.contributionPoints} contribution · +{awarded} rewards
-          </p>
-          <Link href="/rewards" className={buttonVariants()}>
-            View rewards
-          </Link>
-        </>
+        <Link href="/rewards" className={buttonVariants()}>
+          View rewards
+        </Link>
       ) : pledged ? (
         <>
           {claim?.status === "declined" && (

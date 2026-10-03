@@ -87,7 +87,7 @@ export function GoalCard({
     >
       <header className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="text-sm text-muted-foreground">{scope}</p>
-        <p className="tabular-nums text-xs text-moss-ink">
+        <p className="tabular-nums text-xs text-muted-foreground">
           +{goal.points} contribution
           {goal.activity && ` · up to ${goal.activity.rewardPoints} rewards`}
         </p>
@@ -121,8 +121,9 @@ export function GoalCard({
           <PledgeMeter goal={goal} />
           <p className="text-sm" aria-live="polite">
             {unlocked ? (
-              <span className="font-bold text-moss-ink">
-                Going ahead · {pledges} neighbours
+              <span className="flex items-center gap-1.5 font-bold">
+                <Check className="size-4" aria-hidden /> Going ahead · {pledges}{" "}
+                neighbours
               </span>
             ) : (
               <>
@@ -146,10 +147,12 @@ export function GoalCard({
                 {unlocked ? "Join in" : "Pledge"}
               </Button>
             ) : (
-              <p className="text-sm text-moss-ink">You pledged to join</p>
+              <p className="text-sm text-muted-foreground">
+                You pledged to join
+              </p>
             )
           ) : done ? (
-            <p className="flex items-center gap-1.5 font-bold text-moss-ink">
+            <p className="flex items-center gap-1.5 font-bold">
               <Check className="size-4" /> Your household has done this
             </p>
           ) : canMarkDone ? (
@@ -183,30 +186,6 @@ export function GoalCard({
         </footer>
       )}
       {goal.activity && <ActivityParticipation goal={goal} />}
-      <details className="border-t pt-2 text-sm">
-        <summary className="flex min-h-11 cursor-pointer items-center font-bold text-moss-ink outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
-          Why this goal?
-        </summary>
-        <div className="space-y-2 pb-2">
-          <p>{goal.description}</p>
-          {goal.activity && (
-            <p className="text-muted-foreground">
-              Organised by{" "}
-              {goal.activity.organiserIds
-                .map((id) => findUser(state, id)?.name)
-                .filter(Boolean)
-                .join(" and ")}
-              . Either organiser can confirm; only one confirmation is needed.
-            </p>
-          )}
-          <p className="text-muted-foreground">Why here: {goal.basis}</p>
-          <p className="text-xs text-muted-foreground">
-            {goal.activity
-              ? "An organiser outside your household confirms attendance before points are awarded. Rewards remain subject to your monthly household allowance."
-              : "Private actions are self-reported. Each household can report completion once; these actions earn contribution, not spendable rewards."}
-          </p>
-        </div>
-      </details>
     </article>
   );
 }
