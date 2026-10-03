@@ -1,8 +1,26 @@
 import "./globals.css";
-import { Geist } from "next/font/google";
+import type { Metadata } from "next";
+import {
+  Atkinson_Hyperlegible_Mono,
+  Atkinson_Hyperlegible_Next,
+  Cinzel,
+} from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const body = Atkinson_Hyperlegible_Next({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+const data = Atkinson_Hyperlegible_Mono({
+  subsets: ["latin"],
+  variable: "--font-data",
+});
+const sign = Cinzel({ subsets: ["latin"], variable: "--font-sign" });
+
+export const metadata: Metadata = {
+  title: "Greener by postcode",
+  description: "Keep your postcode area green with your neighbours.",
+};
 
 export default function RootLayout({
   children,
@@ -10,8 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={cn("font-sans", body.variable, data.variable, sign.variable)}
+    >
+      <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );
 }

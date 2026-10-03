@@ -221,8 +221,8 @@ export const initialState: DemoState = {
       completedAt: "2026-09-27T15:00:00Z",
       note: "Fixed two bike lights and a toaster.",
       reactions: [
-        { userId: "callum", emoji: "🔧" },
-        { userId: "duncan", emoji: "👏" },
+        { userId: "callum", emoji: "👏" },
+        { userId: "duncan", emoji: "💚" },
       ],
     },
     {
@@ -240,7 +240,7 @@ export const initialState: DemoState = {
       householdId: "h8",
       completedAt: "2026-09-27T16:00:00Z",
       note: "The lamp works again.",
-      reactions: [{ userId: "isla", emoji: "💡" }],
+      reactions: [{ userId: "isla", emoji: "🌱" }],
     },
     {
       id: "a4",

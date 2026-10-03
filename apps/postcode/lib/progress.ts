@@ -47,3 +47,26 @@ export function totalPoints(state: DemoState): number {
     0,
   );
 }
+
+export function hasHouseholdCompleted(
+  state: DemoState,
+  goalId: string,
+  householdId: string,
+): boolean {
+  return state.actions.some(
+    (a) => a.goalId === goalId && a.householdId === householdId,
+  );
+}
+
+export function householdsCompleted(state: DemoState, goalId: string): number {
+  return new Set(
+    state.actions.filter((a) => a.goalId === goalId).map((a) => a.householdId),
+  ).size;
+}
+
+/** Postcode and group goals that have reached their pledge threshold. */
+export function sharedGoalsGoingAhead(state: DemoState): Goal[] {
+  return state.goals.filter(
+    (g) => g.level !== "household" && isUnlocked(state, g),
+  );
+}
