@@ -82,7 +82,7 @@ export function YouScreen() {
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
             Household points
           </dt>
-          <dd className="font-mono text-xl font-bold">
+          <dd className="tabular-nums text-xl font-bold">
             {householdPoints(state, me.householdId)}
           </dd>
         </div>
@@ -90,13 +90,13 @@ export function YouScreen() {
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
             Pledges
           </dt>
-          <dd className="font-mono text-xl font-bold">{pledges}</dd>
+          <dd className="tabular-nums text-xl font-bold">{pledges}</dd>
         </div>
         <div className="flex flex-col gap-1 p-3">
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
             Goals done
           </dt>
-          <dd className="font-mono text-xl font-bold">{done}</dd>
+          <dd className="tabular-nums text-xl font-bold">{done}</dd>
         </div>
       </dl>
 

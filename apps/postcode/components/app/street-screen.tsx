@@ -91,13 +91,13 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
             <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
               Street points
             </dt>
-            <dd className="font-mono text-xl font-bold">{total}</dd>
+            <dd className="tabular-nums text-xl font-bold">{total}</dd>
           </div>
           <div className="flex flex-col gap-1 p-3">
             <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
               Goals going ahead
             </dt>
-            <dd className="font-mono text-xl font-bold">{goingAhead}</dd>
+            <dd className="tabular-nums text-xl font-bold">{goingAhead}</dd>
           </div>
         </dl>
       </section>

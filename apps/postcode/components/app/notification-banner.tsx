@@ -35,7 +35,7 @@ export function NotificationBanner() {
             {notification.body}
           </span>
         </span>
-        <span className="self-start font-mono text-xs text-muted-foreground">
+        <span className="self-start tabular-nums text-xs text-muted-foreground">
           now
         </span>
       </button>

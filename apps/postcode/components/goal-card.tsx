@@ -64,7 +64,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
     >
       <header className="flex items-baseline justify-between gap-3">
         <p className="text-sm text-muted-foreground">{scope}</p>
-        <p className="shrink-0 font-mono text-sm text-moss-ink">
+        <p className="shrink-0 tabular-nums text-sm text-moss-ink">
           +{goal.points} points
         </p>
       </header>
@@ -85,7 +85,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
               </span>
             ) : (
               <>
-                <span className="font-mono">
+                <span className="tabular-nums">
                   {pledges} of {goal.threshold}
                 </span>{" "}
                 neighbours have pledged. It goes ahead at {goal.threshold}.

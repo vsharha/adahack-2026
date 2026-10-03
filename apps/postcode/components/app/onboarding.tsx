@@ -167,7 +167,7 @@ export function Onboarding({
               placeholder="e.g. EH8 9YL"
               aria-invalid={postcodeError ? true : undefined}
               aria-describedby={postcodeError ? "postcode-error" : undefined}
-              className="mt-2 h-14 rounded-xl border-2 bg-card px-4 font-mono text-2xl tracking-wider uppercase outline-none placeholder:normal-case placeholder:text-muted-foreground/50 focus-visible:border-moss aria-invalid:border-destructive"
+              className="mt-2 h-14 rounded-xl border-2 bg-card px-4 text-2xl tracking-wider uppercase outline-none placeholder:normal-case placeholder:text-muted-foreground/50 focus-visible:border-moss aria-invalid:border-destructive"
             />
             {postcodeError && (
               <p id="postcode-error" className="mt-2 text-sm text-destructive">

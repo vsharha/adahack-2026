@@ -75,7 +75,6 @@
 @theme inline {
   --font-heading: "Trebuchet MS", var(--font-body), sans-serif;
   --font-sans: var(--font-body);
-  --font-mono: var(--font-data);
   --color-moss: var(--moss);
   --color-on-moss: var(--on-moss);
   --color-moss-ink: var(--moss-ink);
@@ -83,6 +82,7 @@
   --color-lamp: var(--lamp);
   --color-on-lamp: var(--on-lamp);
   --color-device: var(--device);
+  --color-stage: var(--stage);
   --color-avatar-1: var(--avatar-1);
   --color-on-avatar-1: var(--on-avatar-1);
   --color-avatar-2: var(--avatar-2);
@@ -217,7 +217,9 @@
   --avatar-6: #8fcfd1;
   --on-avatar-6: #10292a;
 
-  /* Phone mockup */
+  /* Phone mockup. --stage, the page around the phone, is set only here so it
+     stays the same neutral in both themes. */
+  --stage: #dde1e6;
   --device: #1f2224;
   --device-shadow: rgb(37 42 60 / 0.35);
 }

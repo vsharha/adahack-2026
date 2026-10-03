@@ -51,7 +51,9 @@ function Reactions({
               </span>
             ))}
           </span>
-          <span className="font-mono text-xs">{action.reactions.length}</span>
+          <span className="tabular-nums text-xs">
+            {action.reactions.length}
+          </span>
         </span>
       )}
       {!isOwn && (
@@ -146,7 +148,7 @@ export function ActivityFeed({ limit }: { limit?: number }) {
               <div className="flex flex-wrap items-center gap-1.5">
                 <time
                   dateTime={action.completedAt}
-                  className="mr-1 font-mono text-xs text-muted-foreground"
+                  className="mr-1 tabular-nums text-xs text-muted-foreground"
                 >
                   {dateFormat.format(new Date(action.completedAt))}
                 </time>

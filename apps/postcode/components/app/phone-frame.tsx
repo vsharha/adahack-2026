@@ -8,7 +8,7 @@ import { Signal, Wifi } from "lucide-react";
  */
 export function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-dvh md:grid md:place-items-center md:py-8">
+    <div className="min-h-dvh md:grid md:place-items-center md:bg-stage md:py-8">
       <div className="phone-screen relative flex h-dvh w-full flex-col overflow-hidden bg-background [--status-bar:0px] md:h-[844px] md:[--status-bar:3rem] md:max-h-[calc(100dvh-4rem)] md:w-[390px] md:rounded-[3.25rem] md:border-8 md:border-device md:shadow-[0_30px_80px_-20px_var(--device-shadow)]">
         <div
           aria-hidden
