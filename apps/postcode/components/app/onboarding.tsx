@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, LoaderCircle, Navigation } from "lucide-react";
 import { useState } from "react";
 import { Avatar } from "@/components/avatar";
 import { StreetDrawing } from "@/components/street-drawing";
@@ -9,6 +9,8 @@ import { households, interestGroups } from "@/data/seed";
 import { dispatch, useDemoState } from "@/lib/demo-store";
 import type { InterestId } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+const demoPostcode = "EH8 9YL";
 
 const steps = ["postcode", "street", "house", "name", "interests"] as const;
 type Step = (typeof steps)[number];
@@ -25,11 +27,12 @@ export function Onboarding({
   onFinish,
 }: {
   onCancel: () => void;
-  onFinish: () => void;
+  onFinish: (name: string) => void;
 }) {
   const state = useDemoState();
   const [step, setStep] = useState<Step>("postcode");
-  const [postcode, setPostcode] = useState("EH8 9YL");
+  const [postcode, setPostcode] = useState("");
+  const [locating, setLocating] = useState(false);
   const [postcodeError, setPostcodeError] = useState<string | null>(null);
   const [householdId, setHouseholdId] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -41,6 +44,19 @@ export function Onboarding({
 
   const house = households.find((h) => h.id === householdId);
   const housemates = state.users.filter((u) => u.householdId === householdId);
+
+  /**
+   * Stands in for a location lookup: always finds the demo street's postcode,
+   * without asking the browser for the user's real location.
+   */
+  function fillFromLocation() {
+    setLocating(true);
+    setPostcodeError(null);
+    setTimeout(() => {
+      setPostcode(demoPostcode);
+      setLocating(false);
+    }, 900);
+  }
 
   function checkPostcode() {
     const district = postcode.trim().toUpperCase().split(/\s+/)[0];
@@ -61,7 +77,7 @@ export function Onboarding({
   function finish() {
     if (!householdId) return;
     dispatch({ type: "add-user", name, householdId, interests });
-    onFinish();
+    onFinish(name.trim());
   }
 
   return (
@@ -102,30 +118,56 @@ export function Onboarding({
               GREENER BY POSTCODE
             </p>
             <h1 className="mt-3 text-3xl leading-tight font-bold">
-              Where do you live?
+              Find your street
             </h1>
             <p className="mt-2 text-muted-foreground">
-              We&apos;ll show you what&apos;s happening on your street, and who
-              you can act with.
+              We&apos;ll show you what&apos;s happening where you live, and
+              which neighbours you can act with.
             </p>
-            <label htmlFor="postcode" className="mt-8 text-sm font-bold">
-              Your postcode
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              className="mt-8 h-12 text-base"
+              onClick={fillFromLocation}
+              disabled={locating}
+            >
+              {locating ? (
+                <>
+                  <LoaderCircle className="size-5 animate-spin" /> Finding your
+                  location…
+                </>
+              ) : (
+                <>
+                  <Navigation className="size-5" /> Use my location
+                </>
+              )}
+            </Button>
+            <p className="my-5 text-center text-sm text-muted-foreground">or</p>
+            <label htmlFor="postcode" className="text-sm font-bold">
+              Enter your postcode
             </label>
             <input
               id="postcode"
               value={postcode}
               onChange={(e) => setPostcode(e.target.value)}
               autoComplete="postal-code"
+              placeholder="e.g. EH8 9YL"
               aria-invalid={postcodeError ? true : undefined}
               aria-describedby={postcodeError ? "postcode-error" : undefined}
-              className="mt-2 h-14 rounded-xl border-2 bg-card px-4 font-mono text-2xl tracking-wider uppercase outline-none focus-visible:border-moss aria-invalid:border-destructive"
+              className="mt-2 h-14 rounded-xl border-2 bg-card px-4 font-mono text-2xl tracking-wider uppercase outline-none placeholder:normal-case placeholder:text-muted-foreground/50 focus-visible:border-moss aria-invalid:border-destructive"
             />
             {postcodeError && (
               <p id="postcode-error" className="mt-2 text-sm text-destructive">
                 {postcodeError}
               </p>
             )}
-            <Button type="submit" size="lg" className="mt-auto h-12 text-base">
+            <Button
+              type="submit"
+              size="lg"
+              className="mt-auto h-12 text-base"
+              disabled={!postcode.trim() || locating}
+            >
               Find my street
             </Button>
           </form>

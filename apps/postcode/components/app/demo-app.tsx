@@ -3,10 +3,12 @@
 import { Sprout } from "lucide-react";
 import { useState } from "react";
 import { AccountPicker } from "@/components/app/account-picker";
+import { NotificationBanner } from "@/components/app/notification-banner";
 import { Onboarding } from "@/components/app/onboarding";
 import { PhoneFrame } from "@/components/app/phone-frame";
 import { SignedInApp } from "@/components/app/signed-in-app";
 import { useDemoState, useHydrated } from "@/lib/demo-store";
+import { notify } from "@/lib/notifications";
 
 function Splash() {
   return (
@@ -32,10 +34,21 @@ export function DemoApp() {
     screen = (
       <Onboarding
         onCancel={() => setJoining(false)}
-        onFinish={() => setJoining(false)}
+        onFinish={(name) => {
+          setJoining(false);
+          notify({
+            title: `Welcome to the street, ${name}`,
+            body: "Your neighbours can see you've joined.",
+          });
+        }}
       />
     );
   else screen = <AccountPicker onJoin={() => setJoining(true)} />;
 
-  return <PhoneFrame>{screen}</PhoneFrame>;
+  return (
+    <PhoneFrame>
+      {screen}
+      <NotificationBanner />
+    </PhoneFrame>
+  );
 }

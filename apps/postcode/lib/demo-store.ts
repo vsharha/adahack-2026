@@ -22,7 +22,7 @@ export type DemoAction =
   /** `userId` defaults to the signed-in user; scripted neighbours pass their own. */
   | { type: "pledge"; goalId: string; userId?: string }
   | { type: "withdraw-pledge"; goalId: string }
-  | { type: "mark-done"; goalId: string }
+  | { type: "mark-done"; goalId: string; userId?: string }
   | {
       type: "toggle-reaction";
       actionId: string;
@@ -32,7 +32,9 @@ export type DemoAction =
   | { type: "adopt-suggestion"; suggestionId: string }
   | { type: "reset" };
 
-export type DemoEvent = { type: "goal-unlocked"; goalId: string };
+export type DemoEvent =
+  | { type: "goal-unlocked"; goalId: string }
+  | { type: "action-completed"; actionId: string; userId: string };
 
 const storageKey = "postcode-demo-state-v2";
 const premadeIds = new Set(premadeUsers.map((u) => u.id));
@@ -123,7 +125,7 @@ function reduce(state: DemoState, action: DemoAction): DemoState {
         actions: [
           ...state.actions,
           {
-            id: `a-${Date.now()}`,
+            id: `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
             goalId: goal.id,
             userId: user.id,
             householdId: user.householdId,
@@ -197,6 +199,9 @@ function getSnapshot(): DemoState {
   return state;
 }
 
+/** The current state outside React, for timers and event handlers. */
+export const getDemoState = getSnapshot;
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => listeners.delete(listener);
@@ -219,12 +224,16 @@ export function dispatch(action: DemoAction) {
   }
   listeners.forEach((l) => l());
 
+  const emit = (event: DemoEvent) => eventListeners.forEach((l) => l(event));
+  const knownActions = new Set(before.actions.map((a) => a.id));
+  for (const a of state.actions) {
+    if (!knownActions.has(a.id))
+      emit({ type: "action-completed", actionId: a.id, userId: a.userId });
+  }
   const wasAhead = new Set(sharedGoalsGoingAhead(before).map((g) => g.id));
   for (const goal of sharedGoalsGoingAhead(state)) {
     if (!wasAhead.has(goal.id))
-      eventListeners.forEach((l) =>
-        l({ type: "goal-unlocked", goalId: goal.id }),
-      );
+      emit({ type: "goal-unlocked", goalId: goal.id });
   }
 }
 
