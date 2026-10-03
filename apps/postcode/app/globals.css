@@ -72,9 +72,18 @@
   --device-shadow: rgb(0 0 0 / 0.5);
 }
 
+/* Atkinson Hyperlegible draws a slashed zero, so the digits 0-9 come from
+   Trebuchet MS, the heading font, wherever it is installed; elsewhere the
+   stack falls through to Atkinson's own digits. */
+@font-face {
+  font-family: "Plain Digits";
+  src: local("Trebuchet MS"), local("TrebuchetMS");
+  unicode-range: U+0030-0039;
+}
+
 @theme inline {
   --font-heading: "Trebuchet MS", var(--font-body), sans-serif;
-  --font-sans: var(--font-body);
+  --font-sans: "Plain Digits", var(--font-body);
   --color-moss: var(--moss);
   --color-on-moss: var(--on-moss);
   --color-moss-ink: var(--moss-ink);
