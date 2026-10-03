@@ -78,7 +78,10 @@ def main() -> int:
     parser.add_argument(
         "--csv-summary",
         action="store_true",
-        help="Write comparison.csv (one row per portfolio and shared-risk model); needs --output",
+        help=(
+            "Write comparison.csv (one row per portfolio and shared-risk model); "
+            "needs --output"
+        ),
     )
     parser.add_argument(
         "--batch",

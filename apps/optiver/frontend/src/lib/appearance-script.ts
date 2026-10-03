@@ -15,7 +15,7 @@ export function applyTheme(): void {
     const appearance: "system" | "light" | "dark" =
       saved === "light" || saved === "dark" ? saved : "system";
     const theme = resolveTheme(appearance);
-    
+
     // Use class instead of data attribute for Tailwind dark variant
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
