@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "dev:postcode": "pnpm --filter postcode dev",
+    "dev:optiver": "pnpm --filter optiver dev",
     "build:postcode": "pnpm --filter postcode build",
+    "build:optiver": "pnpm --filter optiver build",
     "check": "pnpm -r run check",
     "lint": "eslint --cache --max-warnings 0 . && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
     "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore . && pnpm fix:compsoc && pnpm fix:optiver",

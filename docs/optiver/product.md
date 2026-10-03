@@ -1,6 +1,6 @@
 # Optiver: product
 
-A Python command-line tool for the Optiver challenge: construct a low-cost carbon-credit portfolio, compare it with simple baselines and report how it performs under project failures and shared risks. The initial audience is the team and judges reviewing the challenge submission.
+A Python command-line tool and Next.js web app for the Optiver challenge: construct a low-cost carbon-credit portfolio, compare it with simple baselines and report how it performs under project failures and shared risks. The initial audience is the team and judges reviewing the challenge submission.
 
 ## Decisions
 
@@ -10,6 +10,8 @@ A Python command-line tool for the Optiver challenge: construct a low-cost carbo
 - Include full portfolio holdings in Markdown reports (project name, ID, country, tonnes, price, cost, failure%, buffer) for judge transparency; 2026-10-03.
 - Add sensitivity analysis comparing 90%, 95%, 99% reliability levels to show cost-reliability trade-off; 2026-10-03.
 - Create judge-facing summary in `docs/optiver/pitch/judges/` with plain-language explanation and key trade-offs; 2026-10-03.
+- Build a single-page Next.js 16 frontend with Tailwind CSS v4 and shadcn/ui, using saved demo data from `src/data/` rather than a live API, to deliver a polished judge demo within hackathon timeline; 2026-10-03.
+- Focus the frontend on the cost-vs-reliability question, with portfolio comparison chart, correlation scenario selector, diversification breakdown, risk metrics with tooltips, and holdings table; 2026-10-03.
 
 ## Implementation assumptions
 
@@ -17,7 +19,7 @@ These are configurable engineering defaults, not confirmed organiser rules: a 10
 
 ## Demo scope
 
-Offline dataset snapshot, validated inputs, bounded portfolio search, independent evaluation scenarios, baseline comparison, concentration and stress reporting, and CSV/JSON/Markdown outputs. No frontend or external API is required. The search is a heuristic, not a proof of global optimality.
+Offline dataset snapshot, validated inputs, bounded portfolio search, independent evaluation scenarios, baseline comparison, concentration and stress reporting, CSV/JSON/Markdown outputs, and a Next.js web app displaying the results. The web app uses static demo data copied from a fresh backend run; no live API is implemented. The search is a heuristic, not a proof of global optimality.
 
 ## Open organiser questions
 

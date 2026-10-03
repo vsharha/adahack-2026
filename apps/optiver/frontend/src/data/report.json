@@ -1,0 +1,182 @@
+{
+  "status": "PASS under tested models",
+  "target": 100000,
+  "budget": 1000000,
+  "reliability": 0.95,
+  "seed": 20261003,
+  "training_scenarios": 2000,
+  "evaluation_scenarios": 10000,
+  "shared_latent_variances": [0, 0.3, 0.6],
+  "data_sha256": "de00ad3a0d0d9f7f5b31ddead836584ed89e3d90eb7c5013b0285fda8dacf6f4",
+  "portfolios": {
+    "Cheapest nominal": {
+      "cost_usd": 94276.70000000001,
+      "within_budget": true,
+      "nominal_tonnes": 100000.0,
+      "expected_tonnes": 81276.7,
+      "projects": 2,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.6829,
+          "ci_low": 0.673710619015755,
+          "ci_high": 0.6919489143802514,
+          "mean_tonnes": 81589.8844,
+          "p05_tonnes": 25534.0,
+          "mean_shortfall": 18410.1156
+        },
+        "0.3": {
+          "success_rate": 0.6875,
+          "ci_low": 0.6783447831493327,
+          "ci_high": 0.6965112174616636,
+          "mean_tonnes": 81667.7484,
+          "p05_tonnes": 25534.0,
+          "mean_shortfall": 18332.2516
+        },
+        "0.6": {
+          "success_rate": 0.6906,
+          "ci_low": 0.6814683929181055,
+          "ci_high": 0.6995852269029926,
+          "mean_tonnes": 81407.962,
+          "p05_tonnes": 25534.0,
+          "mean_shortfall": 18592.038
+        }
+      },
+      "exposures_by_tonnes": {
+        "country": {
+          "Viet Nam": 0.74466,
+          "India": 0.25534
+        },
+        "developer": {
+          "Dai Hai Power Development and Invesment Joint Stock Company": 0.74466,
+          "Jaiprakash Power Ventures Limited": 0.25534
+        },
+        "registry": {
+          "VCS": 1.0
+        },
+        "project_type": {
+          "Solar - Centralized": 0.74466,
+          "Hydropower": 0.25534
+        }
+      },
+      "meets_modelled_requirement": false
+    },
+    "Cheapest expected": {
+      "cost_usd": 115294.11764705883,
+      "within_budget": true,
+      "nominal_tonnes": 117647.05882352941,
+      "expected_tonnes": 100000.0,
+      "projects": 1,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.8506,
+          "ci_low": 0.843478489615731,
+          "ci_high": 0.8574522507267506,
+          "mean_tonnes": 100070.58823529411,
+          "p05_tonnes": 0.0,
+          "mean_shortfall": 14940.0
+        },
+        "0.3": {
+          "success_rate": 0.8484,
+          "ci_low": 0.8412372188917239,
+          "ci_high": 0.8552952110435887,
+          "mean_tonnes": 99811.76470588236,
+          "p05_tonnes": 0.0,
+          "mean_shortfall": 15160.0
+        },
+        "0.6": {
+          "success_rate": 0.8461,
+          "ci_low": 0.8388946212218444,
+          "ci_high": 0.8530395751059732,
+          "mean_tonnes": 99541.17647058824,
+          "p05_tonnes": 0.0,
+          "mean_shortfall": 15390.0
+        }
+      },
+      "exposures_by_tonnes": {
+        "country": {
+          "India": 1.0
+        },
+        "developer": {
+          "Jaiprakash Power Ventures Limited": 1.0
+        },
+        "registry": {
+          "VCS": 1.0
+        },
+        "project_type": {
+          "Hydropower": 1.0
+        }
+      },
+      "meets_modelled_requirement": false
+    },
+    "Diversified candidate": {
+      "cost_usd": 181658.56,
+      "within_budget": true,
+      "nominal_tonnes": 166671.0,
+      "expected_tonnes": 144547.16,
+      "projects": 13,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.9927,
+          "ci_low": 0.9908319591742815,
+          "ci_high": 0.9941896488312537,
+          "mean_tonnes": 144823.64525,
+          "p05_tonnes": 116669.5,
+          "mean_shortfall": 77.158
+        },
+        "0.3": {
+          "success_rate": 0.9831,
+          "ci_low": 0.9803818410813093,
+          "ci_high": 0.9854471396929428,
+          "mean_tonnes": 144932.96825,
+          "p05_tonnes": 110970.0,
+          "mean_shortfall": 182.33945
+        },
+        "0.6": {
+          "success_rate": 0.9699,
+          "ci_low": 0.9663665003399703,
+          "ci_high": 0.9730726179912678,
+          "mean_tonnes": 144958.63865,
+          "p05_tonnes": 105330.5,
+          "mean_shortfall": 426.43355
+        }
+      },
+      "exposures_by_tonnes": {
+        "country": {
+          "China": 0.3500008999766006,
+          "India": 0.250001499961001,
+          "T\u00fcrkiye": 0.1341985108387182,
+          "Viet Nam": 0.0999994000155996,
+          "Brazil": 0.0977674580460908,
+          "Taiwan": 0.0680322311619898
+        },
+        "developer": {
+          "Jaiprakash Power Ventures Limited": 0.0999994000155996,
+          "Dai Hai Power Development and Invesment Joint Stock Company": 0.0999994000155996,
+          "Datang Angli (Lingwu) New Energy Co., Ltd.": 0.0999994000155996,
+          "Orange Renewable Power Pvt Ltd": 0.0999994000155996,
+          "Chifeng Xinsheng Wind Power Co., Ltd.": 0.0999994000155996,
+          "Enerjisa Enerji Uretim A.S.": 0.0999994000155996,
+          "Yunnan Xudong Phosphate Chemical Group Jinfeng Power Generation Co., Ltd.": 0.0999994000155996,
+          "Statkraft Energias Renov\u00e1veis S.A.": 0.0977674580460908,
+          "South Pole Ltd": 0.0680322311619898,
+          "CGN Solar Power Development Co., LTD": 0.050002699929801823,
+          "ARSIN Enerji": 0.0341991108231186,
+          "Poonawalla Fincorp Ltd": 0.031967168853609805,
+          "EDCL Power Projects Limited": 0.01803553107619202
+        },
+        "registry": {
+          "VCS": 0.6000023999376017,
+          "GOLD": 0.3022301420163076,
+          "ACR": 0.0977674580460908
+        },
+        "project_type": {
+          "Solar - Centralized": 0.3500008999766006,
+          "Hydropower": 0.35000089997660055,
+          "Wind": 0.268031031193189,
+          "RE Bundled": 0.031967168853609805
+        }
+      },
+      "meets_modelled_requirement": true
+    }
+  }
+}
