@@ -21,6 +21,7 @@ A Python command-line tool and Next.js web app for the Optiver challenge: constr
 
 - Add the requested comparison CSV, per-project quality fields in JSON/CSV, and a configurable batch reliability runner to make backend results easier to inspect and compare; 2026-10-03.
 - Add judge-facing frontend polish from the requested list: motion, a downloadable one-pager PDF, project-type verification, a usage guide and holdings exploration; 2026-10-03.
+- Present the Optiver demo with a deliberate research desk UI and remove decorative hero status labels and single-word color emphasis, following the user's request for a less generic interface; 2026-10-03.
 
 ## Implementation assumptions
 

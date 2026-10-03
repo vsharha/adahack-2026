@@ -33,32 +33,28 @@ export function Summary({
   return (
     <section
       aria-labelledby="summary-title"
-      className="rounded-xl border border-primary/20 bg-card shadow-sm overflow-hidden"
+      className="summary-board border border-border bg-card overflow-hidden"
     >
-      <div className="border-b border-primary/15 p-6 md:p-8 flex flex-wrap justify-between items-start gap-4">
+      <div className="border-b border-border p-6 md:p-8">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
-            The investment case
-          </p>
-          <h2 id="summary-title" className="font-heading text-3xl font-bold">
-            More room for failure. A better chance of delivery.
+          <p className="eyebrow mb-2">Portfolio / recommendation</p>
+          <h2
+            id="summary-title"
+            className="font-heading text-3xl md:text-4xl font-bold tracking-tight"
+          >
+            Build in room for failure.
           </h2>
           <p className="text-sm text-muted-foreground mt-2">
             {portfolio
-              ? `${portfolio.projects} projects · ${formatNumber(portfolio.nominal_tonnes)} purchased tonnes · ${formatCurrency(report.budget)} budget cap`
+              ? `${portfolio.projects} projects · ${formatNumber(portfolio.nominal_tonnes)} purchased tonnes · ${formatCurrency(report.budget)} budget cap · ${portfolio.meets_modelled_requirement ? "passes all tested models" : "requirement not validated"}`
               : "No validated candidate in this saved run."}
           </p>
         </div>
-        <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          {portfolio?.meets_modelled_requirement
-            ? "Passes all tested models"
-            : "Requirement not validated"}
-        </span>
       </div>
       <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border border-b border-border">
         <div className="p-6">
           <p className="text-sm text-muted-foreground">Delivery target</p>
-          <p className="font-heading text-4xl mt-2">
+          <p className="font-heading text-4xl md:text-5xl font-semibold mt-2 tabular-nums">
             {formatTonnes(report.target)}
             <span className="text-sm font-sans ml-2">tCO₂e</span>
           </p>
@@ -68,7 +64,7 @@ export function Summary({
         </div>
         <div className="p-6">
           <p className="text-sm text-muted-foreground">Portfolio cost</p>
-          <p className="font-heading text-4xl mt-2">
+          <p className="font-heading text-4xl md:text-5xl font-semibold mt-2 tabular-nums">
             {portfolio ? formatCurrency(portfolio.cost_usd) : "—"}
           </p>
           <p className="text-xs text-muted-foreground mt-2">
@@ -81,7 +77,7 @@ export function Summary({
           </p>
           <p
             key={correlation}
-            className="scenario-value font-heading text-4xl text-primary mt-2"
+            className="scenario-value font-heading text-4xl md:text-5xl font-semibold text-primary mt-2 tabular-nums"
           >
             {evaluation ? formatPercentage(evaluation.success_rate) : "—"}
           </p>

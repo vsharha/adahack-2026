@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
@@ -30,19 +29,17 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip as RechartsTooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
 } from "recharts";
 import {
-  Leaf,
-  TrendingUp,
   Shield,
   Info,
   Download,
   FileText,
   Copy,
   Check,
+  ArrowUpRight,
 } from "lucide-react";
 import { useState } from "react";
 import { Summary } from "@/components/Summary";
@@ -61,19 +58,13 @@ const portfolioOrder = [
   "Diversified candidate",
 ];
 
-const chartColors = {
-  "Cheapest nominal": "oklch(55% 0.15 200)",
-  "Cheapest expected": "oklch(70% 0.15 55)",
-  "Diversified candidate": "oklch(35% 0.08 165)",
-};
-
 const countryColors = [
-  "oklch(35% 0.08 165)",
-  "oklch(55% 0.15 200)",
-  "oklch(70% 0.15 55)",
-  "oklch(50% 0.2 145)",
-  "oklch(45% 0.1 280)",
-  "oklch(60% 0.15 25)",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--muted-foreground)",
 ];
 
 export default function Home() {
@@ -137,24 +128,6 @@ export default function Home() {
     return { category, data };
   });
 
-  const getStatusBadge = (meetsRequirement: boolean) => {
-    if (meetsRequirement) {
-      return (
-        <Badge className="bg-green-100 text-green-800 border-green-300">
-          PASS
-        </Badge>
-      );
-    }
-    return (
-      <Badge
-        variant="secondary"
-        className="bg-amber-100 text-amber-800 border-amber-300"
-      >
-        Does not meet requirement
-      </Badge>
-    );
-  };
-
   const copySummary = async () => {
     const text = `Optiver Portfolio: ${formatCurrency(diversifiedPortfolio.cost_usd)} for ${formatTonnes(diversifiedPortfolio.nominal_tonnes)} at ${formatPercentage(diversifiedEval.success_rate)} success rate (ρ=${selectedCorrelation})`;
     await navigator.clipboard.writeText(text);
@@ -164,97 +137,100 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Header with Theme Toggle */}
-      <header className="border-b bg-background sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Leaf className="w-6 h-6 text-primary" />
-            <h1 className="text-lg font-heading font-semibold">
-              Optiver Carbon Portfolio
-            </h1>
+      <header className="border-b border-border bg-background/95 sticky top-0 z-50 backdrop-blur">
+        <div className="mx-auto max-w-[1440px] px-5 md:px-10 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4 min-w-0">
+            <span className="brand-mark" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <div className="min-w-0">
+              <p className="font-heading text-xl font-bold tracking-tight leading-none">
+                Carbon / risk
+              </p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground mt-1">
+                Optiver · AdaHack 2026
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="#comparison"
+              className="hidden sm:inline-flex text-xs font-semibold uppercase tracking-wider px-3 py-2 hover:text-primary"
+            >
+              Compare portfolios
+            </a>
             <HelpModal />
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="animate-fade-in bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4 py-12 md:py-20">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Leaf className="w-8 h-8 text-primary" />
-                <Badge variant="outline" className="text-sm">
-                  AdaHack 2026
-                </Badge>
-              </div>
-              <div className="flex items-center gap-2">
-                <a
-                  href="/data/optiver-executive-summary.pdf"
-                  download
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-                  aria-label="Download PDF executive summary"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download PDF</span>
-                </a>
-                <button
-                  onClick={copySummary}
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Copy summary to clipboard"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4" />
-                      <span>Copy summary</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground tracking-tight">
-              How much does it cost to make a carbon portfolio more reliable?
+      <section className="hero-shell animate-fade-in">
+        <div className="mx-auto max-w-[1440px] px-5 md:px-10 py-12 md:py-20 grid lg:grid-cols-[1.2fr_.8fr] gap-12 lg:gap-16 items-end">
+          <div>
+            <h1 className="hero-title">
+              The cheapest tonne is rarely the safest.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed">
-              Compare three portfolio strategies: the cheapest options on paper,
-              those adjusted for failure risk, and a diversified approach that
-              survives the unexpected. See the trade-off between acquisition
-              cost and modelled reliability under stress scenarios.
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mt-7">
+              A decision desk for carbon credit portfolios. Compare acquisition
+              cost with modelled delivery risk, then stress the assumptions
+              behind the result.
             </p>
-            <div className="flex flex-wrap gap-3 pt-4">
-              <Badge
-                variant="outline"
-                className="text-sm px-4 py-2 bg-primary/10 border-primary/30"
+            <div className="flex flex-wrap items-center gap-5 mt-9">
+              <a href="#comparison" className="hero-action">
+                Explore the comparison <ArrowUpRight size={17} />
+              </a>
+              <a
+                href="/data/optiver-executive-summary.pdf"
+                download
+                className="text-sm font-medium underline underline-offset-4 hover:text-primary"
               >
-                Target: {formatTonnes(reportData.target)} CO₂e
-              </Badge>
-              <Badge
-                variant="outline"
-                className="text-sm px-4 py-2 bg-primary/10 border-primary/30"
+                Download summary
+              </a>
+              <button
+                type="button"
+                onClick={copySummary}
+                className="inline-flex items-center gap-2 text-sm font-medium underline underline-offset-4 hover:text-primary"
+                aria-label="Copy summary to clipboard"
               >
-                Budget: {formatCurrency(reportData.budget)}
-              </Badge>
-              <Badge
-                variant="outline"
-                className="text-sm px-4 py-2 bg-primary/10 border-primary/30"
-              >
-                Required reliability: {formatPercentage(reportData.reliability)}
-              </Badge>
+                {copied ? (
+                  <>
+                    <Check size={15} /> Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy size={15} /> Copy summary
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+          <div className="hero-ledger" aria-label="Simulation parameters">
+            <div className="ledger-feature">
+              <span>Mandate</span>
+              <strong>
+                {reportData.target.toLocaleString()} <small>tCO₂e</small>
+              </strong>
+              <p>Target delivery across modelled failure scenarios</p>
+            </div>
+            <div className="ledger-row">
+              <span>Budget ceiling</span>
+              <strong>{formatCurrency(reportData.budget)}</strong>
+            </div>
+            <div className="ledger-row">
+              <span>Reliability floor</span>
+              <strong>{formatPercentage(reportData.reliability)}</strong>
+            </div>
+            <div className="ledger-foot">
+              Illustrative prices &amp; risk ratings · no credits purchased
             </div>
           </div>
         </div>
       </section>
 
-      {/* Key Results */}
-      <section className="animate-fade-in-delay-1 container mx-auto px-4 py-8 -mt-8">
+      <section className="animate-fade-in-delay-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <Summary
             report={reportData}
@@ -264,12 +240,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portfolio Comparison */}
-      <section className="animate-fade-in-delay-2 container mx-auto px-4 py-12">
+      <section
+        id="comparison"
+        className="animate-fade-in-delay-2 container mx-auto px-4 py-12 scroll-mt-24"
+      >
         <div className="max-w-6xl mx-auto space-y-8">
           <div>
+            <p className="eyebrow mb-3">Decision / 01</p>
             <h2 className="text-3xl font-heading font-bold mb-3">
-              Portfolio Comparison
+              The cost of being wrong
             </h2>
             <p className="text-muted-foreground max-w-3xl">
               Three strategies, one goal: deliver 100,000 tonnes. The cheapest
@@ -279,138 +258,55 @@ export default function Home() {
             </p>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                Cost vs. Modelled Success Rate
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[400px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={comparisonData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" />
-                    <XAxis
-                      dataKey="name"
-                      angle={-15}
-                      textAnchor="end"
-                      interval={0}
-                      tick={{ fontSize: 12 }}
-                      height={60}
-                    />
-                    <YAxis
-                      yAxisId="left"
-                      label={{
-                        value: "Cost (USD)",
-                        angle: -90,
-                        position: "insideLeft",
-                        style: { fontSize: 12 },
-                      }}
-                      tickFormatter={(value) =>
-                        `$${(value / 1000).toFixed(0)}K`
-                      }
-                    />
-                    <YAxis
-                      yAxisId="right"
-                      orientation="right"
-                      label={{
-                        value: "Success Rate (%)",
-                        angle: 90,
-                        position: "insideRight",
-                        style: { fontSize: 12 },
-                      }}
-                      tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
-                      domain={[0, 1]}
-                    />
-                    <RechartsTooltip
-                      formatter={(value, name) => {
-                        if (name === "cost") {
-                          return [formatCurrency(value as number), "Cost"];
-                        }
-                        return [
-                          formatPercentage(value as number),
-                          "Success Rate",
-                        ];
-                      }}
-                    />
-                    <Legend />
-                    <Bar
-                      yAxisId="left"
-                      dataKey="cost"
-                      name="Cost"
-                      radius={[4, 4, 0, 0]}
-                    >
-                      {comparisonData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={
-                            chartColors[entry.name as keyof typeof chartColors]
-                          }
-                        />
-                      ))}
-                    </Bar>
-                    <Bar
-                      yAxisId="right"
-                      dataKey="successRate"
-                      name="Success Rate"
-                      radius={[4, 4, 0, 0]}
-                    >
-                      {comparisonData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={
-                            chartColors[entry.name as keyof typeof chartColors]
-                          }
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="mt-6 grid md:grid-cols-3 gap-4">
-                {portfolios.map((p) => (
-                  <div
-                    key={p.name}
-                    className="p-4 rounded-lg border bg-secondary/30"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-sm">{p.name}</h3>
-                      {getStatusBadge(p.data.meets_modelled_requirement)}
-                    </div>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Cost:</span>
-                        <span className="font-medium">
-                          {formatCurrency(p.data.cost_usd)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">
-                          Success rate:
-                        </span>
-                        <span className="font-medium">
-                          {formatPercentage(
-                            p.data.evaluations[
-                              selectedCorrelation as keyof typeof p.data.evaluations
-                            ].success_rate,
-                          )}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Projects:</span>
-                        <span className="font-medium">{p.data.projects}</span>
-                      </div>
-                    </div>
+          <div className="comparison-board">
+            <div className="comparison-head">
+              <span>Strategy</span>
+              <span>Acquisition cost</span>
+              <span>Target hit rate · ρ={selectedCorrelation}</span>
+            </div>
+            {comparisonData.map((entry, index) => (
+              <div
+                key={entry.name}
+                className={`comparison-row ${index === 2 ? "comparison-row-featured" : ""}`}
+              >
+                <div className="comparison-name">
+                  <span className="font-mono text-xs text-muted-foreground">
+                    0{index + 1}
+                  </span>
+                  <div>
+                    <strong>{entry.name}</strong>
+                    <small>
+                      {portfolios[index].data.projects} projects ·{" "}
+                      {formatTonnes(entry.nominalTonnes)} tonnes
+                    </small>
                   </div>
-                ))}
+                </div>
+                <div className="comparison-measure">
+                  <strong>{formatCurrency(entry.cost)}</strong>
+                  <span className="measure-track">
+                    <span
+                      style={{
+                        width: `${(entry.cost / Math.max(...comparisonData.map((item) => item.cost))) * 100}%`,
+                      }}
+                    />
+                  </span>
+                </div>
+                <div className="comparison-measure">
+                  <strong key={selectedCorrelation}>
+                    {formatPercentage(entry.successRate)}
+                  </strong>
+                  <span className="measure-track">
+                    <span style={{ width: `${entry.successRate * 100}%` }} />
+                  </span>
+                </div>
               </div>
-            </CardContent>
-          </Card>
+            ))}
+            <p className="comparison-note">
+              Rates are simulated outcomes under the selected shared-risk
+              setting. The three allocations remain fixed when the setting
+              changes.
+            </p>
+          </div>
         </div>
       </section>
 

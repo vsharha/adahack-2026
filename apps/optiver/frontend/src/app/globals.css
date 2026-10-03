@@ -7,9 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-playfair);
-  --font-display: var(--font-playfair);
+  --font-sans: var(--font-body-face);
+  --font-heading: var(--font-display-face);
+  --font-display: var(--font-display-face);
+  --font-mono: var(--font-mono-face);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,89 +50,71 @@
 }
 
 :root {
-  /* Cream background - warm and readable */
-  --background: oklch(98% 0.005 85);
-  --foreground: oklch(35% 0.02 200);
-
-  /* Forest green primary - sustainability theme */
-  --primary: oklch(35% 0.08 165);
-  --primary-foreground: oklch(98% 0.005 85);
-
-  /* Slate text for data */
-  --card: oklch(100% 0 0);
-  --card-foreground: oklch(45% 0.02 220);
-  --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(35% 0.02 200);
-
-  /* Subtle secondary */
-  --secondary: oklch(94% 0.01 200);
-  --secondary-foreground: oklch(35% 0.08 165);
-
-  /* Muted for supporting text */
-  --muted: oklch(94% 0.01 200);
-  --muted-foreground: oklch(55% 0.02 220);
-
-  /* Amber accent for risk highlights */
-  --accent: oklch(70% 0.15 55);
-  --accent-foreground: oklch(35% 0.08 165);
-
-  /* Borders and inputs */
-  --border: oklch(85% 0.01 200);
-  --input: oklch(85% 0.01 200);
-  --ring: oklch(35% 0.08 165);
-
-  /* Chart colors - distinct, accessible palette */
-  --chart-1: oklch(35% 0.08 165); /* Forest green - diversified */
-  --chart-2: oklch(55% 0.15 200); /* Blue - nominal */
-  --chart-3: oklch(70% 0.15 55); /* Amber - expected */
-  --chart-4: oklch(50% 0.2 145); /* Teal */
-  --chart-5: oklch(45% 0.1 280); /* Purple */
-
-  --radius: 0.5rem;
-
-  /* Sidebar (not used but required) */
-  --sidebar: oklch(98% 0.005 85);
-  --sidebar-foreground: oklch(35% 0.02 200);
-  --sidebar-primary: oklch(35% 0.08 165);
-  --sidebar-primary-foreground: oklch(98% 0.005 85);
-  --sidebar-accent: oklch(94% 0.01 200);
-  --sidebar-accent-foreground: oklch(35% 0.08 165);
-  --sidebar-border: oklch(85% 0.01 200);
-  --sidebar-ring: oklch(35% 0.08 165);
+  --background: #e9eef0;
+  --foreground: #172b36;
+  --primary: #155b64;
+  --primary-foreground: #f6faf9;
+  --card: #f9fbfa;
+  --card-foreground: #172b36;
+  --popover: #ffffff;
+  --popover-foreground: #172b36;
+  --secondary: #dce6e9;
+  --secondary-foreground: #193a44;
+  --muted: #e3e9eb;
+  --muted-foreground: #536872;
+  --accent: #c47c4f;
+  --accent-foreground: #172b36;
+  --border: #c5d2d6;
+  --input: #bccbd0;
+  --ring: #155b64;
+  --chart-1: #155b64;
+  --chart-2: #7392a0;
+  --chart-3: #c47c4f;
+  --chart-4: #a5bbc0;
+  --chart-5: #69787f;
+  --radius: 0.25rem;
+  --sidebar: #e9eef0;
+  --sidebar-foreground: #172b36;
+  --sidebar-primary: #155b64;
+  --sidebar-primary-foreground: #f6faf9;
+  --sidebar-accent: #dce6e9;
+  --sidebar-accent-foreground: #193a44;
+  --sidebar-border: #c5d2d6;
+  --sidebar-ring: #155b64;
 }
 
 .dark {
-  --background: oklch(15% 0.02 200);
-  --foreground: oklch(95% 0.005 85);
-  --card: oklch(20% 0.02 200);
-  --card-foreground: oklch(95% 0.005 85);
-  --popover: oklch(20% 0.02 200);
-  --popover-foreground: oklch(95% 0.005 85);
-  --primary: oklch(45% 0.1 165);
-  --primary-foreground: oklch(15% 0.02 200);
-  --secondary: oklch(25% 0.03 200);
-  --secondary-foreground: oklch(45% 0.1 165);
-  --muted: oklch(25% 0.03 200);
-  --muted-foreground: oklch(65% 0.02 220);
-  --accent: oklch(70% 0.15 55);
-  --accent-foreground: oklch(15% 0.02 200);
-  --destructive: oklch(65% 0.2 27);
-  --border: oklch(30% 0.03 200);
-  --input: oklch(30% 0.03 200);
-  --ring: oklch(45% 0.1 165);
-  --chart-1: oklch(55% 0.12 165);
-  --chart-2: oklch(65% 0.18 200);
-  --chart-3: oklch(75% 0.15 55);
-  --chart-4: oklch(60% 0.2 145);
-  --chart-5: oklch(55% 0.12 280);
-  --sidebar: oklch(20% 0.02 200);
-  --sidebar-foreground: oklch(95% 0.005 85);
-  --sidebar-primary: oklch(45% 0.1 165);
-  --sidebar-primary-foreground: oklch(15% 0.02 200);
-  --sidebar-accent: oklch(25% 0.03 200);
-  --sidebar-accent-foreground: oklch(95% 0.005 85);
-  --sidebar-border: oklch(30% 0.03 200);
-  --sidebar-ring: oklch(45% 0.1 165);
+  --background: #15252d;
+  --foreground: #eaf1f1;
+  --card: #20333d;
+  --card-foreground: #eaf1f1;
+  --popover: #243943;
+  --popover-foreground: #eaf1f1;
+  --primary: #86c6c3;
+  --primary-foreground: #102a32;
+  --secondary: #29414b;
+  --secondary-foreground: #eaf1f1;
+  --muted: #29414b;
+  --muted-foreground: #afc1c6;
+  --accent: #dda376;
+  --accent-foreground: #18282f;
+  --destructive: #f18879;
+  --border: #405963;
+  --input: #405963;
+  --ring: #86c6c3;
+  --chart-1: #86c6c3;
+  --chart-2: #8ba6b2;
+  --chart-3: #dda376;
+  --chart-4: #6d939b;
+  --chart-5: #b7c8cd;
+  --sidebar: #20333d;
+  --sidebar-foreground: #eaf1f1;
+  --sidebar-primary: #86c6c3;
+  --sidebar-primary-foreground: #102a32;
+  --sidebar-accent: #29414b;
+  --sidebar-accent-foreground: #eaf1f1;
+  --sidebar-border: #405963;
+  --sidebar-ring: #86c6c3;
 }
 
 @layer base {
@@ -151,6 +134,245 @@
   h5,
   h6 {
     @apply font-heading;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(100% - 1px),
+    color-mix(in srgb, var(--border) 18%, transparent) calc(100% - 1px)
+  );
+  background-size: 25% 100%;
+}
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.brand-mark {
+  display: flex;
+  align-items: end;
+  gap: 3px;
+  width: 25px;
+  height: 25px;
+  transform: skew(-15deg);
+}
+.brand-mark span {
+  display: block;
+  width: 6px;
+  background: var(--primary);
+}
+.brand-mark span:nth-child(1) {
+  height: 12px;
+}
+.brand-mark span:nth-child(2) {
+  height: 19px;
+}
+.brand-mark span:nth-child(3) {
+  height: 25px;
+}
+.hero-shell {
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--card) 84%, transparent),
+    color-mix(in srgb, var(--secondary) 52%, transparent)
+  );
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--primary);
+  font:
+    600 11px/1.3 var(--font-mono-face),
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.hero-title {
+  max-width: 820px;
+  font:
+    600 clamp(3.8rem, 5.2vw, 6.4rem)/0.94 var(--font-display-face),
+    sans-serif;
+  letter-spacing: -0.045em;
+}
+.hero-action {
+  display: inline-flex;
+  gap: 28px;
+  align-items: center;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 14px 17px;
+  font-weight: 600;
+  font-size: 14px;
+  transition:
+    background 150ms,
+    transform 150ms;
+}
+.hero-action:hover {
+  background: var(--foreground);
+  transform: translateY(-2px);
+}
+.hero-ledger {
+  color: var(--foreground);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 12px 12px 0 color-mix(in srgb, var(--primary) 13%, transparent);
+}
+.ledger-row,
+.ledger-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 17px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.ledger-feature {
+  padding: 28px 22px 30px;
+}
+.ledger-feature > span,
+.ledger-row > span {
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+.ledger-feature strong {
+  display: block;
+  margin-top: 3px;
+  font:
+    600 clamp(3.4rem, 5vw, 5.2rem)/1 var(--font-display-face),
+    sans-serif;
+  letter-spacing: -0.04em;
+}
+.ledger-feature strong small {
+  font:
+    500 15px var(--font-mono-face),
+    monospace;
+  color: var(--muted-foreground);
+  letter-spacing: 0;
+}
+.ledger-feature p {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.ledger-row strong {
+  font:
+    600 20px var(--font-display-face),
+    sans-serif;
+}
+.ledger-foot {
+  border: 0;
+  color: var(--muted-foreground);
+  font:
+    400 10px/1.5 var(--font-mono-face),
+    monospace;
+}
+.summary-board {
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--foreground) 6%, transparent);
+}
+.comparison-board {
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+.comparison-head,
+.comparison-row {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr 0.8fr;
+  gap: 25px;
+  align-items: center;
+  padding: 16px 24px;
+}
+.comparison-head {
+  color: var(--muted-foreground);
+  background: var(--secondary);
+  font:
+    600 10px var(--font-mono-face),
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.comparison-row {
+  min-height: 106px;
+  border-top: 1px solid var(--border);
+}
+.comparison-row-featured {
+  background: color-mix(in srgb, var(--primary) 9%, var(--card));
+  border-left: 4px solid var(--primary);
+  padding-left: 20px;
+}
+.comparison-name {
+  display: flex;
+  gap: 15px;
+  align-items: baseline;
+}
+.comparison-name strong {
+  display: block;
+  font:
+    600 23px var(--font-display-face),
+    sans-serif;
+}
+.comparison-name small {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  margin-top: 3px;
+}
+.comparison-measure strong {
+  display: block;
+  font:
+    600 28px var(--font-display-face),
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.measure-track {
+  display: block;
+  height: 5px;
+  margin-top: 9px;
+  background: var(--secondary);
+}
+.measure-track > span {
+  display: block;
+  height: 100%;
+  background: var(--chart-2);
+}
+.comparison-row-featured .measure-track > span {
+  background: var(--primary);
+}
+.comparison-note {
+  border-top: 1px solid var(--border);
+  padding: 13px 24px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+@media (max-width: 700px) {
+  body {
+    background-size: 50% 100%;
+  }
+  .hero-title {
+    font-size: clamp(3.25rem, 12vw, 5rem);
+  }
+  .comparison-head {
+    display: none;
+  }
+  .comparison-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 19px;
+  }
+  .comparison-name {
+    grid-column: 1 / -1;
+  }
+  .comparison-row-featured {
+    padding-left: 15px;
+  }
+  .comparison-measure strong {
+    font-size: 24px;
   }
 }
 

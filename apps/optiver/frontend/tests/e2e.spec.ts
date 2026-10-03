@@ -1,71 +1,49 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Optiver Carbon Portfolio", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-  });
+const appUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 
-  test("should display main page title", async ({ page }) => {
-    await expect(page).toHaveTitle(/Optiver Carbon Portfolio/);
-  });
+test.beforeEach(async ({ page }) => {
+  await page.goto(appUrl);
+});
 
-  test("should display hero section", async ({ page }) => {
-    await expect(
-      page.getByText(
-        "How much does it cost to make a carbon portfolio more reliable?",
-      ),
-    ).toBeVisible();
-  });
+test("shows the portfolio decision and comparison", async ({ page }) => {
+  await expect(
+    page.getByRole("heading", {
+      name: "The cheapest tonne is rarely the safest.",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "The cost of being wrong" }),
+  ).toBeVisible();
+  await expect(page.getByText("$181,659").first()).toBeVisible();
+});
 
-  test("should display key metrics", async ({ page }) => {
-    await expect(page.getByText("Target Tonnes")).toBeVisible();
-    await expect(page.getByText("Diversified Cost")).toBeVisible();
-    await expect(page.getByText("Success Rate")).toBeVisible();
-  });
+test("shared-risk selection updates linked results", async ({ page }) => {
+  await page.getByRole("button", { name: /ρ = 0.3/ }).click();
+  await expect(
+    page.getByText("Modelled target hit rate").locator(".."),
+  ).toContainText("98.3%");
+  await expect(page.locator(".comparison-head")).toContainText("ρ=0.3");
+});
 
-  test("should display portfolio comparison chart", async ({ page }) => {
-    await expect(page.getByText("Portfolio Comparison")).toBeVisible();
-    await expect(
-      page.getByText("Cost vs. Modelled Success Rate"),
-    ).toBeVisible();
-  });
+test("theme and copy controls work", async ({ page, context }) => {
+  await page.getByRole("button", { name: "Toggle theme" }).click();
+  await page.getByRole("menuitem", { name: /Dark/ }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
 
-  test("should display holdings table", async ({ page }) => {
-    await expect(page.getByText("Portfolio Holdings")).toBeVisible();
-    await expect(page.getByText("Diversified Candidate Credits")).toBeVisible();
-  });
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.getByRole("button", { name: "Copy summary to clipboard" }).click();
+  await expect(page.getByText("Copied", { exact: true })).toBeVisible();
+});
 
-  test("should support dark mode toggle", async ({ page }) => {
-    // Click theme toggle button
-    const themeButton = page.getByLabel("Toggle theme");
-    await expect(themeButton).toBeVisible();
-
-    // Open dropdown and select dark mode
-    await themeButton.click();
-    await page.getByText("Dark").click();
-
-    // Verify dark class is applied
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  });
-
-  test("should copy summary to clipboard", async ({ page }) => {
-    const copyButton = page.getByText("Copy summary");
-    await expect(copyButton).toBeVisible();
-
-    // Grant clipboard permissions
-    const context = page.context();
-    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-
-    await copyButton.click();
-    await expect(page.getByText("Copied!")).toBeVisible();
-  });
-
-  test("should be responsive on mobile", async ({ page }) => {
-    // Set viewport to mobile size
-    await page.setViewportSize({ width: 390, height: 844 });
-
-    // Verify key sections are still visible
-    await expect(page.getByText("Optiver Carbon Portfolio")).toBeVisible();
-    await expect(page.getByText("Target Tonnes")).toBeVisible();
-  });
+test("mobile layout keeps the hero and page within the viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.locator(".ledger-feature strong")).toContainText("100,000");
+  const hasOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth,
+  );
+  expect(hasOverflow).toBe(false);
 });
