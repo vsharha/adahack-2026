@@ -3,8 +3,6 @@
 import { getReportData, getHoldings } from "@/lib/data";
 import {
   formatCurrency,
-  formatCurrencyPrecise,
-  formatNumber,
   formatPercentage,
   formatTonnes,
   formatConfidenceInterval,
@@ -34,8 +32,6 @@ import {
   Tooltip as RechartsTooltip,
   Legend,
   ResponsiveContainer,
-  PieChart,
-  Pie,
   Cell,
 } from "recharts";
 import {
@@ -47,8 +43,6 @@ import {
   FileText,
   Copy,
   Check,
-  Search,
-  X,
 } from "lucide-react";
 import { useState } from "react";
 import { Summary } from "@/components/Summary";
