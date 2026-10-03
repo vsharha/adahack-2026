@@ -33,6 +33,10 @@ A pnpm monorepo holding the Postcode Lottery Next.js app and the CompSoc project
 
 Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cover the CompSoc backend's Python. The CompSoc project's own commands are in `apps/compsoc/AGENTS.md`.
 
+## Frontend
+
+Every frontend in the repository uses Tailwind CSS v4 and shadcn/ui. Add shadcn components with its CLI, run inside the app's folder, so they are copied into the app rather than installed as a package. shadcn/ui is React-only, so a frontend must use a React framework.
+
 ## Docs
 
 - `docs/event/description.md`: the event page, verbatim.
