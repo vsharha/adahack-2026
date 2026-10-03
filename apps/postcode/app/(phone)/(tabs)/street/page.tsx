@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { StreetScreen } from "@/components/app/street-screen";
 
 export const metadata: Metadata = { title: "Street" };
 
+/** The Street screen itself is rendered by the tabs layout, which keeps it alive. */
 export default function StreetPage() {
-  return <StreetScreen />;
+  return null;
 }

@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Celebration } from "@/components/app/celebration";
+import { StreetScreen } from "@/components/app/street-screen";
 import { TabBar } from "@/components/app/tab-bar";
 import { useActivitySeen, markActivitySeen } from "@/lib/activity-seen";
 import {
@@ -21,6 +22,7 @@ export function SignedInShell({ children }: { children: React.ReactNode }) {
   const [celebrating, setCelebrating] = useState<string | null>(null);
   const scroller = useRef<HTMLElement>(null);
   const signedIn = state.currentUserId !== null;
+  const onStreet = pathname === "/street";
 
   useNeighbourSimulator(signedIn && celebrating === null);
 
@@ -56,6 +58,11 @@ export function SignedInShell({ children }: { children: React.ReactNode }) {
         ref={scroller}
         className="app-scroll min-h-0 flex-1 overflow-y-auto pt-(--status-bar)"
       >
+        {/* The Street tab stays mounted behind the other tabs, so its 3D scene
+            is built once instead of on every visit. */}
+        <div hidden={!onStreet}>
+          <StreetScreen active={onStreet} />
+        </div>
         {children}
       </main>
       <TabBar badges={{ activity: unseen }} />

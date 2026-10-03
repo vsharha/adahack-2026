@@ -48,13 +48,12 @@
   --tag: #3d475d;
   --on-tag: #eef1f5;
 
-  --house-1: #7a6a66;
-  --house-2: #5b6b80;
-  --house-3: #7d7357;
-  --house-4: #67627f;
+  --house-bare: #646c84;
+  --house-some: #5f8a69;
+  --house-full: #8fd096;
+  --scene-ground: #2c3245;
   --scene-ambient: 1;
   --scene-sun: 0.8;
-  --window-glow: 1.2;
 
   --avatar-1: #97c49c;
   --on-avatar-1: #18241b;
@@ -195,14 +194,14 @@
   --tag: #3b4256;
   --on-tag: #ffffff;
 
-  /* 3D street scene: house walls, and light levels as plain numbers */
-  --house-1: #f2d9c4;
-  --house-2: #cfe0ee;
-  --house-3: #f4e7b8;
-  --house-4: #d9d2ec;
+  /* 3D street scene: house colours from no points to many, the ground, and
+     light levels as plain numbers */
+  --house-bare: #e3e6ea;
+  --house-some: #c6e3c8;
+  --house-full: #7fc98a;
+  --scene-ground: #e9edf1;
   --scene-ambient: 1.25;
   --scene-sun: 1.5;
-  --window-glow: 0;
 
   /* Avatars, one pair per colour */
   --avatar-1: #97c49c;

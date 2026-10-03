@@ -18,18 +18,14 @@ import * as THREE from "three";
 import { Avatar } from "@/components/avatar";
 import { households } from "@/data/seed";
 import { useDemoState } from "@/lib/demo-store";
-import {
-  householdPoints,
-  sharedGoalsGoingAhead,
-  totalPoints,
-} from "@/lib/progress";
+import { householdPoints, sharedGoalsGoingAhead } from "@/lib/progress";
 import type { User } from "@/lib/types";
 
-/** Household points at which each greening stage appears on a house. */
-const stages = { windowBoxes: 1, hedge: 10, gardenTree: 20, greenRoof: 30 };
-
-/** The street total at which the ground is fully green. */
-const fullStreetPoints = 150;
+/**
+ * Household points at which a house reaches each colour: grey with none, then
+ * light green, then a brighter green. Colours blend between these.
+ */
+const colourStops = { some: 10, full: 40 };
 
 const spacing = 1.75;
 const farRowZ = -1.55;
@@ -55,24 +51,16 @@ function housePosition(index: number): [number, number] {
 // Scene colours and light levels come from the design tokens, re-read when the
 // theme attribute on <html> changes.
 const tokenNames = [
-  "house-1",
-  "house-2",
-  "house-3",
-  "house-4",
-  "roof",
-  "window",
-  "door",
-  "lamp",
+  "house-bare",
+  "house-some",
+  "house-full",
+  "scene-ground",
   "leaf",
   "leaf-light",
-  "moss",
   "trunk",
   "pavement",
-  "verge-bare",
-  "verge-full",
   "scene-ambient",
   "scene-sun",
-  "window-glow",
 ] as const;
 type Tokens = Record<(typeof tokenNames)[number], string>;
 
@@ -167,25 +155,44 @@ function Tree({ tokens, scale = 1 }: { tokens: Tokens; scale?: number }) {
   );
 }
 
+function houseColour(tokens: Tokens, points: number): THREE.Color {
+  const bare = new THREE.Color(tokens["house-bare"]);
+  const some = new THREE.Color(tokens["house-some"]);
+  const full = new THREE.Color(tokens["house-full"]);
+  if (points <= colourStops.some)
+    return bare.lerp(some, points / colourStops.some);
+  return some.lerp(
+    full,
+    Math.min(
+      1,
+      (points - colourStops.some) / (colourStops.full - colourStops.some),
+    ),
+  );
+}
+
+/** A plain house in one colour, roof included; the colour eases when points change. */
 function House({
   index,
   points,
   tokens,
   roof,
-  isYou,
 }: {
   index: number;
   points: number;
   tokens: Tokens;
   roof: THREE.BufferGeometry;
-  isYou: boolean;
 }) {
   const [x, z] = housePosition(index);
-  const facesRoad = index < 6;
-  const wall = tokens[`house-${(index % 4) + 1}` as keyof Tokens];
-  const glow = Number(tokens["window-glow"]) || 0;
-  // Windows on the side facing the camera, where the garden is.
-  const frontZ = 0.51;
+  const target = useMemo(() => houseColour(tokens, points), [tokens, points]);
+  const walls = useRef<THREE.MeshLambertMaterial>(null);
+  const roofMaterial = useRef<THREE.MeshLambertMaterial>(null);
+  const skip = useMemo(() => reducedMotion(), []);
+
+  useFrame((_, delta) => {
+    const t = skip ? 1 : 1 - Math.exp(-4 * delta);
+    walls.current?.color.lerp(target, t);
+    roofMaterial.current?.color.lerp(target, t);
+  });
 
   return (
     <group position={[x, 0, z]}>
@@ -195,66 +202,11 @@ function House({
         position={[0, 0.45, 0]}
         castShadow
       >
-        <meshLambertMaterial color={wall} />
+        <meshLambertMaterial ref={walls} color={target} />
       </RoundedBox>
       <mesh geometry={roof} position={[0, 0.9, 0]} castShadow>
-        <meshLambertMaterial
-          color={points >= stages.greenRoof ? tokens.leaf : tokens.roof}
-        />
+        <meshLambertMaterial ref={roofMaterial} color={target} />
       </mesh>
-      {points >= stages.greenRoof && (
-        <Grow position={[0, 1.1, 0]}>
-          {[-0.35, 0, 0.35].map((dx) => (
-            <mesh key={dx} position={[dx, 0.04, 0.16]}>
-              <sphereGeometry args={[0.1, 10, 8]} />
-              <meshLambertMaterial color={tokens["leaf-light"]} />
-            </mesh>
-          ))}
-        </Grow>
-      )}
-      {[-0.3, 0.3].map((dx) => (
-        <mesh key={dx} position={[dx, 0.55, frontZ]}>
-          <boxGeometry args={[0.22, 0.26, 0.02]} />
-          <meshLambertMaterial
-            color={tokens.window}
-            emissive={tokens.window}
-            emissiveIntensity={glow}
-          />
-        </mesh>
-      ))}
-      {facesRoad && (
-        <mesh position={[0, 0.2, frontZ]}>
-          <boxGeometry args={[0.2, 0.36, 0.02]} />
-          <meshLambertMaterial color={isYou ? tokens.lamp : tokens.door} />
-        </mesh>
-      )}
-      {points >= stages.windowBoxes && (
-        <Grow position={[0, 0.4, frontZ + 0.04]}>
-          {[-0.3, 0.3].map((dx) => (
-            <mesh key={dx} position={[dx, 0, 0]}>
-              <boxGeometry args={[0.26, 0.07, 0.08]} />
-              <meshLambertMaterial color={tokens.leaf} />
-            </mesh>
-          ))}
-        </Grow>
-      )}
-      {points >= stages.hedge && (
-        <Grow position={[0, 0, 0.98]}>
-          <RoundedBox
-            args={[1.3, 0.2, 0.16]}
-            radius={0.06}
-            position={[0, 0.1, 0]}
-            castShadow
-          >
-            <meshLambertMaterial color={tokens.leaf} />
-          </RoundedBox>
-        </Grow>
-      )}
-      {points >= stages.gardenTree && (
-        <Grow position={[0.42, 0, 0.72]}>
-          <Tree tokens={tokens} scale={0.75} />
-        </Grow>
-      )}
     </group>
   );
 }
@@ -333,26 +285,12 @@ function PinAnchors({ onChange }: { onChange: (anchors: Anchor[]) => void }) {
   return null;
 }
 
-function Street({
-  youHouseholdId,
-  onAnchors,
-}: {
-  youHouseholdId?: string;
-  onAnchors: (anchors: Anchor[]) => void;
-}) {
+function Street({ onAnchors }: { onAnchors: (anchors: Anchor[]) => void }) {
   const state = useDemoState();
   const tokens = useTokens();
   const roof = useMemo(() => roofGeometry(), []);
   const fade = useFadeTexture();
   const trees = sharedGoalsGoingAhead(state).length;
-  const ground = useMemo(
-    () =>
-      new THREE.Color(tokens["verge-bare"]).lerp(
-        new THREE.Color(tokens["verge-full"]),
-        Math.min(1, totalPoints(state) / fullStreetPoints),
-      ),
-    [tokens, state],
-  );
 
   return (
     <>
@@ -367,7 +305,7 @@ function Street({
       <mesh rotation-x={-Math.PI / 2} position={[0, -0.001, 0.2]}>
         <planeGeometry args={[sceneWidth * 3, 10]} />
         <meshBasicMaterial
-          color={ground}
+          color={tokens["scene-ground"]}
           alphaMap={fade}
           transparent
           depthWrite={false}
@@ -385,7 +323,6 @@ function Street({
           points={householdPoints(state, household.id)}
           tokens={tokens}
           roof={roof}
-          isYou={household.id === youHouseholdId}
         />
       ))}
 
@@ -410,10 +347,13 @@ function Street({
 export function StreetScene({
   youHouseholdId,
   showNeighbours = false,
+  active = true,
   label,
 }: {
   youHouseholdId?: string;
   showNeighbours?: boolean;
+  /** False while the scene is kept alive but hidden, so it stops rendering. */
+  active?: boolean;
   label: string;
 }) {
   const state = useDemoState();
@@ -449,9 +389,10 @@ export function StreetScene({
       <Canvas
         dpr={[1, 2]}
         gl={{ alpha: true, antialias: true }}
+        frameloop={active ? "always" : "never"}
         className="mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"
       >
-        <Street youHouseholdId={youHouseholdId} onAnchors={setAnchors} />
+        <Street onAnchors={setAnchors} />
       </Canvas>
       {anchors.map(({ householdId, left, top }) => {
         const pin = pinFor(householdId);

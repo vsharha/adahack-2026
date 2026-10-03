@@ -34,9 +34,12 @@ const noopSubscribe = () => () => {};
 export function StreetView({
   youHouseholdId,
   showNeighbours = false,
+  active = true,
 }: {
   youHouseholdId?: string;
   showNeighbours?: boolean;
+  /** False while the view is kept alive but hidden, so the 3D scene pauses. */
+  active?: boolean;
 }) {
   const state = useDemoState();
   const canRender3D = useSyncExternalStore(
@@ -47,11 +50,12 @@ export function StreetView({
   const label = `The street: ${totalPoints(state)} points earned, ${sharedGoalsGoingAhead(state).length} shared goals going ahead.`;
 
   return (
-    <div className="bg-linear-to-b from-transparent via-secondary/60 to-transparent">
+    <div>
       {canRender3D ? (
         <StreetScene
           youHouseholdId={youHouseholdId}
           showNeighbours={showNeighbours}
+          active={active}
           label={label}
         />
       ) : (

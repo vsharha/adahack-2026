@@ -37,7 +37,8 @@ function useGoalThatNeedsYou() {
     .sort((a, b) => a.missing - b.missing)[0];
 }
 
-export function StreetScreen() {
+/** `active` is false while the screen is kept alive behind another tab. */
+export function StreetScreen({ active = true }: { active?: boolean }) {
   const router = useRouter();
   const state = useDemoState();
   const me = useMe();
@@ -79,7 +80,11 @@ export function StreetScreen() {
           </p>
         </div>
         <div className="mt-1">
-          <StreetView youHouseholdId={me.householdId} showNeighbours />
+          <StreetView
+            youHouseholdId={me.householdId}
+            showNeighbours
+            active={active}
+          />
         </div>
         <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
           <div className="flex flex-col gap-1 p-3">
