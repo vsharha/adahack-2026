@@ -6,12 +6,12 @@
 
 ## 📸 Required Screenshots
 
-| # | Name | File | Dimensions | What to Show |
-|---|------|------|------------|--------------|
-| 1 | Hero Section | `screenshot-hero.png` | 1920×1080 | Top of page: title, key metrics, correlation toggle |
-| 2 | Portfolio Comparison | `screenshot-comparison.png` | 1920×1080 | Bar chart with 3 portfolios |
-| 3 | Holdings Table | `screenshot-holdings.png` | 1920×1080 | Table with search box, filtered results |
-| 4 | Map | `screenshot-map.png` | 1920×1080 | World map with project circles |
+| #   | Name                 | File                        | Dimensions | What to Show                                        |
+| --- | -------------------- | --------------------------- | ---------- | --------------------------------------------------- |
+| 1   | Hero Section         | `screenshot-hero.png`       | 1920×1080  | Top of page: title, key metrics, correlation toggle |
+| 2   | Portfolio Comparison | `screenshot-comparison.png` | 1920×1080  | Bar chart with 3 portfolios                         |
+| 3   | Holdings Table       | `screenshot-holdings.png`   | 1920×1080  | Table with search box, filtered results             |
+| 4   | Map                  | `screenshot-map.png`        | 1920×1080  | World map with project circles                      |
 
 ---
 
@@ -41,6 +41,7 @@ cd /home/bugra2426/Downloads/adahack-2026
 ### 3. Capture Each Screenshot
 
 **Method A: Full Page Screenshot (Chrome DevTools)**
+
 ```
 1. Press Ctrl+Shift+P (Cmd+Shift+P on Mac)
 2. Type "screenshot"
@@ -49,6 +50,7 @@ cd /home/bugra2426/Downloads/adahack-2026
 ```
 
 **Method B: Screenshot Tool (Linux)**
+
 ```bash
 # Select area
 gnome-screenshot -a -f ~/Downloads/screenshot.png
@@ -58,6 +60,7 @@ flameshot gui
 ```
 
 **Method C: Browser Extension**
+
 - Use "GoFullPage" or "Nimbus Screenshot" extension
 - Capture entire page or selected area
 
@@ -66,24 +69,28 @@ flameshot gui
 ## 📐 Composition Tips
 
 ### Hero Section
+
 - Show full width
 - Include AdaHack badge
 - Show correlation toggle visible
 - Capture key metrics cards at bottom
 
 ### Portfolio Comparison
+
 - Scroll to chart section
 - Show all 3 bars clearly
 - Include legend
 - Show correlation selector visible
 
 ### Holdings Table
+
 - Type "China" in search box (shows filtering)
 - Show 5 filtered results
 - Include sort/filter controls
 - Show project count badge
 
 ### Map
+
 - Scroll to map section
 - Show all country circles
 - Zoom to fit all markers
@@ -94,12 +101,14 @@ flameshot gui
 ## 🎨 Styling Recommendations
 
 **For Professional Look:**
+
 - Use dark mode (more striking for charts)
 - Ensure no browser UI visible (address bar, tabs)
 - Clean background (no other windows)
 - Good contrast (check accessibility)
 
 **For Consistency:**
+
 - Same zoom level (100%)
 - Same window width (1920px)
 - Same theme (all light or all dark)
@@ -128,12 +137,14 @@ pngquant --quality=65-80 screenshot-hero.png
 ## ✅ After Capture
 
 1. **Test images load:**
+
    ```bash
    # From repo root
    cat apps/optiver/README.md | grep screenshot
    ```
 
 2. **Commit:**
+
    ```bash
    git add docs/optiver/screenshot-*.png apps/optiver/README.md
    git commit -m "Add README screenshots for judge presentation"
@@ -158,6 +169,7 @@ If short on time, capture **just one** hero screenshot:
 ```
 
 Update README section to:
+
 ```markdown
 ## Demo Screenshot
 
@@ -169,4 +181,4 @@ _Dashboard showing portfolio comparison, diversification breakdown, and risk met
 
 **Time estimate:** 15-20 minutes for all 4 screenshots
 
-*Guide generated: 2026-10-03*
+_Guide generated: 2026-10-03_

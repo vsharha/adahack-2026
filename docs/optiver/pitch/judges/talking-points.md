@@ -7,21 +7,24 @@ We built a carbon credit portfolio optimizer that delivers 100,000 tonnes CO₂e
 ## Key Talking Points
 
 ### 1. The Problem (30 seconds)
+
 - **Challenge**: Build a portfolio that delivers 100k tonnes on budget AND survives failures
 - **Naive approach**: Buy cheapest credits → 68% success rate (fails 1 in 3 times)
 - **Real-world impact**: Project failures mean missed climate targets and wasted budgets
 
 ### 2. Our Solution (1 minute)
+
 - **Three strategies compared**:
   - Cheapest nominal: $94k, 68% success
-  - Cheapest expected: $115k, 85% success  
+  - Cheapest expected: $115k, 85% success
   - **Diversified candidate**: $182k, 98.3% success ← Our solution
 - **Key insight**: Small cost increase (+$88k) buys massive reliability gain (+30pp)
 - **Diversification**: 13 projects across 4 countries, multiple developers, registries, types
 
 ### 3. Technical Approach (1 minute)
+
 - **Dataset**: 4,355 projects from UC Berkeley Voluntary Registry with synthetic prices/ratings
-- **Risk model**: 
+- **Risk model**:
   - Gaussian correlated failures (country, developer, registry, type)
   - Buffer pools recover 50% of losses
   - Reversal events increase failure probability 1.5×
@@ -29,6 +32,7 @@ We built a carbon credit portfolio optimizer that delivers 100,000 tonnes CO₂e
 - **Validation**: 10,000 Monte Carlo scenarios per correlation setting (ρ=0, 0.3, 0.6)
 
 ### 4. Risk Management (45 seconds)
+
 - **Concentration warnings**: Flags any exposure >40% (our portfolio: max 60% in VCS registry)
 - **Stress tests**:
   - Budget cut -20%: ✓ Passes ($182k < $800k)
@@ -37,12 +41,14 @@ We built a carbon credit portfolio optimizer that delivers 100,000 tonnes CO₂e
 - **Quality scores**: 30/40/30 weighting (vintage/recency, removal/reduction, completion status)
 
 ### 5. Demo Features (30 seconds)
+
 - **Interactive UI**: Portfolio comparison charts, correlation selector, diversification breakdown
 - **Dark mode**: Accessible theme toggle (Light/Dark/System)
 - **Print-ready**: Clean PDF export for judge review
 - **Copy-to-clipboard**: One-click summary sharing
 
 ### 6. Results (30 seconds)
+
 - **Target**: 100,000 tonnes @ 95% reliability
 - **Achieved**: 166,671 tonnes @ 98.3% reliability (ρ=0.3)
 - **Budget**: $1M limit → Spent $182k (82% under budget!)
@@ -51,25 +57,33 @@ We built a carbon credit portfolio optimizer that delivers 100,000 tonnes CO₂e
 ## Judge Q&A Preparation
 
 ### Q: "Why not just buy the cheapest credits?"
+
 **A**: The cheapest nominal portfolio costs $94k but only succeeds 68% of the time. That's a 1 in 3 chance of missing your climate target. For an extra $88k (still well under the $1M budget), we achieve 98.3% success — a 30 percentage point improvement.
 
 ### Q: "How do you know your failure model is realistic?"
+
 **A**: We use conservative assumptions: whole-project binary failures, 50% buffer recovery, 1.5× reversal multipliers, and Gaussian correlation across four dimensions. The model is intentionally pessimistic — if anything, we're overestimating risk.
 
 ### Q: "What's your competitive advantage?"
+
 **A**: Three factors:
+
 1. **Diversification algorithm**: Spreads risk across country/developer/registry/type simultaneously
 2. **Stress testing**: Shows portfolio resilience under adverse scenarios
 3. **Quality signals**: 30/40/30 scoring weights durability, not just cost
 
 ### Q: "Can this scale to real portfolios?"
+
 **A**: Yes. The search evaluates 6 templates in seconds. For production, we'd add:
+
 - Real market prices and ratings
 - Dynamic rebalancing as projects fail/succeed
 - Custom constraints (e.g., no coal regions, specific SDG alignment)
 
 ### Q: "What are the open questions?"
+
 **A**: Three items for organizers:
+
 1. Does "100k tonnes target" mean realised delivery, expected delivery, or probability threshold?
 2. How should correlated failures be generated and scored in judging?
 3. Are fractional credit quantities allowed, and how does cost ranking interact with general criteria?
@@ -96,22 +110,26 @@ We built a carbon credit portfolio optimizer that delivers 100,000 tonnes CO₂e
 ## Appendix: Technical Details
 
 ### Algorithm Complexity
+
 - **Search**: O(n log n) sorting + O(n) allocation per template
 - **Simulation**: O(portfolio_size × scenarios) per correlation setting
 - **Total runtime**: <5 seconds for full pipeline
 
 ### Data Sources
+
 - UC Berkeley Voluntary Registry Offsets Database (4,355 projects)
 - Synthetic prices: $0.93–$1.35 per tonne
 - Risk ratings: AAA (1%) to CCC (35%), unrated (15%)
 
 ### Model Limitations
+
 - Binary project failures (all-or-nothing)
 - Fixed correlation strengths (assumed, not measured)
 - No temporal dynamics (single-period model)
 - Synthetic data (not real market prices)
 
 ### Future Enhancements
+
 - Multi-period optimization with rebalancing
 - Real-time price/rating updates
 - Custom risk constraints (ESG, SDG alignment)

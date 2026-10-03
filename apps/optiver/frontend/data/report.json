@@ -7,11 +7,7 @@
   "seed": 20261003,
   "training_scenarios": 2000,
   "evaluation_scenarios": 10000,
-  "shared_latent_variances": [
-    0,
-    0.3,
-    0.6
-  ],
+  "shared_latent_variances": [0, 0.3, 0.6],
   "data_sha256": "de00ad3a0d0d9f7f5b31ddead836584ed89e3d90eb7c5013b0285fda8dacf6f4",
   "portfolios": {
     "Cheapest nominal": {

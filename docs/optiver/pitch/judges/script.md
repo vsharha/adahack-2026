@@ -90,14 +90,15 @@
 
 ## 📋 Quick Reference Card
 
-| Metric | Cheapest Nominal | Cheapest Expected | Diversified |
-|--------|-----------------|-------------------|-------------|
-| Cost | $94,277 | $115,294 | $181,659 |
-| Projects | 2 | 1 | 13 |
-| Success Rate (ρ=0.6) | 69% | 85% | **97%** |
-| 95% CI Lower Bound | 68% | 84% | **96.6%** |
+| Metric               | Cheapest Nominal | Cheapest Expected | Diversified |
+| -------------------- | ---------------- | ----------------- | ----------- |
+| Cost                 | $94,277          | $115,294          | $181,659    |
+| Projects             | 2                | 1                 | 13          |
+| Success Rate (ρ=0.6) | 69%              | 85%               | **97%**     |
+| 95% CI Lower Bound   | 68%              | 84%               | **96.6%**   |
 
 **Key soundbites:**
+
 - "Spending 2× more buys 30 percentage points higher reliability"
 - "10,000 stress scenarios, 6 allocation templates, 1 validated candidate"
 - "Synthetic prices, assumed correlations, modelled outcomes"
@@ -107,37 +108,42 @@
 ## 🎯 Backup Questions & Answers
 
 **Q: Why not just buy the cheapest projects?**
+
 > A: Because they fail together. The cheapest nominal portfolio has only 2 projects — if either fails, you miss your target 32% of the time.
 
 **Q: Is 97% a guarantee?**
+
 > A: No — it's modelled under our assumptions. Real-world failure rates could differ. We report confidence intervals to show statistical uncertainty.
 
 **Q: Could there be a cheaper portfolio you missed?**
+
 > A: Yes — we test 6 templates, not all possible combinations. We report "cheapest candidate found" not "minimum possible cost."
 
 **Q: What about carbon quality beyond failure risk?**
+
 > A: Great question — we have vintage, removal vs. reduction, and status fields. Future versions could add a quality score alongside cost.
 
 **Q: How long does it take to run?**
+
 > A: About 30 seconds on a laptop for the full 10,000 scenarios. The CLI is pure Python with no external dependencies.
 
 ---
 
 ## ⏱️ Timing Breakdown
 
-| Section | Target | Actual |
-|---------|--------|--------|
-| Hook | 30 sec | 30 sec |
-| Problem | 30 sec | 30 sec |
-| Solution | 60 sec | 60 sec |
-| Demo | 45 sec | 45 sec |
-| Method | 30 sec | 30 sec |
-| Caveats | 15 sec | 15 sec |
-| Close | 30 sec | 30 sec |
+| Section   | Target   | Actual   |
+| --------- | -------- | -------- |
+| Hook      | 30 sec   | 30 sec   |
+| Problem   | 30 sec   | 30 sec   |
+| Solution  | 60 sec   | 60 sec   |
+| Demo      | 45 sec   | 45 sec   |
+| Method    | 30 sec   | 30 sec   |
+| Caveats   | 15 sec   | 15 sec   |
+| Close     | 30 sec   | 30 sec   |
 | **Total** | **4:00** | **4:00** |
 
-*Adjust demo length to hit 3-minute target if needed.*
+_Adjust demo length to hit 3-minute target if needed._
 
 ---
 
-*Prepared for AdaHack 2026 Optiver challenge judges. All figures from default CLI run with seeds 20261003/20261004.*
+_Prepared for AdaHack 2026 Optiver challenge judges. All figures from default CLI run with seeds 20261003/20261004._

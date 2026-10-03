@@ -29,21 +29,25 @@ git pull --rebase --autostash
 ## 🎯 Demo Flow (3 minutes)
 
 ### Opening (30 sec)
+
 - [ ] Show homepage hero
 - [ ] Point to key stats: Target 100K, Budget $1M, Reliability 95%
 - [ ] Say: "What if I told you the cheapest portfolio fails 32% of the time?"
 
 ### Portfolio Comparison (45 sec)
+
 - [ ] Scroll to comparison chart
 - [ ] Point to 3 bars: nominal ($94K), expected ($115K), diversified ($182K)
 - [ ] Say: "Spending 2× more buys 30 percentage points higher reliability"
 
 ### Interactive Demo (45 sec)
+
 - [ ] Click correlation toggle: ρ=0 → ρ=0.3 → ρ=0.6
 - [ ] Watch success rates update: 99.3% → 98.3% → 97.0%
 - [ ] Say: "This slider changes correlation assumptions in real time"
 
 ### Holdings Table (30 sec)
+
 - [ ] Scroll to holdings table
 - [ ] Type "China" in search box
 - [ ] Show 5 filtered results
@@ -51,12 +55,14 @@ git pull --rebase --autostash
 - [ ] Say: "Search, filter, and sort all 13 projects"
 
 ### Map & Risk (30 sec)
+
 - [ ] Click Map tab (or scroll to map)
 - [ ] Point to project locations
 - [ ] Click a country button (e.g., Brazil)
 - [ ] Say: "Geographic diversification reduces correlated failure risk"
 
 ### Close (30 sec)
+
 - [ ] Scroll back to top
 - [ ] Click "Download PDF" button
 - [ ] Say: "All code is in this repo. Run `./apps/optiver/start.sh` to reproduce"
@@ -92,40 +98,40 @@ cat /tmp/optiver-backup-20261003/portfolio.csv
 
 ## 📊 Key Numbers to Memorize
 
-| Metric | Value |
-|--------|-------|
-| Target | 100,000 tCO₂e |
-| Budget | $1,000,000 |
-| Cheapest nominal cost | $94,277 |
-| Cheapest nominal success | 68% |
-| Diversified cost | $181,659 |
-| Diversified success (ρ=0.6) | 97% |
-| Number of projects | 13 |
-| Largest exposure | VCS 60% |
+| Metric                      | Value         |
+| --------------------------- | ------------- |
+| Target                      | 100,000 tCO₂e |
+| Budget                      | $1,000,000    |
+| Cheapest nominal cost       | $94,277       |
+| Cheapest nominal success    | 68%           |
+| Diversified cost            | $181,659      |
+| Diversified success (ρ=0.6) | 97%           |
+| Number of projects          | 13            |
+| Largest exposure            | VCS 60%       |
 
 ---
 
 ## 🔧 Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| Port 3000 in use | Kill process: `pkill -f "next dev"` |
-| Data not loading | Run `./apps/optiver/start.sh` to regenerate |
-| Dark mode not working | Hard refresh: Ctrl+Shift+R |
-| Charts not rendering | Check browser console for errors |
-| Search not filtering | Clear search box and try again |
+| Problem               | Solution                                    |
+| --------------------- | ------------------------------------------- |
+| Port 3000 in use      | Kill process: `pkill -f "next dev"`         |
+| Data not loading      | Run `./apps/optiver/start.sh` to regenerate |
+| Dark mode not working | Hard refresh: Ctrl+Shift+R                  |
+| Charts not rendering  | Check browser console for errors            |
+| Search not filtering  | Clear search box and try again              |
 
 ---
 
 ## 📁 Important Files
 
-| File | Purpose |
-|------|---------|
-| `apps/optiver/start.sh` | Quick launch script |
-| `apps/optiver/run-backend.sh` | CLI-only test |
-| `docs/optiver/pitch/judges/summary.md` | 1-page judge summary |
-| `docs/optiver/pitch/judges/script.md` | 3-minute pitch script |
-| `/tmp/optiver-backup-20261003/` | Backup export files |
+| File                                   | Purpose               |
+| -------------------------------------- | --------------------- |
+| `apps/optiver/start.sh`                | Quick launch script   |
+| `apps/optiver/run-backend.sh`          | CLI-only test         |
+| `docs/optiver/pitch/judges/summary.md` | 1-page judge summary  |
+| `docs/optiver/pitch/judges/script.md`  | 3-minute pitch script |
+| `/tmp/optiver-backup-20261003/`        | Backup export files   |
 
 ---
 
@@ -140,4 +146,4 @@ cat /tmp/optiver-backup-20261003/portfolio.csv
 
 **Good luck! You've built something great.** 🚀
 
-*Last updated: 2026-10-03*
+_Last updated: 2026-10-03_

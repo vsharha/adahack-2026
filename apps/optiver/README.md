@@ -5,18 +5,22 @@ AdaHack 2026 challenge: Build a carbon credit portfolio that delivers 100,000 tC
 ## Demo Screenshots
 
 ### Hero Section
+
 ![Hero Section](../../docs/optiver/screenshot-hero.png)
 _Key metrics, correlation selector, and portfolio summary_
 
 ### Portfolio Comparison
+
 ![Portfolio Comparison](../../docs/optiver/screenshot-comparison.png)
 _Bar chart comparing cost and success rate across 3 strategies_
 
 ### Holdings Table
+
 ![Holdings Table](../../docs/optiver/screenshot-holdings.png)
 _Searchable, filterable table with 13 projects_
 
 ### Geographic Map
+
 ![Map](../../docs/optiver/screenshot-map.png)
 _Project locations with circle size proportional to tonnes_
 
