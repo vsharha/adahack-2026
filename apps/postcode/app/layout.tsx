@@ -34,7 +34,9 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />
       </head>
-      <body className="min-h-dvh antialiased">{children}</body>
+      <body className="min-h-dvh antialiased select-none [&_*]:select-none">
+        {children}
+      </body>
     </html>
   );
 }

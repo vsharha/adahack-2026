@@ -139,7 +139,6 @@ export function Onboarding({
             </p>
             <Button
               type="button"
-              variant="outline"
               size="lg"
               className="mt-8 h-12 text-base"
               onClick={fillFromLocation}

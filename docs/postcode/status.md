@@ -57,6 +57,10 @@ Fresh Street loads kept the scene's 256px height throughout a 500ms opacity tran
 | Recurring-event scheduling, consented household meter integration, live forecast refresh and nearby grant cards | Planned | Deferred from this demo to preserve one complete local-context → pledge → report → confirmation → reward → redemption flow. Repeat activities require separate dated records; this is covered in a unit test, but no scheduling UI is built. |
 | Production household identity, organiser permissions and funded partner rewards | Planned | The demo uses an account picker, anonymous illustrated households and browser state. Approval rules and balances are working demo behaviour; all partner offers and vouchers are fictional. A production service would need authoritative household membership, organiser access and a funded allowance based on partner terms. |
 
+## Text selection and onboarding location button
+
+Works. Checked in an isolated Chromium session on the running dev server on 3 October 2026, commit `Disable Postcode text selection and promote location lookup`. The body and every descendant computed `user-select: none`; dragging the onboarding heading selected no text. At 390 × 844, "Use my location" displayed the primary green style, showed its loading state, filled EH8 9YL and advanced to the neighbour step. Typing an unsupported postcode still showed the district error; entering a name advanced to interests. Both text inputs remained editable. The browser logged only the existing `/favicon.ico` 404, with no JavaScript errors.
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.
