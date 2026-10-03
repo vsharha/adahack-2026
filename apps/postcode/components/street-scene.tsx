@@ -334,7 +334,7 @@ function Street({
           depthWrite={false}
         />
       </mesh>
-      <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0.15]}>
+      <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]}>
         <planeGeometry args={[sceneWidth * 3, 1.1]} />
         <meshBasicMaterial color={tokens.pavement} />
       </mesh>
