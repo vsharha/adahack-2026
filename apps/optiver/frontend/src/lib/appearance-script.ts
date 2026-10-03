@@ -1,5 +1,20 @@
 export const appearanceStorageKey = "optiver-appearance";
 
+// Runs before the page is painted so the first frame matches the saved or system theme.
+export const appearanceInitScript = `
+  try {
+    const saved = localStorage.getItem(${JSON.stringify(appearanceStorageKey)});
+    const dark = saved === "dark" ||
+      (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.classList.toggle("dark", dark);
+  } catch {
+    document.documentElement.classList.toggle(
+      "dark",
+      matchMedia("(prefers-color-scheme: dark)").matches,
+    );
+  }
+`;
+
 const darkQuery = "(prefers-color-scheme: dark)";
 
 export function resolveTheme(

@@ -51,6 +51,7 @@
 
 /* Mint paper, forest ink, lime on the dark call to action. */
 :root {
+  color-scheme: light;
   --background: #fbfdf9;
   --foreground: #0e1a0c;
   --primary: #14230f;
@@ -91,6 +92,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --background: #0a1208;
   --foreground: #e5f1dc;
   --primary: #cff5a7;
@@ -131,6 +133,24 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-color: var(--input) transparent;
+    scrollbar-width: thin;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--input);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
   }
   body {
     @apply bg-background text-foreground;

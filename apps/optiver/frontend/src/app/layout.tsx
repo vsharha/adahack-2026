@@ -3,6 +3,7 @@ import { Hanken_Grotesk, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeSync } from "@/components/theme-sync";
+import { appearanceInitScript } from "@/lib/appearance-script";
 
 const grotesk = Hanken_Grotesk({
   variable: "--font-grotesk",
@@ -38,6 +39,9 @@ export default function RootLayout({
       className={`${grotesk.variable} ${mono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: appearanceInitScript }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         <ThemeSync />
         <TooltipProvider>{children}</TooltipProvider>

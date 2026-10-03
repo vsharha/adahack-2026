@@ -36,6 +36,31 @@ test("theme and copy controls work", async ({ page, context }) => {
   await expect(page.getByText("Copied", { exact: true })).toBeVisible();
 });
 
+test("first render follows the system theme and saved preference", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.evaluate(() => localStorage.removeItem("optiver-appearance"));
+  await page.reload();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).colorScheme,
+    ),
+  ).toBe("dark");
+
+  await page.evaluate(() =>
+    localStorage.setItem("optiver-appearance", "light"),
+  );
+  await page.reload();
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).colorScheme,
+    ),
+  ).toBe("light");
+});
+
 test("mobile layout keeps the hero and page within the viewport", async ({
   page,
 }) => {
