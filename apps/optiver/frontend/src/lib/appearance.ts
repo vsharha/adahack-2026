@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { appearanceStorageKey, applyTheme as applyThemeFromScript } from "@/lib/appearance-script";
+import { appearanceStorageKey } from "@/lib/appearance-script";
 
 export type Appearance = "system" | "light" | "dark";
 
@@ -55,6 +55,3 @@ export function useSystemThemeSync() {
 export function useAppearance(): Appearance {
   return useSyncExternalStore(subscribe, read, () => "system");
 }
-
-/** Apply theme - re-exported from appearance-script for SSR sync */
-export const applyTheme = applyThemeFromScript;

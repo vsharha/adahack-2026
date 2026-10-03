@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSystemThemeSync, applyTheme } from "@/lib/appearance";
+import { useSystemThemeSync } from "@/lib/appearance";
+import { applyTheme } from "@/lib/appearance-script";
 
 /** Syncs the theme when the system preference changes. Mount once in layout. */
 export function ThemeSync() {
