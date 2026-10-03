@@ -3,7 +3,18 @@
   "private": true,
   "scripts": {
     "dev": "pnpm --filter web dev",
-    "build": "pnpm --filter web build"
+    "build": "pnpm --filter web build",
+    "check": "pnpm -r run check",
+    "lint": "eslint --cache --max-warnings 0 . && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
+    "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore .",
+    "verify": "pnpm check && pnpm lint"
   },
-  "packageManager": "pnpm@10.32.1"
+  "packageManager": "pnpm@10.32.1",
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.8",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.3"
+  }
 }

@@ -13,7 +13,9 @@
 A pnpm monorepo. The Next.js app is in `apps/web`. Run the commands below from the repository root.
 
 - `pnpm dev` starts the dev server.
-- `pnpm build` builds the app and type-checks it.
+- `pnpm build` builds the app.
+- `pnpm fix` applies ESLint fixes and Prettier formatting.
+- `pnpm verify` type-checks, then checks linting and formatting. ESLint warnings fail it.
 
 ## Docs
 
@@ -35,7 +37,7 @@ Update `docs/reference/status.md` whenever a feature is built, mocked or cut, or
 - Pull before committing.
 - Commit after each working change, as the user, never as the agent.
 - Subject line only, short, describing what was done. Match the style of previous commits.
-- Before committing code changes, run `pnpm build` and fix any failure.
+- Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
 
 ## Secrets
