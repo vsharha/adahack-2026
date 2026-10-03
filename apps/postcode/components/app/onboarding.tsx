@@ -6,14 +6,27 @@ import { Avatar } from "@/components/avatar";
 import { StreetDrawing } from "@/components/street-drawing";
 import { Button } from "@/components/ui/button";
 import { households, interestGroups } from "@/data/seed";
-import { dispatch, useDemoState } from "@/lib/demo-store";
-import type { InterestId } from "@/lib/types";
+import { dispatch, nextHousehold, useDemoState } from "@/lib/demo-store";
+import type { InterestId, User } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const demoPostcode = "EH8 9YL";
 
-const steps = ["postcode", "street", "house", "name", "interests"] as const;
+const steps = ["postcode", "street", "name", "interests"] as const;
 type Step = (typeof steps)[number];
+
+/** The neighbours in the closest occupied house on either side. */
+function nearestNeighbours(users: User[], householdId: string): User[] {
+  const index = households.findIndex((h) => h.id === householdId);
+  for (let distance = 1; distance < households.length; distance++) {
+    const found = [index - distance, index + distance].flatMap((i) => {
+      const id = households[i]?.id;
+      return users.filter((u) => u.householdId === id);
+    });
+    if (found.length > 0) return found;
+  }
+  return [];
+}
 
 function namesSummary(names: string[]) {
   if (names.length === 0) return "No one yet. Start it off.";
@@ -34,7 +47,6 @@ export function Onboarding({
   const [postcode, setPostcode] = useState("");
   const [locating, setLocating] = useState(false);
   const [postcodeError, setPostcodeError] = useState<string | null>(null);
-  const [householdId, setHouseholdId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [interests, setInterests] = useState<InterestId[]>([]);
 
@@ -42,8 +54,9 @@ export function Onboarding({
   const back = () => (index === 0 ? onCancel() : setStep(steps[index - 1]));
   const next = () => setStep(steps[index + 1]);
 
-  const house = households.find((h) => h.id === householdId);
+  const householdId = nextHousehold(state);
   const housemates = state.users.filter((u) => u.householdId === householdId);
+  const nextDoor = nearestNeighbours(state.users, householdId);
 
   /**
    * Stands in for a location lookup: always finds the demo street's postcode,
@@ -75,8 +88,7 @@ export function Onboarding({
   }
 
   function finish() {
-    if (!householdId) return;
-    dispatch({ type: "add-user", name, householdId, interests });
+    dispatch({ type: "add-user", name, interests });
     onFinish(name.trim());
   }
 
@@ -187,56 +199,29 @@ export function Onboarding({
               ))}
             </ul>
             <div className="-mx-6 mt-6">
-              <StreetDrawing showNeighbours />
+              <StreetDrawing youHouseholdId={householdId} showNeighbours />
             </div>
-            <p className="mt-4 text-muted-foreground">
-              Together they&apos;ve earned points for the street. Every goal you
-              join brings the next one closer.
+            <p className="mt-4">
+              {housemates.length > 0 ? (
+                <>
+                  You&apos;ll join {housemates.map((u) => u.name).join(" and ")}
+                  &apos;s household.
+                </>
+              ) : (
+                <>
+                  Your house is here
+                  {nextDoor.length > 0 &&
+                    `, near ${nextDoor.map((u) => u.name).join(" and ")}`}
+                  .
+                </>
+              )}
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Houses stay anonymous: neighbours see the street, never your
+              address.
             </p>
             <Button size="lg" className="mt-auto h-12 text-base" onClick={next}>
-              Find my house
-            </Button>
-          </div>
-        )}
-
-        {step === "house" && (
-          <div className="flex flex-1 flex-col">
-            <h1 className="text-3xl leading-tight font-bold">
-              Which house is yours?
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Tap your house. Houses stay anonymous: neighbours only see the
-              street, never your address.
-            </p>
-            <div className="-mx-6 mt-6">
-              <StreetDrawing
-                youHouseholdId={householdId ?? undefined}
-                onPick={setHouseholdId}
-              />
-            </div>
-            <p className="mt-4 min-h-12" aria-live="polite">
-              {house &&
-                (housemates.length > 0 ? (
-                  <>
-                    <span className="font-bold">{house.label}.</span>{" "}
-                    You&apos;ll join{" "}
-                    {housemates.map((u) => u.name).join(" and ")}&apos;s
-                    household.
-                  </>
-                ) : (
-                  <>
-                    <span className="font-bold">{house.label}.</span> No one
-                    from here is on the app yet.
-                  </>
-                ))}
-            </p>
-            <Button
-              size="lg"
-              className="mt-auto h-12 text-base"
-              disabled={!householdId}
-              onClick={next}
-            >
-              This is my house
+              Continue
             </Button>
           </div>
         )}

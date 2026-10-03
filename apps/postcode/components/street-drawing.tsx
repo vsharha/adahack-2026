@@ -71,15 +71,11 @@ function House({
   points,
   isCurrent,
   tag,
-  onSelect,
-  label,
 }: {
   index: number;
   points: number;
   isCurrent: boolean;
   tag?: Tag;
-  onSelect?: () => void;
-  label: string;
 }) {
   const x = index * houseWidth;
   const h = heights[index];
@@ -89,25 +85,8 @@ function House({
     top + 24 + floor * floorHeight + (floorHeight - 30) / 2;
   const windowXs = [x + 18, x + 64];
 
-  const interactive = onSelect
-    ? {
-        role: "button",
-        tabIndex: 0,
-        "aria-label": label,
-        className:
-          "cursor-pointer outline-none [&:focus-visible>.house-front]:stroke-ring [&:focus-visible>.house-front]:stroke-[6] [&:hover>.house-front]:fill-[#d9c7a2]",
-        onClick: onSelect,
-        onKeyDown: (e: React.KeyboardEvent) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onSelect();
-          }
-        },
-      }
-    : {};
-
   return (
-    <g {...interactive}>
+    <g>
       <rect
         x={x + 22}
         y={top - 16}
@@ -123,7 +102,6 @@ function House({
         fill="var(--sandstone-dark)"
       />
       <rect
-        className="house-front transition-[fill]"
         x={x}
         y={top}
         width={houseWidth}
@@ -207,17 +185,12 @@ function House({
   );
 }
 
-/**
- * The street of 12 houses. With `onPick`, every house becomes a button for
- * onboarding: a free one to move into, or a neighbour's to join their household.
- */
+/** The street of 12 houses, scrolled so that the user's house is in view. */
 export function StreetDrawing({
   youHouseholdId,
-  onPick,
-  showNeighbours = !!onPick,
+  showNeighbours = false,
 }: {
   youHouseholdId?: string;
-  onPick?: (householdId: string) => void;
   /** Tags each house with the initials of the neighbours who live there. */
   showNeighbours?: boolean;
 }) {
@@ -254,33 +227,18 @@ export function StreetDrawing({
       <svg
         viewBox="0 -20 1200 360"
         className="h-auto w-full min-w-[720px]"
-        role={onPick ? "group" : "img"}
-        aria-label={
-          onPick
-            ? "Choose your house"
-            : `The street: ${total} points earned, ${trees} shared goals going ahead.`
-        }
+        role="img"
+        aria-label={`The street: ${total} points earned, ${trees} shared goals going ahead.`}
       >
-        {households.map((household, i) => {
-          const occupants = state.users.filter(
-            (u) => u.householdId === household.id,
-          );
-          return (
-            <House
-              key={household.id}
-              index={i}
-              points={householdPoints(state, household.id)}
-              isCurrent={household.id === youHouseholdId}
-              tag={tagFor(household.id)}
-              label={
-                occupants.length > 0
-                  ? `${household.label}, where ${occupants.map((u) => u.name).join(" and ")} live`
-                  : `${household.label}, free`
-              }
-              onSelect={onPick && (() => onPick(household.id))}
-            />
-          );
-        })}
+        {households.map((household, i) => (
+          <House
+            key={household.id}
+            index={i}
+            points={householdPoints(state, household.id)}
+            isCurrent={household.id === youHouseholdId}
+            tag={tagFor(household.id)}
+          />
+        ))}
         <rect x={0} y={ground} width={1200} height={20} fill="#9aa3a0" />
         <rect
           x={0}

@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { ActivityFeed } from "@/components/activity-feed";
 import { Avatar } from "@/components/avatar";
 import { StreetDrawing } from "@/components/street-drawing";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
   goalsForUser,
@@ -13,7 +14,6 @@ import {
   sharedGoalsGoingAhead,
   totalPoints,
 } from "@/lib/progress";
-import type { Tab } from "@/components/app/tab-bar";
 
 function greeting(date: Date) {
   const hour = date.getHours();
@@ -37,11 +37,7 @@ function useGoalThatNeedsYou() {
     .sort((a, b) => a.missing - b.missing)[0];
 }
 
-export function StreetScreen({
-  onNavigate,
-}: {
-  onNavigate: (tab: Tab) => void;
-}) {
+export function StreetScreen() {
   const state = useDemoState();
   const me = useMe();
   const needsYou = useGoalThatNeedsYou();
@@ -62,14 +58,13 @@ export function StreetScreen({
           <p className="text-muted-foreground">{greeting(new Date())},</p>
           <h1 className="text-2xl font-bold">{me.name}</h1>
         </div>
-        <button
-          type="button"
-          onClick={() => onNavigate("you")}
+        <Link
+          href="/you"
           aria-label="Your profile"
           className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <Avatar user={me} />
-        </button>
+        </Link>
       </header>
 
       <section>
@@ -131,13 +126,12 @@ export function StreetScreen({
       <section className="px-5">
         <div className="mb-3 flex items-baseline justify-between">
           <h2 className="text-lg font-bold">Done on the street</h2>
-          <Button
-            variant="link"
-            className="px-0"
-            onClick={() => onNavigate("activity")}
+          <Link
+            href="/activity"
+            className={buttonVariants({ variant: "link", className: "px-0" })}
           >
             See all
-          </Button>
+          </Link>
         </div>
         <ActivityFeed limit={2} />
       </section>

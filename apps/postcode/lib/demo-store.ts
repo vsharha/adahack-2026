@@ -1,7 +1,12 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { householdSuggestions, initialState, premadeUsers } from "@/data/seed";
+import {
+  householdSuggestions,
+  households,
+  initialState,
+  premadeUsers,
+} from "@/data/seed";
 import {
   hasHouseholdCompleted,
   isUnlocked,
@@ -12,12 +17,7 @@ import type { DemoState, InterestId, User } from "@/lib/types";
 export type DemoAction =
   | { type: "sign-in"; userId: string }
   | { type: "sign-out" }
-  | {
-      type: "add-user";
-      name: string;
-      householdId: string;
-      interests: InterestId[];
-    }
+  | { type: "add-user"; name: string; interests: InterestId[] }
   | { type: "delete-user"; userId: string }
   /** `userId` defaults to the signed-in user; scripted neighbours pass their own. */
   | { type: "pledge"; goalId: string; userId?: string }
@@ -43,6 +43,18 @@ export function isPremade(userId: string): boolean {
   return premadeIds.has(userId);
 }
 
+/**
+ * The house a new user moves into: the first one nobody lives in, or once the
+ * street is full, the household with the fewest members.
+ */
+export function nextHousehold(state: DemoState): string {
+  const members = (id: string) =>
+    state.users.filter((u) => u.householdId === id).length;
+  const free = households.find((h) => members(h.id) === 0);
+  if (free) return free.id;
+  return [...households].sort((a, b) => members(a.id) - members(b.id))[0].id;
+}
+
 export function findUser(state: DemoState, userId: string | null) {
   return state.users.find((u) => u.id === userId);
 }
@@ -60,7 +72,7 @@ function reduce(state: DemoState, action: DemoAction): DemoState {
       const user: User = {
         id: `u-${Date.now()}`,
         name: action.name.trim(),
-        householdId: action.householdId,
+        householdId: nextHousehold(state),
         interests: action.interests,
       };
       return {

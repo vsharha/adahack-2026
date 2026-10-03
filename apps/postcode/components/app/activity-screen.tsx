@@ -1,0 +1,21 @@
+"use client";
+
+import { useEffect } from "react";
+import { ActivityFeed } from "@/components/activity-feed";
+import { markActivitySeen } from "@/lib/activity-seen";
+import { useDemoState } from "@/lib/demo-store";
+
+export function ActivityScreen() {
+  const count = useDemoState().actions.length;
+
+  useEffect(() => {
+    markActivitySeen(count);
+  }, [count]);
+
+  return (
+    <div className="px-5 pt-4 pb-6">
+      <h1 className="mb-4 text-2xl font-bold">Done on the street</h1>
+      <ActivityFeed />
+    </div>
+  );
+}

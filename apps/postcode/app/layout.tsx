@@ -18,7 +18,10 @@ const data = Atkinson_Hyperlegible_Mono({
 const sign = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
 
 export const metadata: Metadata = {
-  title: "Greener by postcode",
+  title: {
+    default: "Greener by postcode",
+    template: "%s · Greener by postcode",
+  },
   description: "Keep your postcode area green with your neighbours.",
 };
 

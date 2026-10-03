@@ -1,9 +1,9 @@
 "use client";
 
 import { Bell, House, Sprout, UserRound } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-export type Tab = "street" | "goals" | "activity" | "you";
 
 const tabs = [
   { id: "street", label: "Street", icon: House },
@@ -12,35 +12,27 @@ const tabs = [
   { id: "you", label: "You", icon: UserRound },
 ] as const;
 
-export function TabBar({
-  active,
-  onChange,
-  badges,
-}: {
-  active: Tab;
-  onChange: (tab: Tab) => void;
-  badges?: Partial<Record<Tab, number>>;
-}) {
+type Tab = (typeof tabs)[number]["id"];
+
+export function TabBar({ badges }: { badges?: Partial<Record<Tab, number>> }) {
+  const pathname = usePathname();
   return (
     <nav className="grid shrink-0 grid-cols-4 border-t bg-card pb-[max(0.5rem,env(safe-area-inset-bottom))]">
       {tabs.map(({ id, label, icon: Icon }) => {
         const badge = badges?.[id] ?? 0;
+        const active = pathname === `/${id}`;
         return (
-          <button
+          <Link
             key={id}
-            type="button"
-            aria-current={active === id ? "page" : undefined}
-            onClick={() => onChange(id)}
+            href={`/${id}`}
+            aria-current={active ? "page" : undefined}
             className={cn(
               "flex flex-col items-center gap-0.5 pt-2.5 pb-1 text-xs outline-none focus-visible:bg-muted",
-              active === id ? "font-bold text-moss" : "text-muted-foreground",
+              active ? "font-bold text-moss" : "text-muted-foreground",
             )}
           >
             <span className="relative">
-              <Icon
-                className="size-6"
-                strokeWidth={active === id ? 2.4 : 1.8}
-              />
+              <Icon className="size-6" strokeWidth={active ? 2.4 : 1.8} />
               {badge > 0 && (
                 <span className="absolute -top-1 -right-2 grid min-w-4 place-items-center rounded-full bg-lamp px-1 font-mono text-[0.65rem] leading-4 font-bold text-foreground">
                   {badge}
@@ -48,7 +40,7 @@ export function TabBar({
               )}
             </span>
             {label}
-          </button>
+          </Link>
         );
       })}
     </nav>
