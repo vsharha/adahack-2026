@@ -30,4 +30,4 @@ There is no server, API or application entry point yet.
 
 ## Data
 
-No dataset has been downloaded or selected for implementation. The supplied brief links to the challenge dataset. Keep large downloads out of Git; commit only small snapshots needed for an offline demo.
+The challenge workbook has been downloaded temporarily and inspected for research; see `docs/optiver/dataset-research.md`. No dataset is committed or selected for implementation. The supplied brief links to the challenge dataset. Keep large downloads out of Git; commit only small snapshots needed for an offline demo.

@@ -6,7 +6,7 @@ Only the project scaffold is set up. No product features, server, optimisation, 
 
 - Python package scaffold with Python 3.12, uv, Ruff and Pyright: works. On 2026-10-03, ran `uv sync --directory apps/optiver/backend`, imported `optiver` using `uv --directory apps/optiver/backend run python`, and ran root `pnpm fix` followed by `pnpm verify`. Installation and import succeeded; lint, formatting and type checks passed. Commit: `Set up Python-only Optiver project` (the commit introducing this entry).
 - Frontend: empty placeholder; framework undecided.
-- Challenge brief: transcribed from the supplied PDF, with its embedded dataset link preserved. Dataset contents have not been inspected or downloaded.
+- Challenge brief: transcribed from the supplied PDF, with its embedded dataset link preserved. Dataset inspected on 2026-10-03: 4,355 rows, both workbook sheets, supplied probability/recovery rules and two arithmetic baselines verified. See [`dataset-research.md`](dataset-research.md) for sources, method, limitations and verification commit. No portfolio implementation exists yet.
 
 ## Features
 

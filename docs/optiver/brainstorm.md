@@ -1,6 +1,6 @@
 # Optiver brainstorming
 
-Proposals for discussion, 2026-10-03. No product direction has been approved and no features are being built.
+Proposals for discussion, 2026-10-03. No product direction has been approved and no features are being built. This initial brainstorm predates dataset inspection; [`dataset-research.md`](dataset-research.md) supersedes its data assumptions and recommendation.
 
 ## Challenge and unknowns
 
