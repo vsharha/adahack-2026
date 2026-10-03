@@ -76,7 +76,10 @@ export interface CompletedAction {
 
 /** Everything the demo changes in the browser; the rest of the seed is fixed. */
 export interface DemoState {
-  currentUserId: string;
+  /** Premade neighbours first, then users added through onboarding. */
+  users: User[];
+  /** Null while the account picker or onboarding is showing. */
+  currentUserId: string | null;
   goals: Goal[];
   pledges: Pledge[];
   actions: CompletedAction[];

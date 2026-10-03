@@ -15,7 +15,7 @@ const data = Atkinson_Hyperlegible_Mono({
   subsets: ["latin"],
   variable: "--font-data",
 });
-const sign = Cinzel({ subsets: ["latin"], variable: "--font-sign" });
+const sign = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
 
 export const metadata: Metadata = {
   title: "Greener by postcode",

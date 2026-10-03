@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { households } from "@/data/seed";
-import { useCurrentUser, useDemoState } from "@/lib/demo-store";
+import { useDemoState } from "@/lib/demo-store";
 import {
   householdPoints,
   sharedGoalsGoingAhead,
@@ -60,14 +61,25 @@ function Tree({ x, scale = 1 }: { x: number; scale?: number }) {
   );
 }
 
+interface Tag {
+  text: string;
+  tone: "you" | "neighbour";
+}
+
 function House({
   index,
   points,
   isCurrent,
+  tag,
+  onSelect,
+  label,
 }: {
   index: number;
   points: number;
   isCurrent: boolean;
+  tag?: Tag;
+  onSelect?: () => void;
+  label: string;
 }) {
   const x = index * houseWidth;
   const h = heights[index];
@@ -77,8 +89,25 @@ function House({
     top + 24 + floor * floorHeight + (floorHeight - 30) / 2;
   const windowXs = [x + 18, x + 64];
 
+  const interactive = onSelect
+    ? {
+        role: "button",
+        tabIndex: 0,
+        "aria-label": label,
+        className:
+          "cursor-pointer outline-none [&:focus-visible>.house-front]:stroke-ring [&:focus-visible>.house-front]:stroke-[6] [&:hover>.house-front]:fill-[#d9c7a2]",
+        onClick: onSelect,
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSelect();
+          }
+        },
+      }
+    : {};
+
   return (
-    <g>
+    <g {...interactive}>
       <rect
         x={x + 22}
         y={top - 16}
@@ -94,6 +123,7 @@ function House({
         fill="var(--sandstone-dark)"
       />
       <rect
+        className="house-front transition-[fill]"
         x={x}
         y={top}
         width={houseWidth}
@@ -147,25 +177,29 @@ function House({
         </g>
       )}
       {points >= tiers.tree && <Tree x={x + 84} scale={0.75} />}
-      {isCurrent && (
+      {tag && (
         <g>
           <rect
-            x={x + 26}
-            y={top - 44}
-            width={48}
-            height={22}
-            rx={4}
-            fill="var(--lamp)"
+            x={x + 12}
+            y={top - 50}
+            width={76}
+            height={34}
+            rx={17}
+            fill={tag.tone === "you" ? "var(--lamp)" : "var(--slate)"}
           />
           <text
             x={x + 50}
-            y={top - 29}
+            y={top - 26}
             textAnchor="middle"
-            fontSize={13}
+            fontSize={21}
             fontWeight={700}
-            fill="var(--foreground)"
+            fill={
+              tag.tone === "you"
+                ? "var(--foreground)"
+                : "var(--primary-foreground)"
+            }
           >
-            You
+            {tag.text}
           </text>
         </g>
       )}
@@ -173,9 +207,22 @@ function House({
   );
 }
 
-export function StreetDrawing() {
+/**
+ * The street of 12 houses. With `onPick`, every house becomes a button for
+ * onboarding: a free one to move into, or a neighbour's to join their household.
+ */
+export function StreetDrawing({
+  youHouseholdId,
+  onPick,
+  showNeighbours = !!onPick,
+}: {
+  youHouseholdId?: string;
+  onPick?: (householdId: string) => void;
+  /** Tags each house with the initials of the neighbours who live there. */
+  showNeighbours?: boolean;
+}) {
   const state = useDemoState();
-  const user = useCurrentUser();
+  const scroller = useRef<HTMLDivElement>(null);
   const total = totalPoints(state);
   const trees = sharedGoalsGoingAhead(state).length;
   const verge = mix(
@@ -183,36 +230,72 @@ export function StreetDrawing() {
     "#79b26a",
     Math.min(1, total / fullStreetPoints),
   );
+  const youIndex = households.findIndex((h) => h.id === youHouseholdId);
+
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el || youIndex < 0) return;
+    const houseCentre = ((youIndex + 0.5) / households.length) * el.scrollWidth;
+    el.scrollTo({ left: houseCentre - el.clientWidth / 2, behavior: "smooth" });
+  }, [youIndex]);
+
+  function tagFor(householdId: string): Tag | undefined {
+    if (householdId === youHouseholdId) return { text: "You", tone: "you" };
+    if (!showNeighbours) return undefined;
+    const initials = state.users
+      .filter((u) => u.householdId === householdId)
+      .map((u) => u.name.trim()[0]?.toUpperCase())
+      .join(" ");
+    return initials ? { text: initials, tone: "neighbour" } : undefined;
+  }
 
   return (
-    <svg
-      viewBox="0 -10 1200 350"
-      className="h-auto w-full min-w-[720px]"
-      role="img"
-      aria-label={`The street: ${total} points earned, ${trees} shared goals going ahead.`}
-    >
-      {households.map((household, i) => (
-        <House
-          key={household.id}
-          index={i}
-          points={householdPoints(state, household.id)}
-          isCurrent={household.id === user.householdId}
+    <div ref={scroller} className="overflow-x-auto overscroll-x-contain">
+      <svg
+        viewBox="0 -20 1200 360"
+        className="h-auto w-full min-w-[720px]"
+        role={onPick ? "group" : "img"}
+        aria-label={
+          onPick
+            ? "Choose your house"
+            : `The street: ${total} points earned, ${trees} shared goals going ahead.`
+        }
+      >
+        {households.map((household, i) => {
+          const occupants = state.users.filter(
+            (u) => u.householdId === household.id,
+          );
+          return (
+            <House
+              key={household.id}
+              index={i}
+              points={householdPoints(state, household.id)}
+              isCurrent={household.id === youHouseholdId}
+              tag={tagFor(household.id)}
+              label={
+                occupants.length > 0
+                  ? `${household.label}, where ${occupants.map((u) => u.name).join(" and ")} live`
+                  : `${household.label}, free`
+              }
+              onSelect={onPick && (() => onPick(household.id))}
+            />
+          );
+        })}
+        <rect x={0} y={ground} width={1200} height={20} fill="#9aa3a0" />
+        <rect
+          x={0}
+          y={ground + 20}
+          width={1200}
+          height={30}
+          fill={verge}
+          className="transition-[fill] duration-1000"
         />
-      ))}
-      <rect x={0} y={ground} width={1200} height={20} fill="#9aa3a0" />
-      <rect
-        x={0}
-        y={ground + 20}
-        width={1200}
-        height={30}
-        fill={verge}
-        className="transition-[fill] duration-1000"
-      />
-      {streetTreeSlots.slice(0, trees).map((x) => (
-        <g key={x} transform="translate(0 40)">
-          <Tree x={x} />
-        </g>
-      ))}
-    </svg>
+        {streetTreeSlots.slice(0, trees).map((x) => (
+          <g key={x} transform="translate(0 40)">
+            <Tree x={x} />
+          </g>
+        ))}
+      </svg>
+    </div>
   );
 }

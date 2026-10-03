@@ -5,7 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-sign);
+  --font-sign: var(--font-body);
+  --font-sign: var(--font-cinzel);
   --font-sans: var(--font-body);
   --font-mono: var(--font-data);
   --color-sandstone: var(--sandstone);
@@ -156,6 +157,40 @@
 
 @media (prefers-reduced-motion: reduce) {
   .grow-in {
+    animation: none;
+  }
+}
+
+@keyframes step-in {
+  from {
+    transform: translateX(1.5rem);
+    opacity: 0;
+  }
+}
+
+.step-in {
+  animation: step-in 250ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-in {
+    animation: none;
+  }
+}
+
+@keyframes step-in {
+  from {
+    transform: translateX(1.5rem);
+    opacity: 0;
+  }
+}
+
+.step-in {
+  animation: step-in 250ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-in {
     animation: none;
   }
 }

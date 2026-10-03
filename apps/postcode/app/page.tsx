@@ -1,5 +1,5 @@
-import { StreetApp } from "@/components/street-app";
+import { DemoApp } from "@/components/app/demo-app";
 
 export default function Home() {
-  return <StreetApp />;
+  return <DemoApp />;
 }

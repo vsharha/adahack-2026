@@ -1,9 +1,9 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/ui/button";
-import { users } from "@/data/seed";
-import { dispatch, useCurrentUser, useDemoState } from "@/lib/demo-store";
+import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
   hasHouseholdCompleted,
   hasPledged,
@@ -17,7 +17,7 @@ function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
   const state = useDemoState();
   const pledgers = state.pledges
     .filter((p) => p.goalId === goal.id)
-    .map((p) => users.find((u) => u.id === p.userId));
+    .map((p) => findUser(state, p.userId));
   const slots = Math.max(goal.threshold, pledgers.length);
 
   return (
@@ -25,19 +25,19 @@ function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
       {Array.from({ length: slots }, (_, i) => {
         const pledger = pledgers[i];
         return (
-          <li
-            key={i}
-            title={pledger?.name}
-            className={cn(
-              "grid size-8 place-items-center rounded-full font-mono text-xs font-bold",
-              pledger
-                ? "bg-moss text-primary-foreground"
-                : "border-2 border-dashed border-muted-foreground/40",
-              pledger?.id === state.currentUserId &&
-                "ring-2 ring-lamp ring-offset-2 ring-offset-card",
+          <li key={i} title={pledger?.name}>
+            {pledger ? (
+              <Avatar
+                user={pledger}
+                className={cn(
+                  "size-8 text-sm",
+                  pledger.id === state.currentUserId &&
+                    "ring-2 ring-moss ring-offset-2 ring-offset-card",
+                )}
+              />
+            ) : (
+              <span className="block size-8 rounded-full border-2 border-dashed border-muted-foreground/40" />
             )}
-          >
-            {pledger?.name[0]}
           </li>
         );
       })}
@@ -47,7 +47,7 @@ function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
 
 export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
   const state = useDemoState();
-  const user = useCurrentUser();
+  const user = useMe();
   const unlocked = isUnlocked(state, goal);
   const pledged = hasPledged(state, goal.id, user.id);
   const done = hasHouseholdCompleted(state, goal.id, user.householdId);
