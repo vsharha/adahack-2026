@@ -95,6 +95,23 @@ export const initialState: DemoState = {
   redemptions: [],
   goals: [
     {
+      id: "g-litter-pick",
+      level: "postcode",
+      threshold: 3,
+      title: "Litter pick at Nicolson Square Gardens",
+      description:
+        "Spend an hour caring for the gardens with your neighbours. Fictional demo activity.",
+      basis:
+        "Nicolson Square Gardens is listed in Edinburgh Council’s parks directory. Its condition has not been assessed.",
+      points: 20,
+      origin: "suggested",
+      activity: {
+        id: "litter-pick-2026-10-03",
+        scheduledAt: "2026-10-03T10:00:00Z",
+        organiserIds: ["margaret", "isla"],
+      },
+    },
+    {
       id: "g-car-free-school-run",
       level: "postcode",
       threshold: 4,
@@ -172,6 +189,8 @@ export const initialState: DemoState = {
     },
   ],
   pledges: [
+    { goalId: "g-litter-pick", userId: "fiona" },
+    { goalId: "g-litter-pick", userId: "ewan" },
     // One short of the threshold, so a single pledge in the demo unlocks it.
     { goalId: "g-car-free-school-run", userId: "fiona" },
     { goalId: "g-car-free-school-run", userId: "ewan" },

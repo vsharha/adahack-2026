@@ -14,7 +14,7 @@ export function ActivityScreen() {
 
   return (
     <div className="px-5 pt-4 pb-6">
-      <h1 className="mb-4 text-2xl font-bold">Done on the street</h1>
+      <h1 className="mb-4 text-2xl font-bold">Street activity</h1>
       <ActivityFeed />
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import { Avatar } from "@/components/avatar";
+import { ActivityParticipation } from "@/components/activity-participation";
 import { Button } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
@@ -74,7 +75,9 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
         <p>{goal.description}</p>
         <p className="text-sm text-muted-foreground">Why here: {goal.basis}</p>
         <p className="text-xs text-muted-foreground">
-          Self-reported · no reward points
+          {goal.activity
+            ? "Contribution awarded after organiser confirmation"
+            : "Self-reported · no reward points"}
         </p>
       </div>
 
@@ -99,7 +102,17 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
       )}
 
       <footer className="mt-auto flex flex-wrap items-center gap-3">
-        {done ? (
+        {goal.activity ? (
+          !pledged ? (
+            <Button
+              onClick={() => dispatch({ type: "pledge", goalId: goal.id })}
+            >
+              {unlocked ? "Join in" : "Pledge"}
+            </Button>
+          ) : (
+            <p className="text-sm text-moss-ink">You pledged to join</p>
+          )
+        ) : done ? (
           <p className="flex items-center gap-1.5 font-bold text-moss-ink">
             <Check className="size-4" /> Your household has done this
           </p>
@@ -130,6 +143,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
           </p>
         )}
       </footer>
+      {goal.activity && unlocked && <ActivityParticipation goal={goal} />}
     </article>
   );
 }

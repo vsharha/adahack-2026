@@ -78,6 +78,7 @@ function scriptedCompletion(state: DemoState): boolean {
     const goal = state.goals.find((g) => g.id === p.goalId);
     return user &&
       goal &&
+      !goal.activity &&
       isUnlocked(state, goal) &&
       !hasHouseholdCompleted(state, goal.id, user.householdId)
       ? [{ user, goal }]

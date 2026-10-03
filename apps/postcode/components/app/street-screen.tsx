@@ -151,7 +151,7 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
             See all
           </Button>
         </div>
-        <ActivityFeed limit={2} />
+        <ActivityFeed limit={2} completedOnly />
       </section>
     </div>
   );

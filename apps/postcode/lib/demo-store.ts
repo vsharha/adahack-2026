@@ -1,213 +1,46 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import {
-  householdSuggestions,
-  households,
-  initialState,
-  premadeUsers,
-} from "@/data/seed";
-import {
-  hasHouseholdCompleted,
-  isUnlocked,
-  sharedGoalsGoingAhead,
-} from "@/lib/progress";
-import type { DemoState, InterestId, User } from "@/lib/types";
+import { reduceDemoState, type DemoAction } from "@/lib/demo-reducer";
+import { initialState } from "@/data/seed";
+import { findUser } from "@/lib/households";
+import { sharedGoalsGoingAhead } from "@/lib/progress";
+import type { DemoState, User } from "@/lib/types";
 
-export type DemoAction =
-  | { type: "sign-in"; userId: string }
-  | { type: "sign-out" }
-  | { type: "add-user"; name: string; interests: InterestId[] }
-  | { type: "delete-user"; userId: string }
-  /** `userId` defaults to the signed-in user; scripted neighbours pass their own. */
-  | { type: "pledge"; goalId: string; userId?: string }
-  | { type: "withdraw-pledge"; goalId: string }
-  | { type: "mark-done"; goalId: string; userId?: string }
-  | {
-      type: "toggle-reaction";
-      actionId: string;
-      emoji: string;
-      userId?: string;
-    }
-  | { type: "adopt-suggestion"; suggestionId: string }
-  | { type: "reset" };
-
+export type { DemoAction } from "@/lib/demo-reducer";
 export type DemoEvent =
   | { type: "goal-unlocked"; goalId: string }
   | { type: "action-completed"; actionId: string; userId: string };
 
 const storageKey = "postcode-demo-state-v3";
-const premadeIds = new Set(premadeUsers.map((u) => u.id));
-
-export function isPremade(userId: string): boolean {
-  return premadeIds.has(userId);
-}
-
-/**
- * The house a new user moves into: the first one nobody lives in, or once the
- * street is full, the household with the fewest members.
- */
-export function nextHousehold(state: DemoState): string {
-  const members = (id: string) =>
-    state.users.filter((u) => u.householdId === id).length;
-  const free = households.find((h) => members(h.id) === 0);
-  if (free) return free.id;
-  return [...households].sort((a, b) => members(a.id) - members(b.id))[0].id;
-}
-
-export function findUser(state: DemoState, userId: string | null) {
-  return state.users.find((u) => u.id === userId);
-}
-
-function reduce(state: DemoState, action: DemoAction): DemoState {
-  const me = findUser(state, state.currentUserId);
-  switch (action.type) {
-    case "sign-in":
-      return findUser(state, action.userId)
-        ? { ...state, currentUserId: action.userId }
-        : state;
-    case "sign-out":
-      return { ...state, currentUserId: null };
-    case "add-user": {
-      const user: User = {
-        id: `u-${Date.now()}`,
-        name: action.name.trim(),
-        householdId: nextHousehold(state),
-        interests: action.interests,
-      };
-      return {
-        ...state,
-        users: [...state.users, user],
-        currentUserId: user.id,
-      };
-    }
-    case "delete-user":
-      if (isPremade(action.userId)) return state;
-      return {
-        ...state,
-        users: state.users.filter((u) => u.id !== action.userId),
-        currentUserId:
-          state.currentUserId === action.userId ? null : state.currentUserId,
-        pledges: state.pledges.filter((p) => p.userId !== action.userId),
-        actions: state.actions
-          .filter((a) => a.userId !== action.userId)
-          .map((a) => ({
-            ...a,
-            reactions: a.reactions.filter((r) => r.userId !== action.userId),
-          })),
-      };
-    case "reset":
-      return initialState;
-  }
-
-  const userId =
-    ("userId" in action ? action.userId : undefined) ?? me?.id ?? null;
-  const user = findUser(state, userId);
-  if (!user) return state;
-
-  switch (action.type) {
-    case "pledge":
-      if (
-        state.pledges.some(
-          (p) => p.goalId === action.goalId && p.userId === user.id,
-        )
-      )
-        return state;
-      return {
-        ...state,
-        pledges: [...state.pledges, { goalId: action.goalId, userId: user.id }],
-      };
-    case "withdraw-pledge":
-      return {
-        ...state,
-        pledges: state.pledges.filter(
-          (p) => !(p.goalId === action.goalId && p.userId === user.id),
-        ),
-      };
-    case "mark-done": {
-      const goal = state.goals.find((g) => g.id === action.goalId);
-      if (
-        !goal ||
-        !isUnlocked(state, goal) ||
-        hasHouseholdCompleted(state, goal.id, user.householdId)
-      )
-        return state;
-      return {
-        ...state,
-        actions: [
-          ...state.actions,
-          {
-            id: `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            goalId: goal.id,
-            userId: user.id,
-            householdId: user.householdId,
-            completedAt: new Date().toISOString(),
-            status: "self-reported",
-            contributionPoints: goal.points,
-            reactions: [],
-          },
-        ],
-      };
-    }
-    case "toggle-reaction":
-      return {
-        ...state,
-        actions: state.actions.map((a) => {
-          if (a.id !== action.actionId) return a;
-          // One reaction per person: the same emoji removes it, another
-          // replaces it.
-          const mine = a.reactions.some(
-            (r) => r.userId === user.id && r.emoji === action.emoji,
-          );
-          const others = a.reactions.filter((r) => r.userId !== user.id);
-          return {
-            ...a,
-            reactions: mine
-              ? others
-              : [...others, { userId: user.id, emoji: action.emoji }],
-          };
-        }),
-      };
-    case "adopt-suggestion": {
-      const suggestion = householdSuggestions.find(
-        (s) => s.id === action.suggestionId,
-      );
-      if (!suggestion) return state;
-      const id = `g-${user.householdId}-${suggestion.id}`;
-      if (state.goals.some((g) => g.id === id)) return state;
-      return {
-        ...state,
-        goals: [
-          ...state.goals,
-          {
-            id,
-            level: "household",
-            householdId: user.householdId,
-            title: suggestion.title,
-            description: suggestion.description,
-            basis: suggestion.basis,
-            points: suggestion.points,
-            origin: "suggested",
-          },
-        ],
-      };
-    }
-  }
-}
+export { isPremade, nextHousehold, findUser } from "@/lib/households";
 
 let state: DemoState | undefined;
 const listeners = new Set<() => void>();
 const eventListeners = new Set<(event: DemoEvent) => void>();
 
+function addDemoActivity(saved: DemoState): DemoState {
+  const goal = initialState.goals.find((item) => item.id === "g-litter-pick");
+  if (!goal || saved.goals.some((item) => item.id === goal.id)) return saved;
+  return {
+    ...saved,
+    goals: [goal, ...saved.goals],
+    pledges: [
+      ...saved.pledges,
+      ...initialState.pledges.filter((pledge) => pledge.goalId === goal.id),
+    ],
+  };
+}
+
 function load(): DemoState {
   try {
     const saved = localStorage.getItem(storageKey);
-    if (saved) return JSON.parse(saved) as DemoState;
+    if (saved) return addDemoActivity(JSON.parse(saved) as DemoState);
     const previous = localStorage.getItem("postcode-demo-state-v2");
     if (previous) {
       const old = JSON.parse(previous) as DemoState;
       const points = new Map(old.goals.map((goal) => [goal.id, goal.points]));
-      return {
+      return addDemoActivity({
         ...old,
         actions: old.actions.map((action) => ({
           ...action,
@@ -216,7 +49,7 @@ function load(): DemoState {
         })),
         rewardEarnings: [],
         redemptions: [],
-      };
+      });
     }
   } catch {
     // Storage can be unavailable (private windows); the seed still works.
@@ -246,7 +79,7 @@ export function subscribeToEvents(listener: (event: DemoEvent) => void) {
 
 export function dispatch(action: DemoAction) {
   const before = getSnapshot();
-  state = reduce(before, action);
+  state = reduceDemoState(before, action);
   try {
     localStorage.setItem(storageKey, JSON.stringify(state));
   } catch {
@@ -257,7 +90,11 @@ export function dispatch(action: DemoAction) {
   const emit = (event: DemoEvent) => eventListeners.forEach((l) => l(event));
   const knownActions = new Set(before.actions.map((a) => a.id));
   for (const a of state.actions) {
-    if (!knownActions.has(a.id))
+    if (
+      (!knownActions.has(a.id) && a.status === "self-reported") ||
+      (a.status === "confirmed" &&
+        before.actions.find((old) => old.id === a.id)?.status !== "confirmed")
+    )
       emit({ type: "action-completed", actionId: a.id, userId: a.userId });
   }
   const wasAhead = new Set(sharedGoalsGoingAhead(before).map((g) => g.id));

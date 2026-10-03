@@ -15,7 +15,9 @@ export function hasPledged(
 /** Household goals need no pledges; the others go ahead at their threshold. */
 export function isUnlocked(state: DemoState, goal: Goal): boolean {
   return (
-    goal.level === "household" || pledgeCount(state, goal.id) >= goal.threshold
+    goal.level === "household" ||
+    Boolean(goal.activity?.heldAt) ||
+    pledgeCount(state, goal.id) >= goal.threshold
   );
 }
 
@@ -59,13 +61,22 @@ export function hasHouseholdCompleted(
   householdId: string,
 ): boolean {
   return state.actions.some(
-    (a) => a.goalId === goalId && a.householdId === householdId,
+    (a) =>
+      a.goalId === goalId &&
+      a.householdId === householdId &&
+      a.status !== "declined",
   );
 }
 
 export function householdsCompleted(state: DemoState, goalId: string): number {
   return new Set(
-    state.actions.filter((a) => a.goalId === goalId).map((a) => a.householdId),
+    state.actions
+      .filter(
+        (a) =>
+          a.goalId === goalId &&
+          (a.status === "confirmed" || a.status === "self-reported"),
+      )
+      .map((a) => a.householdId),
   ).size;
 }
 

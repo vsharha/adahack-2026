@@ -3,6 +3,7 @@
 import { SmilePlus } from "lucide-react";
 import { useState } from "react";
 import { Avatar } from "@/components/avatar";
+import { ClaimApproval } from "@/components/claim-approval";
 import {
   Popover,
   PopoverContent,
@@ -110,9 +111,21 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
   month: "short",
 });
 
-export function ActivityFeed({ limit }: { limit?: number }) {
+export function ActivityFeed({
+  limit,
+  completedOnly = false,
+}: {
+  limit?: number;
+  completedOnly?: boolean;
+}) {
   const state = useDemoState();
   const actions = [...state.actions]
+    .filter(
+      (action) =>
+        !completedOnly ||
+        action.status === "self-reported" ||
+        action.status === "confirmed",
+    )
     .sort((a, b) => b.completedAt.localeCompare(a.completedAt))
     .slice(0, limit);
 
@@ -141,13 +154,23 @@ export function ActivityFeed({ limit }: { limit?: number }) {
               <p>
                 <span className="font-bold">{user?.name}</span>{" "}
                 <span className="text-muted-foreground">({house?.label})</span>{" "}
-                did{" "}
+                {action.status === "self-reported"
+                  ? "reported completing"
+                  : "reported attending"}{" "}
                 <span className="font-bold">{goal?.title.toLowerCase()}</span>
               </p>
               {action.note && <p className="text-sm">“{action.note}”</p>}
-              <p className="text-xs text-muted-foreground">
-                Self-reported · +{action.contributionPoints} contribution
+              <p className="text-xs text-muted-foreground" role="status">
+                {action.status === "self-reported" &&
+                  `Self-reported · +${action.contributionPoints} contribution`}
+                {action.status === "pending" &&
+                  "Awaiting confirmation · no points awarded yet"}
+                {action.status === "confirmed" &&
+                  `Organiser-confirmed by ${findUser(state, action.confirmedBy ?? null)?.name} · +${action.contributionPoints} contribution`}
+                {action.status === "declined" &&
+                  `Declined: ${action.declineReason} · no points awarded`}
               </p>
+              <ClaimApproval claim={action} />
               <div className="flex flex-wrap items-center gap-1.5">
                 <time
                   dateTime={action.completedAt}

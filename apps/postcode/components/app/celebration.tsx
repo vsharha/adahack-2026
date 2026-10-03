@@ -68,8 +68,10 @@ export function Celebration({
       </ul>
 
       <p className="mt-6 text-on-moss/90">
-        A new tree is planted on your street. Each household that does it earns{" "}
-        {goal.points} points.
+        An illustrated tree marks this goal going ahead.{" "}
+        {goal.activity
+          ? "Attendance earns contribution after an organiser confirms it."
+          : `Households can report completing it for ${goal.points} contribution points.`}
       </p>
 
       <Button

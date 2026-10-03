@@ -40,6 +40,12 @@ export type Goal = GoalScope & {
   /** Earned by a household each time it reports completing the goal. */
   points: number;
   origin: "suggested" | "written";
+  activity?: {
+    id: string;
+    scheduledAt: string;
+    organiserIds: string[];
+    heldAt?: string;
+  };
 };
 
 /** A household-level suggestion a household can adopt as its own goal. */
@@ -71,6 +77,11 @@ export interface CompletedAction {
   completedAt: string;
   status: "self-reported" | "pending" | "confirmed" | "declined";
   contributionPoints: number;
+  activityId?: string;
+  confirmedBy?: string;
+  confirmedAt?: string;
+  declinedBy?: string;
+  declineReason?: string;
   note?: string;
   photoUrl?: string;
   reactions: Reaction[];
