@@ -42,6 +42,11 @@ def main() -> int:
         type=Path,
         help="New output directory for report.md, report.json and portfolio.csv",
     )
+    parser.add_argument(
+        "--sensitivity",
+        action="store_true",
+        help="Run sensitivity analysis across 90%%, 95%%, 99%% reliability levels",
+    )
     args = parser.parse_args()
     if (
         not math.isfinite(args.target)
@@ -153,6 +158,18 @@ def main() -> int:
             "does not prove that no feasible portfolio exists.",
         ]
         if selected:
+            lines += ["", "## Selected portfolio holdings", ""]
+            lines.append(
+                "| Project | ID | Country | Tonnes | Price/t | Cost | Fail% | Buffer |"
+            )
+            lines.append("| --- | --- | --- | ---: | ---: | ---: | ---: | --- |")
+            for c, q in sorted(selected, key=lambda x: -x[1]):
+                buffer = "Yes" if c.loss == 0.5 else "No"
+                lines.append(
+                    f"| {c.name} | {c.credit_id} | {c.country} | {q:,.0f} | "
+                    f"${c.price:.2f} | ${q * c.price:,.2f} | "
+                    f"{c.probability:.1%} | {buffer} |"
+                )
             lines += ["", "## Largest exposures by purchased tonnes", ""]
             for group, values in exposures(selected).items():
                 label, share = next(iter(values.items()))
@@ -184,10 +201,106 @@ def main() -> int:
             )
             if selected:
                 write_portfolio(args.output / "portfolio.csv", selected)
+        if args.sensitivity:
+            run_sensitivity_analysis(
+                credits,
+                args.target,
+                args.budget,
+                args.training_scenarios,
+                args.scenarios,
+                args.seed,
+                args.correlations,
+            )
         return 0 if success else 2
     except (ValueError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+
+
+def run_sensitivity_analysis(
+    credits: list,
+    target: float,
+    budget: float,
+    training_count: int,
+    eval_count: int,
+    seed: int,
+    correlations: list[float],
+) -> None:
+    """Compare portfolios built at different reliability requirements."""
+    reliability_levels = [0.90, 0.95, 0.99]
+    results: list[dict] = []
+    for reliability in reliability_levels:
+        print(
+            f"\nSearching for {reliability:.0%} reliability portfolio...",
+            file=sys.stderr,
+        )
+        selected, attempted = build(
+            credits, target, budget, reliability, training_count, seed, correlations
+        )
+        if selected:
+            evaluations = {
+                str(rho): metrics(simulate(selected, eval_count, seed + 1, rho), target)
+                for rho in correlations
+            }
+            worst_hit = min(ev["success_rate"] for ev in evaluations.values())
+            worst_ci_low = min(ev["ci_low"] for ev in evaluations.values())
+            passes = worst_ci_low >= reliability
+            results.append(
+                {
+                    "requested_reliability": reliability,
+                    "found": True,
+                    "cost_usd": cost(selected),
+                    "projects": len(selected),
+                    "nominal_tonnes": sum(q for _, q in selected),
+                    "worst_hit_rate": worst_hit,
+                    "worst_ci_low": worst_ci_low,
+                    "passes_requirement": passes,
+                }
+            )
+        else:
+            results.append(
+                {
+                    "requested_reliability": reliability,
+                    "found": False,
+                    "cost_usd": None,
+                    "projects": None,
+                    "nominal_tonnes": None,
+                    "worst_hit_rate": None,
+                    "worst_ci_low": None,
+                    "passes_requirement": False,
+                }
+            )
+    print("\n## Sensitivity Analysis: Cost vs. Reliability\n")
+    print(
+        "Holding dataset, budget ($1m), target (100,000 t) and correlation "
+        "settings fixed while varying the requested reliability.\n"
+    )
+    print(
+        "| Requested | Found | Cost | Projects | Tonnes | Worst hit | "
+        "95% CI low | Passes |"
+    )
+    print("| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |")
+    for r in results:
+        found_str = "Yes" if r["found"] else "No"
+        cost_str = f"${r['cost_usd']:,.2f}" if r["cost_usd"] else "—"
+        proj_str = str(r["projects"]) if r["projects"] else "—"
+        ton_str = f"{r['nominal_tonnes']:,.0f}" if r["nominal_tonnes"] else "—"
+        hit_str = f"{r['worst_hit_rate']:.2%}" if r["worst_hit_rate"] else "—"
+        ci_str = f"{r['worst_ci_low']:.2%}" if r["worst_ci_low"] else "—"
+        pass_str = "✓" if r["passes_requirement"] else "✗"
+        print(
+            f"| {r['requested_reliability']:.0%} | {found_str} | {cost_str} | "
+            f"{proj_str} | {ton_str} | {hit_str} | {ci_str} | {pass_str} |"
+        )
+    print(
+        "\nNote: 'Passes' compares the evaluated lower confidence bound "
+        "against the requested reliability. A 'No' at 99% does not prove "
+        "infeasibility—only that our heuristic did not find a candidate."
+    )
+    print(
+        "Cheapest candidate found ≠ minimum possible cost. "
+        "Search evaluates 6 allocation templates.\n"
+    )
 
 
 def write_portfolio(path: Path, portfolio: Portfolio) -> None:
