@@ -3,7 +3,21 @@
 import math
 from collections import defaultdict
 
-from optiver.model import GROUPS, Credit, Portfolio, cost, simulate
+from optiver.model import GROUPS, Credit, Portfolio, cost, exposures, simulate
+
+
+def concentration_warnings(portfolio: Portfolio, threshold: float = 0.4) -> list[str]:
+    """Flag concentration risks exceeding threshold (default 40%)."""
+    warnings_list = []
+    exp = exposures(portfolio)
+    for group_name, values in exp.items():
+        for label, share in values.items():
+            if share > threshold:
+                warnings_list.append(
+                    f"High concentration: {label} ({group_name}) at "
+                    f"{share:.1%} > {threshold:.0%}"
+                )
+    return warnings_list
 
 
 def candidate(

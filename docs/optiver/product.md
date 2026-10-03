@@ -12,6 +12,10 @@ A Python command-line tool and Next.js web app for the Optiver challenge: constr
 - Create judge-facing summary in `docs/optiver/pitch/judges/` with plain-language explanation and key trade-offs; 2026-10-03.
 - Build a single-page Next.js 16 frontend with Tailwind CSS v4 and shadcn/ui, using saved demo data from `src/data/` rather than a live API, to deliver a polished judge demo within hackathon timeline; 2026-10-03.
 - Focus the frontend on the cost-vs-reliability question, with portfolio comparison chart, correlation scenario selector, diversification breakdown, risk metrics with tooltips, and holdings table; 2026-10-03.
+- Add project quality scores using vintage recency (30%), removal preference (40%), and completion status (30%) to signal portfolio durability; 2026-10-03.
+- Flag concentration risks >40% for any country/developer/registry/type to highlight diversification gaps; 2026-10-03.
+- Run stress tests for budget cuts, target increases, and single-developer failure scenarios to demonstrate portfolio resilience; 2026-10-03.
+- Generate clean one-pager Markdown exports for judges with executive summary and key metrics; 2026-10-03.
 
 ## Implementation assumptions
 

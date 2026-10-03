@@ -33,10 +33,33 @@ class Credit:
     developer: str
     registry: str
     project_type: str
+    vintage_year: float | None = None
+    reduction_or_removal: str = ""
+    status: str = ""
 
     @property
     def retained(self) -> float:
         return 1 - self.probability * self.loss
+
+    @property
+    def quality_score(self) -> float:
+        """Higher is better: vintage recency, removal preference, completed status."""
+        score = 0.0
+        # Vintage recency (newer projects potentially more durable)
+        if self.vintage_year and self.vintage_year > 0:
+            vintage_score = min(1.0, (self.vintage_year - 2000) / 25)
+            score += vintage_score * 0.3
+        # Removal projects may have higher permanence
+        if self.reduction_or_removal.lower() == "removal":
+            score += 0.4
+        elif self.reduction_or_removal.lower() == "reduction":
+            score += 0.2
+        # Completed status indicates operational track record
+        if self.status.lower() == "completed":
+            score += 0.3
+        elif self.status.lower() == "registered":
+            score += 0.15
+        return score
 
 
 def load_credits(path: Path) -> list[Credit]:
@@ -78,6 +101,11 @@ def load_credits(path: Path) -> list[Credit]:
                 probability = min(
                     1, probability * (1.5 if row["had_reversal"] == "Yes" else 1)
                 )
+                # Parse optional quality signals
+                vintage = row.get("vintage_year", "")
+                vintage_year = float(vintage) if vintage else None
+                reduction_or_removal = row.get("reduction_or_removal", "")
+                status = row.get("status", "")
                 credits.append(
                     Credit(
                         identifier,
@@ -90,6 +118,9 @@ def load_credits(path: Path) -> list[Credit]:
                         row["developer"],
                         row["registry"],
                         row["project_type"],
+                        vintage_year,
+                        reduction_or_removal,
+                        status,
                     )
                 )
                 seen.add(identifier)
