@@ -1,6 +1,7 @@
 "use client";
 
 import { GoalCard } from "@/components/goal-card";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -23,7 +24,15 @@ function scopeLabel(goal: Goal): string {
   }
 }
 
-function GoalList({ goals, empty }: { goals: Goal[]; empty: string }) {
+function GoalList({
+  goals,
+  empty,
+  focusedGoalId,
+}: {
+  goals: Goal[];
+  empty: string;
+  focusedGoalId: string | null;
+}) {
   if (goals.length === 0)
     return (
       <p className="rounded-xl border border-dashed p-5 text-muted-foreground">
@@ -33,16 +42,29 @@ function GoalList({ goals, empty }: { goals: Goal[]; empty: string }) {
   return (
     <div className="space-y-4">
       {goals.map((goal) => (
-        <GoalCard key={goal.id} goal={goal} scope={scopeLabel(goal)} />
+        <GoalCard
+          key={goal.id}
+          goal={goal}
+          scope={scopeLabel(goal)}
+          focused={goal.id === focusedGoalId}
+        />
       ))}
     </div>
   );
 }
 
 export function GoalsScreen() {
+  const params = useSearchParams();
+  const router = useRouter();
   const state = useDemoState();
   const me = useMe();
   const goals = goalsForUser(state, me);
+  const focusedGoalId = params.get("goal");
+  const focusedGoal = goals.find((goal) => goal.id === focusedGoalId);
+  const scope = params.get("scope");
+  const selectedScope =
+    focusedGoal?.level ??
+    (scope === "group" || scope === "household" ? scope : "postcode");
   const adopted = new Set(
     goals.filter((g) => g.level === "household").map((g) => g.title),
   );
@@ -51,7 +73,13 @@ export function GoalsScreen() {
   return (
     <div className="px-5 pt-4 pb-6">
       <h1 className="text-2xl font-bold">Goals</h1>
-      <Tabs defaultValue="postcode" className="mt-4">
+      <Tabs
+        value={selectedScope}
+        onValueChange={(value) =>
+          router.replace(`/goals?scope=${value}`, { scroll: false })
+        }
+        className="mt-4"
+      >
         <TabsList className="w-full">
           <TabsTrigger value="postcode">Street</TabsTrigger>
           <TabsTrigger value="group">Groups</TabsTrigger>
@@ -63,6 +91,7 @@ export function GoalsScreen() {
             A goal goes ahead once enough neighbours pledge to it.
           </p>
           <GoalList
+            focusedGoalId={focusedGoalId}
             goals={goals.filter((g) => g.level === "postcode")}
             empty="No street goals yet."
           />
@@ -73,6 +102,7 @@ export function GoalsScreen() {
             For neighbours who share your interests.
           </p>
           <GoalList
+            focusedGoalId={focusedGoalId}
             goals={goals.filter((g) => g.level === "group")}
             empty="None of your groups has a goal yet. New suggestions for them will appear here."
           />
@@ -83,6 +113,7 @@ export function GoalsScreen() {
             Just for your home. No pledges needed.
           </p>
           <GoalList
+            focusedGoalId={focusedGoalId}
             goals={goals.filter((g) => g.level === "household")}
             empty="Your household has no goals yet. Pick one below."
           />

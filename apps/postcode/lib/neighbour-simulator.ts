@@ -43,10 +43,13 @@ function canSee(user: User, goal: Goal) {
  * goal go ahead is left to the person using the app.
  */
 function scriptedPledge(state: DemoState): boolean {
+  const viewer = findUser(state, state.currentUserId);
+  if (!viewer) return false;
   const options = neighbours(state).flatMap((user) =>
     state.goals.flatMap((goal) =>
       goal.level !== "household" &&
       canSee(user, goal) &&
+      canSee(viewer, goal) &&
       !state.pledges.some(
         (p) => p.goalId === goal.id && p.userId === user.id,
       ) &&
@@ -68,6 +71,7 @@ function scriptedPledge(state: DemoState): boolean {
     fromUserId: choice.user.id,
     title: `${choice.user.name} pledged`,
     body: `${choice.goal.title} · ${choice.missing} more needed`,
+    target: { tab: "goals", goalId: choice.goal.id },
   });
   return true;
 }
@@ -91,10 +95,14 @@ function scriptedCompletion(state: DemoState): boolean {
     goalId: choice.goal.id,
     userId: choice.user.id,
   });
+  const action = getDemoState().actions.find(
+    (item) => item.goalId === choice.goal.id && item.userId === choice.user.id,
+  );
   notify({
     fromUserId: choice.user.id,
     title: `${choice.user.name} did it`,
     body: choice.goal.title,
+    target: action ? { tab: "activity", actionId: action.id } : undefined,
   });
   return true;
 }
@@ -138,6 +146,7 @@ export function useNeighbourSimulator(enabled: boolean) {
           fromUserId: reactor.id,
           title: `${findUser(now, reactor.id)?.name} reacted ${emoji}`,
           body: `to you doing “${goal.title.toLowerCase()}”`,
+          target: { tab: "activity", actionId: action.id },
         });
       });
     });

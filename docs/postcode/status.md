@@ -43,6 +43,12 @@ Hover held a notification beyond its five-second timeout for six seconds; leavin
 
 The light view at 320 × 760 had no horizontal overflow. The dark 390 × 844 phone frame at 1280 × 950 kept the banner 8px below the drawn status bar. The notification remained visible across navigation to Street. No browser console errors; the existing THREE.Clock deprecation warning remains. All 16 participation tests, `pnpm fix:postcode`, `pnpm verify:postcode` and `pnpm build:postcode` passed.
 
+## Notification destinations
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Open notification targets in Goals and Activity`. Temporary controls exercised the real notification manager, then were removed. A street pledge opened its pollinator goal under Street; a group pledge opened the draught-proofing goal under Groups. Completion and reaction notifications opened their exact Activity reports, including keyboard activation with Enter. Clicking an already-open target retained its route and focused the item. The close button dismissed without navigating, welcome messages had no navigation action, and manually choosing Home cleared the goal target.
+
+Goals and reports received keyboard focus with no outline or added shadow. Keyboard focus through F6 kept an actionable notification visible beyond its five-second timeout for six seconds. The shadcn Toast retains hover pause and smooth dismissal. Pledge notifications only name goals visible to the signed-in neighbour. Light and dark views at 320 × 760 had no horizontal overflow; the dark 390 × 844 phone frame at 1280 × 950 also showed the destination without an outline. No browser console errors. All 16 participation tests, `pnpm fix:postcode`, `pnpm verify:postcode` and `pnpm build:postcode` passed.
+
 ## Floating bottom navigation
 
 Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Add a dedicated Rewards tab`. Street, Goals, Activity, Rewards and You opened through the floating navigation with the matching selected state. Browser Back from Rewards restored You. The rounded green selection uses a 300ms CSS transform transition, and destination content uses a 180ms fade. Both effects are disabled for reduced motion by their CSS media queries.

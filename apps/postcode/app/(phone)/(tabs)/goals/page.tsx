@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { GoalsScreen } from "@/components/app/goals-screen";
 
 export const metadata: Metadata = { title: "Goals" };
 
 export default function GoalsPage() {
-  return <GoalsScreen />;
+  return (
+    <Suspense>
+      <GoalsScreen />
+    </Suspense>
+  );
 }

@@ -13,6 +13,7 @@ import { households } from "@/data/seed";
 import { dispatch, findUser, useDemoState } from "@/lib/demo-store";
 import type { CompletedAction } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useNotificationTarget } from "@/lib/use-notification-target";
 
 const reactionEmojis = ["🌱", "👏", "💚"];
 
@@ -114,10 +115,16 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
 export function ActivityFeed({
   limit,
   completedOnly = false,
+  focusedActionId,
 }: {
   limit?: number;
   completedOnly?: boolean;
+  focusedActionId?: string;
 }) {
+  useNotificationTarget(
+    `report-${focusedActionId}`,
+    focusedActionId !== undefined,
+  );
   const state = useDemoState();
   const actions = [...state.actions]
     .filter(
@@ -147,7 +154,18 @@ export function ActivityFeed({
         return (
           <li
             key={action.id}
-            className="flex gap-3 border-b pb-4 last:border-0 last:pb-0"
+            id={
+              action.id === focusedActionId ? `report-${action.id}` : undefined
+            }
+            tabIndex={action.id === focusedActionId ? -1 : undefined}
+            data-notification-target={
+              action.id === focusedActionId ? "true" : undefined
+            }
+            className={cn(
+              "flex gap-3 border-b pb-4 last:border-0 last:pb-0",
+              action.id === focusedActionId &&
+                "scroll-mt-[calc(var(--status-bar)+1rem)] outline-none",
+            )}
           >
             {user && <Avatar user={user} />}
             <div className="min-w-0 flex-1 space-y-2">

@@ -13,6 +13,7 @@ import {
 } from "@/lib/progress";
 import type { Goal } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useNotificationTarget } from "@/lib/use-notification-target";
 
 function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
   const state = useDemoState();
@@ -46,7 +47,17 @@ function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
   );
 }
 
-export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
+export function GoalCard({
+  goal,
+  scope,
+  focused = false,
+}: {
+  goal: Goal;
+  scope: string;
+  focused?: boolean;
+}) {
+  const itemId = `goal-${goal.id}`;
+  useNotificationTarget(itemId, focused);
   const state = useDemoState();
   const user = useMe();
   const unlocked = isUnlocked(state, goal);
@@ -58,9 +69,13 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
 
   return (
     <article
+      id={itemId}
+      tabIndex={focused ? -1 : undefined}
+      data-notification-target={focused ? "true" : undefined}
       className={cn(
         "flex flex-col gap-4 rounded-xl border bg-card p-5 transition-colors duration-500",
         unlocked && goal.level !== "household" && "border-moss/50",
+        focused && "scroll-mt-[calc(var(--status-bar)+1rem)] outline-none",
       )}
     >
       <header className="flex items-baseline justify-between gap-3">
