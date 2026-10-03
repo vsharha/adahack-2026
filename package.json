@@ -6,10 +6,12 @@
     "build:postcode": "pnpm --filter postcode build",
     "check": "pnpm -r run check",
     "lint": "eslint --cache --max-warnings 0 . && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
-    "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore . && pnpm fix:compsoc",
-    "verify": "pnpm check && pnpm check:compsoc && pnpm lint",
+    "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore . && pnpm fix:compsoc && pnpm fix:optiver",
+    "verify": "pnpm check && pnpm check:compsoc && pnpm check:optiver && pnpm lint",
     "check:compsoc": "uv --directory apps/compsoc/backend run ruff check && uv --directory apps/compsoc/backend run ruff format --check && uv --directory apps/compsoc/backend run pyright",
-    "fix:compsoc": "uv --directory apps/compsoc/backend run ruff check --fix && uv --directory apps/compsoc/backend run ruff format"
+    "fix:compsoc": "uv --directory apps/compsoc/backend run ruff check --fix && uv --directory apps/compsoc/backend run ruff format",
+    "check:optiver": "uv --directory apps/optiver/backend run ruff check && uv --directory apps/optiver/backend run ruff format --check && uv --directory apps/optiver/backend run pyright",
+    "fix:optiver": "uv --directory apps/optiver/backend run ruff check --fix && uv --directory apps/optiver/backend run ruff format"
   },
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {

@@ -5,33 +5,34 @@
 - **Event:** AdaHack 2026, a 12-hour hackathon run by Edinburgh Hoppers. Theme: sustainability.
 - **Date:** Saturday 3 October 2026. Coding begins at 09:45.
 - **Deadline:** submissions close at 18:15.
-- **Challenges:** the team enters two, each built by its own pair: Postcode Lottery and CompSoc. Their briefs are recorded verbatim in `docs/postcode/brief.md` and `docs/compsoc/brief.md`. All announced briefs are PDFs in `reference/`.
+- **Challenges:** the repository contains Postcode Lottery, CompSoc and Optiver. One teammate works on Postcode Lottery; the user works on Optiver. Their briefs are recorded verbatim in `docs/postcode/brief.md`, `docs/compsoc/brief.md` and `docs/optiver/brief.md`. All announced briefs are PDFs in `reference/`.
 - **Judging:** prizes per challenge. The criteria are in `docs/event/judging.md`.
 
 ## Projects
 
-The repository holds two independent projects, each built by its own pair.
+The repository holds three independent projects. Postcode Lottery is owned by the teammate, and Optiver by the user; CompSoc remains a separate project.
 
 | Project          | Code             | Docs             |
 | ---------------- | ---------------- | ---------------- |
 | Postcode Lottery | `apps/postcode/` | `docs/postcode/` |
 | CompSoc          | `apps/compsoc/`  | `docs/compsoc/`  |
+| Optiver          | `apps/optiver/`  | `docs/optiver/`  |
 
 - Before changing anything, establish which project the user is working on. If they started the session inside a project folder, it is that one; otherwise infer it from the request, and ask if it is unclear.
-- Stay on that project. Change the other project's files only when the user asks; otherwise, such as when a check fails there, tell the user instead.
+- Stay on that project. Change other projects' files only when the user asks; otherwise, such as when a check fails there, tell the user instead.
 - Shared files need the user's approval before changing: root `package.json`, `pnpm-workspace.yaml`, `eslint.config.mjs`, `.gitignore`, `.prettierignore`, the `AGENTS.md` and `CLAUDE.md` files outside the project, `docs/event/` and `reference/`. The shared `pnpm-lock.yaml` is the exception: it changes whenever a project adds a dependency.
 - Each project folder has its own `AGENTS.md` with its commands. Read it before working there.
 
 ## Repository
 
-A pnpm monorepo holding the Postcode Lottery Next.js app and the CompSoc project, whose backend is Python. Run the commands below from the repository root.
+A pnpm monorepo holding the Postcode Lottery Next.js app and the CompSoc and Optiver projects, whose backends are Python. Run the commands below from the repository root.
 
 - `pnpm dev:postcode` starts the Postcode Lottery dev server on port 3000.
 - `pnpm build:postcode` builds the Postcode Lottery app.
-- `pnpm fix` applies ESLint fixes and Prettier formatting, then Ruff fixes and formatting to the CompSoc backend.
-- `pnpm verify` type-checks the Postcode Lottery app, runs Ruff and Pyright on the CompSoc backend, then checks linting and formatting. ESLint warnings fail it.
+- `pnpm fix` applies ESLint fixes and Prettier formatting, then Ruff fixes and formatting to the CompSoc and Optiver backends.
+- `pnpm verify` type-checks the Postcode Lottery app, runs Ruff and Pyright on the CompSoc and Optiver backends, then checks linting and formatting. ESLint warnings fail it.
 
-Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cover the CompSoc backend's Python. The CompSoc project's own commands are in `apps/compsoc/AGENTS.md`.
+Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cover both Python backends. Project-specific commands are in `apps/compsoc/AGENTS.md` and `apps/optiver/AGENTS.md`. Optiver starts with Python only and an empty frontend; brainstorm and record its product direction before building features.
 
 ## Tooling and design
 
@@ -48,7 +49,7 @@ Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cove
 - `docs/event/description.md`: the event page, verbatim.
 - `docs/event/judging.md`: the event's judging criteria, verbatim.
 
-Each project's docs folder, `docs/postcode/` or `docs/compsoc/`, holds:
+Each project's docs folder, `docs/postcode/`, `docs/compsoc/` or `docs/optiver/`, holds:
 
 - `brief.md`: the challenge brief and any challenge-specific criteria, verbatim.
 - `product.md`: what the product is, who it is for, what sets it apart, and the decisions behind it.
@@ -71,7 +72,7 @@ When the user makes or changes a decision about the product or how it is built, 
 - Subject line only, short, describing what was done. Match the style of previous commits.
 - Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
 - Stage only the files you changed, by path. Never `git add -A` or `git add .`.
-- Push once per task, when handing the finished task back to the user, without asking first. Run `git pull --rebase --autostash` so history stays linear without merge commits, then `pnpm verify` so the task's commits are checked on top of teammates' work, then `git push`. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and `uv sync --directory apps/compsoc/backend` before `pnpm verify`.
+- Push once per task, when handing the finished task back to the user, without asking first. Run `git pull --rebase --autostash` so history stays linear without merge commits, then `pnpm verify` so the task's commits are checked on top of teammates' work, then `git push`. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `apps/optiver/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and sync both Python projects with `uv sync --directory apps/compsoc/backend` and `uv sync --directory apps/optiver/backend` before `pnpm verify`.
 - Push straight after any commit that changes `pnpm-lock.yaml`, `uv.lock`, a `package.json` or a `pyproject.toml`, following the same steps, because these files conflict easily between teammates.
 - If the push is rejected because the remote moved, pull and push again. If the pull stops on a conflict, resolve it as described under "Protecting shared work", or stop and ask.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
@@ -86,7 +87,7 @@ When the user makes or changes a decision about the product or how it is built, 
 
 ## Dependencies and config
 
-- Add dependencies to the Postcode Lottery app with `pnpm --filter postcode add`, and commit `pnpm-lock.yaml` in the same commit. Add them to the CompSoc backend with `uv add` run inside `apps/compsoc/backend/`, and commit `pyproject.toml` and `uv.lock` together. Never delete a lockfile to resolve a conflict: run `pnpm install` or `uv lock` and commit the result.
+- Add dependencies to the Postcode Lottery app with `pnpm --filter postcode add`, and commit `pnpm-lock.yaml` in the same commit. Add them to the CompSoc or Optiver backend with `uv add` run inside `apps/compsoc/backend/` or `apps/optiver/backend/`, respectively, and commit `pyproject.toml` and `uv.lock` together. Never delete a lockfile to resolve a conflict: run `pnpm install` or `uv lock` and commit the result.
 - Ask before upgrading a major version or changing `eslint.config.mjs`, any `tsconfig.json` or `pnpm-workspace.yaml`. TypeScript is pinned to 6.0 and ESLint to 9 because `eslint-config-next` 16 supports nothing newer.
 
 ## Secrets
