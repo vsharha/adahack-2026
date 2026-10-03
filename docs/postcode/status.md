@@ -75,6 +75,10 @@ Fresh Street loads kept the scene's 256px height throughout a 500ms opacity tran
 
 Works. Checked in an isolated Chromium session on the running dev server on 3 October 2026, commit `Disable Postcode text selection and promote location lookup`. The body and every descendant computed `user-select: none`; dragging the onboarding heading selected no text. At 390 × 844, "Use my location" displayed the primary green style, showed its loading state, filled EH8 9YL and advanced to the neighbour step. Typing an unsupported postcode still showed the district error; entering a name advanced to interests. Both text inputs remained editable. The browser logged only the existing `/favicon.ico` 404, with no JavaScript errors.
 
+## Secondary button backgrounds
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Darken Postcode secondary button backgrounds`. On You, "Switch account" rendered with a grey-blue fill in Light (`#dde3eb`) and navy fill in Dark (`#2f3a51`), visibly distinct from the page. Clicking it opened the account picker. Outlined and secondary variants share the themed fill and retain hover feedback. The console had no JavaScript errors; it showed the existing `THREE.Clock` deprecation warning.
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

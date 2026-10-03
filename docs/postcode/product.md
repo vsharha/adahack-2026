@@ -38,6 +38,7 @@ Not yet checked against existing projects. Candidates to check include condition
 
 ## Decisions
 
+- Secondary buttons use a slightly darker themed background, including outlined actions, so they stand out from cards and page backgrounds. 3 October 2026.
 - App text is not selectable, and "Use my location" uses the primary button style during onboarding, to match the requested phone-app interaction and emphasise location lookup. 3 October 2026.
 - Goals exist at three levels, postcode-wide, interest group and household, so people can act alone, with like-minded neighbours or with the whole area. 3 October 2026.
 - Postcode and group goals use a conditional pledge threshold, and households pick their own goals from suggestions or write their own; acting together is the brief's ask, and a threshold removes the reason not to act alone. 3 October 2026.
