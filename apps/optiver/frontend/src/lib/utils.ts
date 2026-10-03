@@ -45,5 +45,5 @@ export function formatConfidenceInterval(
   ciLow: number,
   ciHigh: number,
 ): string {
-  return `${(ciLow * 100).toFixed(0)}%–${(ciHigh * 100).toFixed(0)}%`;
+  return `${(ciLow * 100).toFixed(2)}%–${(ciHigh * 100).toFixed(2)}%`;
 }

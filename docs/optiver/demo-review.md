@@ -29,3 +29,9 @@ The workspace/command and port changes require approval under the root instructi
 No new API, live budget sliders, new optimisation method or additional animation is required for the saved-run submission scope. Fix the launch, data and presentation defects first.
 
 Review commit: `Record remaining Optiver demo gaps` (the commit introducing this review).
+
+## P1 follow-up, 2026-10-03
+
+The P1 implementation fixes the risk definitions and confidence precision, retains the full developer pie denominator with an Other slice, and guards missing candidates. Downloads are now served from public data, including the new cost curve. Summary, cost curve and country map are verified with the scenario selector and map interactions. Optiver type checking/build pass; 16 backend tests pass. The workspace registration, refresh wiring and advertised holdings controls still need separate work. The map is explicitly country-level because project coordinates are absent from the dataset.
+
+Follow-up commit: `Add Optiver cost curve and geographic portfolio demo`.

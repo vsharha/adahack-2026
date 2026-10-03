@@ -56,3 +56,26 @@ export interface HoldingRow {
   registry: string;
   project_type: string;
 }
+
+export interface FrontierPoint {
+  required_reliability: number;
+  cost_usd: number | null;
+  projects: number;
+  nominal_tonnes: number | null;
+  evaluations: Record<string, PortfolioEvaluation>;
+  validated: boolean;
+  status: string;
+  templates_searched: number;
+}
+
+export interface FrontierData {
+  target: number;
+  budget: number;
+  training_scenarios: number;
+  evaluation_scenarios: number;
+  seed: number;
+  shared_latent_variances: number[];
+  data_sha256: string;
+  method: string;
+  points: FrontierPoint[];
+}

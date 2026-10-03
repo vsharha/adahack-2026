@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+  
+  <!-- Bar chart (portfolio) -->
+  <rect x="25" y="55" width="12" height="25" rx="2" fill="url(#chartGradient)" opacity="0.9"/>
+  <rect x="42" y="45" width="12" height="35" rx="2" fill="url(#chartGradient)" opacity="0.9"/>
+  <rect x="59" y="35" width="12" height="45" rx="2" fill="url(#chartGradient)" opacity="0.9"/>
+  
+  <!-- Leaf (sustainability/carbon) -->
+  <path d="M 65 25 Q 75 20 80 30 Q 85 40 75 50 Q 65 60 55 55 Q 50 52 50 45 Q 50 35 65 25" 
+        fill="url(#leafGradient)" stroke="#15803d" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M 55 48 Q 65 45 70 40" stroke="#15803d" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Subtle glow on leaf -->
+  <ellipse cx="70" cy="38" rx="8" ry="12" fill="#22c55e" opacity="0.2" filter="blur(2px)"/>
+</svg>

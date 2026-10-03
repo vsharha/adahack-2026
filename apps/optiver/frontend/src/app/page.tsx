@@ -84,12 +84,23 @@ export default function Home() {
     reportData.shared_latent_variances[0].toString(),
   );
 
+  const [copied, setCopied] = useState(false);
+
   if (!reportData.portfolios["Diversified candidate"]) {
-    return <main className="container mx-auto p-6 space-y-8">
-      <h1 className="text-3xl font-heading">Carbon portfolio results</h1>
-      <Summary report={reportData} correlation={selectedCorrelation} onCorrelationChange={setSelectedCorrelation} />
-      <p>No candidate passed this search. Review the budget, target and search settings before generating another report.</p>
-    </main>;
+    return (
+      <main className="container mx-auto p-6 space-y-8">
+        <h1 className="text-3xl font-heading">Carbon portfolio results</h1>
+        <Summary
+          report={reportData}
+          correlation={selectedCorrelation}
+          onCorrelationChange={setSelectedCorrelation}
+        />
+        <p>
+          No candidate passed this search. Review the budget, target and search
+          settings before generating another report.
+        </p>
+      </main>
+    );
   }
 
   const portfolios = portfolioOrder.map((name) => ({
@@ -112,11 +123,21 @@ export default function Home() {
       selectedCorrelation as keyof typeof diversifiedPortfolio.evaluations
     ];
 
-  const exposureData = Object.entries(diversifiedPortfolio.exposures_by_tonnes).map(([category, values]) => {
-    const sorted = Object.entries(values as Record<string, number>).sort((a,b) => b[1]-a[1]);
-    const data = sorted.slice(0,6).map(([name, value]) => ({name, value: value*100}));
-    if (sorted.length > 6) data.push({name: "Other", value: sorted.slice(6).reduce((sum,[,value]) => sum+value*100, 0)});
-    return {category, data};
+  const exposureData = Object.entries(
+    diversifiedPortfolio.exposures_by_tonnes,
+  ).map(([category, values]) => {
+    const sorted = Object.entries(values as Record<string, number>).sort(
+      (a, b) => b[1] - a[1],
+    );
+    const data = sorted
+      .slice(0, 6)
+      .map(([name, value]) => ({ name, value: value * 100 }));
+    if (sorted.length > 6)
+      data.push({
+        name: "Other",
+        value: sorted.slice(6).reduce((sum, [, value]) => sum + value * 100, 0),
+      });
+    return { category, data };
   });
 
   const getStatusBadge = (meetsRequirement: boolean) => {
@@ -136,8 +157,6 @@ export default function Home() {
       </Badge>
     );
   };
-
-  const [copied, setCopied] = useState(false);
 
   const copySummary = async () => {
     const text = `Optiver Portfolio: ${formatCurrency(diversifiedPortfolio.cost_usd)} for ${formatTonnes(diversifiedPortfolio.nominal_tonnes)} at ${formatPercentage(diversifiedEval.success_rate)} success rate (ρ=${selectedCorrelation})`;
@@ -388,10 +407,7 @@ export default function Home() {
 
       <section className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
-          <Frontier
-            correlation={selectedCorrelation}
-            sourceHash={reportData.data_sha256}
-          />
+          <Frontier correlation={selectedCorrelation} report={reportData} />
         </div>
       </section>
       <section className="container mx-auto px-4 py-12">
@@ -409,8 +425,9 @@ export default function Home() {
             </h2>
             <p className="text-muted-foreground max-w-3xl">
               The diversified candidate spreads purchased tonnes across multiple
-              dimensions to reduce correlated failure risk. No single country,
-              developer, or registry dominates the portfolio.
+              dimensions to reduce correlated failure risk. Concentration
+              remains: the largest registry accounts for 60% of purchased
+              tonnes.
             </p>
           </div>
 

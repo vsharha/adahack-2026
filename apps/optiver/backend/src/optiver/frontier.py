@@ -3,7 +3,6 @@
 from optiver.model import Credit, cost, metrics, simulate, validate
 from optiver.search import build
 
-
 LEVELS = (0.80, 0.85, 0.90, 0.95, 0.99)
 
 
@@ -65,8 +64,7 @@ def markdown(frontier: dict) -> str:
     lines = [
         "# Cost versus reliability",
         "",
-        f"Target: {frontier['target']:,.0f} tCO2e. "
-        f"Budget: ${frontier['budget']:,.2f}.",
+        f"Target: {frontier['target']:,.0f} tCO2e. Budget: ${frontier['budget']:,.2f}.",
         "",
         frontier["method"] + ".",
         "Fresh evaluation scenarios; validation requires every model's "
@@ -79,7 +77,9 @@ def markdown(frontier: dict) -> str:
     for point in frontier["points"]:
         price = "—" if point["cost_usd"] is None else f"${point['cost_usd']:,.2f}"
         evaluations = list(point["evaluations"].values())
-        hit = f"{min(r['success_rate'] for r in evaluations):.2%}" if evaluations else "—"
+        hit = (
+            f"{min(r['success_rate'] for r in evaluations):.2%}" if evaluations else "—"
+        )
         low = f"{min(r['ci_low'] for r in evaluations):.2%}" if evaluations else "—"
         lines.append(
             f"| {point['required_reliability']:.0%} | {price} | "

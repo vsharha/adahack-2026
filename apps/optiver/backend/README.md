@@ -49,3 +49,9 @@ pnpm verify
 ```
 
 The tests cover marginal probabilities with correlated failures, shared-group failure, recovery, reproducibility, capacity/budget validation, unrated and reversal handling, invalid ratings, baseline arithmetic and failed search. Tests use only the Python standard library.
+
+### Cost versus reliability curve
+
+Run `uv run python -m optiver --frontier --output /tmp/optiver-frontier` with a new output directory. This runs the bounded search at 80%, 85%, 90%, 95% and 99% required reliability and writes `frontier.json` and `frontier.md` alongside the usual report and holdings. All CLI target, budget, seed and scenario settings apply to the sweep. Each point is checked against fresh scenarios for every configured shared-risk model; a candidate that misses its confidence threshold is recorded as failed, and a search with no candidate has a null cost. These are heuristic results, not a globally optimal efficient frontier.
+
+The frontend's curve is an offline snapshot in `frontend/src/data/frontier.json`, with its download copy in `frontend/public/data/frontier.json`. Regenerate both together when the source data or modelling settings change.

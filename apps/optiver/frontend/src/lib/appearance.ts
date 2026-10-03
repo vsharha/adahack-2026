@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { appearanceStorageKey } from "@/lib/appearance-script";
+import { appearanceStorageKey, applyTheme as applyThemeFromScript } from "@/lib/appearance-script";
 
 export type Appearance = "system" | "light" | "dark";
 
@@ -43,7 +43,7 @@ function subscribe(listener: () => void) {
   return () => listeners.delete(listener);
 }
 
-/** Re-applies the theme when the system setting changes; mount once per page. */
+/** Re-applies the theme when the system preference changes; mount once per page. */
 export function useSystemThemeSync() {
   useEffect(() => {
     const media = matchMedia(darkQuery);
@@ -55,3 +55,6 @@ export function useSystemThemeSync() {
 export function useAppearance(): Appearance {
   return useSyncExternalStore(subscribe, read, () => "system");
 }
+
+/** Apply theme - re-exported from appearance-script for SSR sync */
+export const applyTheme = applyThemeFromScript;

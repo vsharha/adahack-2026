@@ -1,7 +1,11 @@
 "use client";
 
 import { Moon, Sun, Monitor } from "lucide-react";
-import { useAppearance, setAppearance, type Appearance } from "@/lib/appearance";
+import {
+  useAppearance,
+  setAppearance,
+  type Appearance,
+} from "@/lib/appearance";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +14,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const appearances: { value: Appearance; label: string; icon: React.ElementType }[] = [
+const appearances: {
+  value: Appearance;
+  label: string;
+  icon: React.ElementType;
+}[] = [
   { value: "light", label: "Light", icon: Sun },
   { value: "dark", label: "Dark", icon: Moon },
   { value: "system", label: "System", icon: Monitor },
@@ -19,7 +27,8 @@ const appearances: { value: Appearance; label: string; icon: React.ElementType }
 export function ThemeToggle() {
   const appearance = useAppearance();
 
-  const CurrentIcon = appearances.find((a) => a.value === appearance)?.icon || Monitor;
+  const CurrentIcon =
+    appearances.find((a) => a.value === appearance)?.icon || Monitor;
 
   return (
     <DropdownMenu>
@@ -38,9 +47,7 @@ export function ThemeToggle() {
           >
             <Icon className="h-4 w-4" />
             <span>{label}</span>
-            {appearance === value && (
-              <span className="ml-auto text-xs">✓</span>
-            )}
+            {appearance === value && <span className="ml-auto text-xs">✓</span>}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

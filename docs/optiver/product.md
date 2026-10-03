@@ -17,6 +17,8 @@ A Python command-line tool and Next.js web app for the Optiver challenge: constr
 - Run stress tests for budget cuts, target increases, and single-developer failure scenarios to demonstrate portfolio resilience; 2026-10-03.
 - Generate clean one-pager Markdown exports for judges with executive summary and key metrics; 2026-10-03.
 
+- Add the five P1 judge-demo features: an 80/85/90/95/99% CLI cost curve, a reliability-versus-cost chart, a geographic portfolio map, an executive summary with three concentration risks, and connected shared-risk scenario selection; the user explicitly requested this scope to improve judge appeal; 2026-10-03.
+
 ## Implementation assumptions
 
 These are configurable engineering defaults, not confirmed organiser rules: a 100,000-tonne target, 95% reliability, whole-project binary failures with the supplied buffer recovery, and several assumed correlation strengths. The USD 1m budget, rating probabilities and recovery/reversal rules come from the workbook. Report modelled outcomes and uncertainty, not guarantees or real-world carbon impact.

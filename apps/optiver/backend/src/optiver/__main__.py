@@ -8,6 +8,8 @@ import math
 import sys
 from pathlib import Path
 
+from optiver.frontier import analyse_frontier
+from optiver.frontier import markdown as frontier_markdown
 from optiver.model import (
     Portfolio,
     baseline,
@@ -19,7 +21,6 @@ from optiver.model import (
     validate,
 )
 from optiver.search import build
-from optiver.frontier import analyse_frontier, markdown as frontier_markdown
 
 
 def main() -> int:
@@ -51,7 +52,9 @@ def main() -> int:
     parser.add_argument(
         "--stress",
         action="store_true",
-        help="Run stress test scenarios: budget cut, target increase, developer failure",
+        help=(
+            "Run stress test scenarios: budget cut, target increase, developer failure"
+        ),
     )
     parser.add_argument(
         "--one-pager",
@@ -61,7 +64,10 @@ def main() -> int:
     parser.add_argument(
         "--frontier",
         action="store_true",
-        help="Evaluate the 80%%/85%%/90%%/95%%/99%% cost curve; export frontier.json and frontier.md",
+        help=(
+            "Evaluate the 80%%/85%%/90%%/95%%/99%% cost curve; "
+            "export frontier.json and frontier.md"
+        ),
     )
     args = parser.parse_args()
     if (
@@ -411,7 +417,8 @@ def run_stress_tests(
         dev_exposures[c.developer] = dev_exposures.get(c.developer, 0) + q
     largest_dev = max(dev_exposures.items(), key=lambda x: x[1])
     print(
-        f"  Developer: {largest_dev[0]} ({largest_dev[1]:,.0f} tonnes, {largest_dev[1] / sum(q for _, q in portfolio):.1%})"
+        f"  Developer: {largest_dev[0]} ({largest_dev[1]:,.0f} tonnes, "
+        f"{largest_dev[1] / sum(q for _, q in portfolio):.1%})"
     )
 
     # Re-simulate with increased failure probability for that developer
@@ -434,7 +441,11 @@ def run_stress_tests(
         print(
             f"  ρ={rho}: Hit rate {base_metrics['success_rate']:.1%} → "
             f"{stressed_metrics['success_rate']:.1%} "
-            f"(Δ {(stressed_metrics['success_rate'] - base_metrics['success_rate']) * 100:+.1f}pp)"
+            f"(Δ {
+                100
+                * (
+                    stressed_metrics['success_rate'] - base_metrics['success_rate']
+                ):+.1f}pp)"
         )
     print()
 
@@ -479,7 +490,8 @@ def generate_one_pager(
         "",
         "## Challenge Objective",
         "",
-        f"Build a portfolio delivering **{target:,.0f} tonnes CO₂e** on a **${budget:,.0f} budget** "
+        f"Build a portfolio delivering **{target:,.0f} tonnes CO₂e** "
+        f"on a **${budget:,.0f} budget** "
         f"with **{reliability:.0%} reliability** under project failures.",
         "",
         "## Key Results",
@@ -489,11 +501,18 @@ def generate_one_pager(
         f"| **Total Cost** | ${div_candidate['cost_usd']:,.2f} |",
         f"| **Projects** | {div_candidate['projects']} credits |",
         f"| **Nominal Tonnes** | {div_candidate['nominal_tonnes']:,.0f} tCO₂e |",
-        f"| **Modelled Success Rate** | {eval_data.get('success_rate', 0):.1%} (ρ={rho_key}) |",
+        f"| **Modelled Success Rate** | "
+        f"{eval_data.get('success_rate', 0):.1%} (ρ={rho_key}) |",
         f"| **95% CI Lower Bound** | {eval_data.get('ci_low', 0):.1%} |",
-        f"| **5th Percentile Delivery** | {eval_data.get('p05_tonnes', 0):,.0f} tonnes |",
+        f"| **5th Percentile Delivery** | "
+        f"{eval_data.get('p05_tonnes', 0):,.0f} tonnes |",
         "",
-        f"**Status:** {'✓ PASS' if div_candidate.get('meets_modelled_requirement') else '✗ Does not meet requirement'}",
+        "**Status:** "
+        + (
+            "✓ PASS"
+            if div_candidate.get("meets_modelled_requirement")
+            else "✗ Does not meet requirement"
+        ),
         "",
         "## Portfolio Quality Signals",
         "",

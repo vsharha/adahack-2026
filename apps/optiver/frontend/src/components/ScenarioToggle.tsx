@@ -1,0 +1,45 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+
+export function ScenarioToggle({
+  values,
+  selected,
+  onChange,
+}: {
+  values: number[];
+  selected: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <fieldset className="space-y-3">
+      <legend className="text-sm font-semibold">Stress the shared risks</legend>
+      <div className="flex flex-wrap gap-2">
+        {values.map((rho) => (
+          <button
+            key={rho}
+            type="button"
+            aria-pressed={selected === String(rho)}
+            onClick={() => onChange(String(rho))}
+            className={cn(
+              "rounded-md border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              selected === String(rho)
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-background hover:bg-secondary",
+            )}
+          >
+            ρ = {rho}
+            <span className="ml-2 text-xs opacity-80">
+              {rho === 0 ? "Independent" : rho < 0.5 ? "Moderate" : "Strong"}
+            </span>
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground max-w-2xl">
+        ρ is assumed shared latent variance, not measured failure correlation.
+        Changing it updates modelled hit rates across this page; allocations and
+        costs stay fixed.
+      </p>
+    </fieldset>
+  );
+}
