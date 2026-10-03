@@ -35,6 +35,12 @@ Each feature has a build state: works, mocked, planned or cut.
 
 | Separate contribution and reward balances | Works | Checked in the Codex browser on 3 October 2026, commit `Separate contribution and reward balances`. Existing Priya state migrated to 60 contribution and zero available rewards without losing her reports or pledges. Street retained 220 contribution. Goals and activity labelled private reports as self-reported with no rewards. Old browser storage remains intact; the new store uses version 3. `pnpm fix:postcode` and `pnpm verify:postcode` passed. |
 
+## Floating bottom navigation
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Float Postcode bottom navigation`. Street, Goals, Activity and You retained their routes and selected state. Enter on Goals opened `/goals`; browser Back restored You and its selection. The rounded green selection uses a 300ms CSS transform transition, and destination content uses a 180ms fade. Both effects are disabled for reduced motion by their CSS media queries.
+
+Light mode at 320 × 760 had no horizontal overflow; the bar sat 12px from each edge. Dark mode at 1280 × 960 kept the bar inside the phone frame and above its home indicator. At the end of the profile scroll, Switch account ended 42px above the bar. Bottom padding keeps the final content reachable. The browser logged no errors; the existing THREE.Clock deprecation warning remains. `pnpm fix:postcode` and `pnpm verify:postcode` passed.
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

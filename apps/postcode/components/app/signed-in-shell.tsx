@@ -53,17 +53,19 @@ export function SignedInShell({ children }: { children: React.ReactNode }) {
     pathname === "/activity" ? 0 : Math.max(0, state.actions.length - seen);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="relative flex h-full flex-col">
       <main
         ref={scroller}
-        className="app-scroll min-h-0 flex-1 overflow-y-auto pt-(--status-bar)"
+        className="app-scroll min-h-0 flex-1 overflow-y-auto pt-(--status-bar) pb-[calc(7rem+env(safe-area-inset-bottom))]"
       >
         {/* The Street tab stays mounted behind the other tabs, so its 3D scene
             is built once instead of on every visit. */}
-        <div hidden={!onStreet}>
+        <div hidden={!onStreet} className="tab-content-enter">
           <StreetScreen active={onStreet} />
         </div>
-        {children}
+        <div key={pathname} className="tab-content-enter">
+          {children}
+        </div>
       </main>
       <TabBar badges={{ activity: unseen }} />
       {celebrating && (

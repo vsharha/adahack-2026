@@ -289,6 +289,23 @@
   }
 }
 
+@keyframes tab-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tab-content-enter {
+    animation: tab-content-enter 180ms ease-out;
+  }
+}
+
 .grow-in {
   transform-box: fill-box;
   transform-origin: bottom center;
