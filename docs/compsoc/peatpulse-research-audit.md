@@ -2,7 +2,29 @@
 
 Checked **3 October 2026**. This audit supports the rewritten [project plan](peatpulse-plan.md). It distinguishes published findings, our source-file checks, and hypotheses that remain to be tested. No satellite model or operational alert has been validated in this task.
 
-## Holes in the previous plan
+## Scope update following the user's clarification
+
+The user clarified on **3 October 2026** that the headline experiment must compare historical actual-fire prediction using weather alone with the same prediction using extra peat observations. The current [plan](peatpulse-plan.md) adopts that outcome. The earlier inspection-focused proposal is preserved as a [supporting hydrology experiment](peatpulse-hydrology-study.md). The audit below records why its scientific precautions still matter; its inspection-only scope has been superseded.
+
+### Newly checked fire evidence
+
+The public [NatureScot Scottish Wildfire and Muirburn Extents layer](https://services1.arcgis.com/LM9GyVFsughzHdbO/arcgis/rest/services/Scottish_Wildfire_and_Muirburn_Extents/FeatureServer/0) was queried directly on 3 October 2026. `where=1=1&returnCountOnly=true` returned **20,587 polygons**. `REC_DATE IS NOT NULL` returned **1,163**. These are record counts, not independent wildfire events or eligible peatland fires. Source grouping returned 940 EFFIS records, 15 JHI records, 219 NatureScot manual records and 19,413 automated records across two spelling variants.
+
+The fields include `NAME`, `SOURCE`, `REC_DATE`, `PREFIREDATE`, `POSTFIREDATE`, `MONTHYEAR`, `AREA_HA`, `SEASON` and `REGION`. The inspected schema has no explicit wildfire-versus-muirburn class. The publisher warns that satellite availability and staff resources make coverage incomplete. A non-null recorded date does not establish ignition timing.
+
+| Actual queried record | Recorded information                                                                  | Meaning for the experiment                                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| OBJECTID 35873        | Caithness and Sutherland; EFFIS; `REC_DATE` 23 March 2022; 13.71944397 ha             | A candidate burn record. Wildfire status, true start time, peat overlap and independence remain unverified. |
+| OBJECTID 35880        | Glen Beasdale; NatureScot manual; `REC_DATE` 19 May 2021; 105.4825527 ha              | A named candidate for corroboration; it is not yet an accepted test event.                                  |
+| OBJECTID 35286        | Automated; no `REC_DATE`; pre-fire image 19 March 2022, post-fire image 13 April 2022 | A broad observation interval cannot establish a seven-day forecast outcome or precise warning lead.         |
+
+The [FIRMS archive](https://firms.modaps.eosdis.nasa.gov/download/) documents VIIRS S-NPP coverage from January 2012 and NOAA-20 from April 2018, and offers historical downloads. The endpoint was inspected; no authenticated study extract was obtained. FIRMS detects thermal activity that needs interpretation, including possible non-vegetation sources. [NASA explanation](https://wiki.earthdata.nasa.gov/spaces/FIRMS/blog/2025/02/28/425855667/FIRMS%2Bincorporates%2Bstatic%2Bthermal%2Banomalies%2Bdata%2Bto%2Bhelp%2Busers%2Bdifferentiate%2Bbetween%2Bvegetation%2Band%2Bnon%2Bvegetation%2Bfires.).
+
+[EFFIS documentation](https://forest-fire.emergency.copernicus.eu/about-effis/technical-background/rapid-damage-assessment) explicitly distinguishes mapped start/update dates from ignition/extinction. [SFRS research data](https://www.gov.scot/publications/provision-analyses-scottish-fire-rescue-service-sfrs-incident-reporting-system-irs-data-relation-wildfire-incidents/pages/3/) included incident dates and grid coordinates, but public access to that specific table remains unverified. [Published total-fire statistics](https://data.gov.scot/dataset/total_fires) aggregate by area and year and cannot provide the required daily event labels.
+
+This establishes accessible candidate fire records and important label limitations. It does not establish enough eligible independent fires, confirmed non-fire controls, or any predictive improvement. Radar/field drying evidence and fire-outcome evidence remain separate.
+
+## Holes in the earlier inspection-focused proposal
 
 | Hole                                                                         | Why it changes the project                                                                                                                                   | Correction in the rewritten plan                                                                                                                                |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
