@@ -168,12 +168,6 @@ export default function Home() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const filteredHoldings = holdings.filter(
-    (h) =>
-      h.project_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      h.country.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <main className="min-h-screen bg-background">
       {/* Header with Theme Toggle */}
