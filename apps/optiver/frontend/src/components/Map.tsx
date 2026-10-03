@@ -6,7 +6,6 @@ import { HoldingRow } from "@/types/report";
 import { cn, formatNumber, formatPercentage } from "@/lib/utils";
 
 const aliases: Record<string, string> = {
-  "Viet Nam": "Vietnam",
   Türkiye: "Turkey",
 };
 
