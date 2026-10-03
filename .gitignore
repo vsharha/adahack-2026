@@ -8,3 +8,6 @@ next-env.d.ts
 
 # Playwright MCP screenshots and snapshots
 .playwright-mcp/
+
+.DS_Store
+.idea
