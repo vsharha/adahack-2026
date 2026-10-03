@@ -29,7 +29,7 @@ Spending roughly **2× more** than the bare minimum buys **30 percentage points 
 
 ## How It Works (Simplified)
 
-1. **Diversification caps**: No single project >5% of target, no single registry >60%, similar limits for countries and developers.
+1. **Diversification caps**: Six templates combine project limits of 5%, 10% or 20% of the initial target allocation with group concentration limits. The selected default portfolio has about 10% of purchased tonnes in its largest project and 60% in its largest registry.
 2. **Risk-adjusted ranking**: Projects ranked by cost divided by expected retained tonnes (accounts for failure probability and buffer recovery).
 3. **Reserve + scale-up**: Hold extra capacity in reserve, then scale purchases to cover the lower tail of simulated outcomes.
 4. **Held-out evaluation**: Select on 2,000 training scenarios, evaluate on 10,000 fresh scenarios to avoid overfitting.
@@ -38,7 +38,7 @@ Spending roughly **2× more** than the bare minimum buys **30 percentage points 
 
 - **Synthetic data**: Prices and ratings are organiser-provided synthetic values, not real market prices.
 - **Assumed correlations**: We test multiple correlation strengths (0, 0.3, 0.6 shared variance) because organisers did not specify how failures correlate.
-- **Heuristic search**: We evaluate 6 candidate templates and pick the cheapest that passes. This is **not** a proven global optimum—there may be cheaper portfolios we did not find.
+- **Heuristic search**: We evaluate 6 candidate templates on training scenarios, select the cheapest qualifying candidate, then check it on fresh evaluation scenarios. A failed evaluation is reported. This is **not** a proven global optimum—there may be cheaper portfolios we did not find.
 - **Model uncertainty**: Confidence intervals cover sampling error within our assumptions, not uncertainty about whether the assumptions match reality.
 
 ## What the Tool Produces
