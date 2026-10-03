@@ -25,7 +25,7 @@ export function NotificationBanner() {
         {from ? (
           <Avatar user={from} />
         ) : (
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-moss text-primary-foreground">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-moss text-on-moss">
             <Sprout className="size-5" />
           </span>
         )}

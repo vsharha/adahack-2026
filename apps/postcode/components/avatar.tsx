@@ -2,12 +2,12 @@ import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const colours = [
-  "bg-moss text-primary-foreground",
-  "bg-slate text-primary-foreground",
-  "bg-lamp text-foreground",
-  "bg-sandstone-dark text-foreground",
-  "bg-[#7a4e6e] text-primary-foreground",
-  "bg-[#2d6e73] text-primary-foreground",
+  "bg-avatar-1 text-on-avatar-1",
+  "bg-avatar-2 text-on-avatar-2",
+  "bg-avatar-3 text-on-avatar-3",
+  "bg-avatar-4 text-on-avatar-4",
+  "bg-avatar-5 text-on-avatar-5",
+  "bg-avatar-6 text-on-avatar-6",
 ];
 
 /** Fixed for the premade neighbours, so the demo's faces never share a colour. */

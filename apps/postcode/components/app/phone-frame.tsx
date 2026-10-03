@@ -8,14 +8,14 @@ import { Signal, Wifi } from "lucide-react";
 export function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh md:grid md:place-items-center md:py-8">
-      <div className="relative flex h-dvh w-full flex-col overflow-hidden bg-background [--status-bar:0px] md:h-[844px] md:[--status-bar:3rem] md:max-h-[calc(100dvh-4rem)] md:w-[390px] md:rounded-[3.25rem] md:border-8 md:border-[#1f2224] md:shadow-[0_30px_80px_-20px_rgb(31_42_48/0.45)]">
+      <div className="relative flex h-dvh w-full flex-col overflow-hidden bg-background [--status-bar:0px] md:h-[844px] md:[--status-bar:3rem] md:max-h-[calc(100dvh-4rem)] md:w-[390px] md:rounded-[3.25rem] md:border-8 md:border-device md:shadow-[0_30px_80px_-20px_var(--device-shadow)]">
         <div
           aria-hidden
           className="font-system absolute inset-x-0 top-0 z-40 hidden h-12 items-center justify-between px-7 text-[15px] font-semibold md:flex"
         >
           <span className="status-bar-fade pointer-events-none absolute inset-x-0 top-0 -z-10 h-18" />
           <span className="tabular-nums">9:41</span>
-          <span className="absolute top-1/2 left-1/2 h-7 w-26 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1f2224]" />
+          <span className="absolute top-1/2 left-1/2 h-7 w-26 -translate-x-1/2 -translate-y-1/2 rounded-full bg-device" />
           <span className="flex items-center gap-1">
             <Signal className="size-4" strokeWidth={3} />
             <Wifi className="size-4" strokeWidth={3} />

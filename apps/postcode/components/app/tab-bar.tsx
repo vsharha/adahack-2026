@@ -43,7 +43,7 @@ export function TabBar({ badges }: { badges?: Partial<Record<Tab, number>> }) {
             <span className="relative">
               <Icon className="size-6" strokeWidth={active ? 2.4 : 1.8} />
               {badge > 0 && (
-                <span className="absolute -top-1 -right-2 grid min-w-4 place-items-center rounded-full bg-lamp px-1 font-mono text-[0.65rem] leading-4 font-bold text-foreground">
+                <span className="absolute -top-1 -right-2 grid min-w-4 place-items-center rounded-full bg-lamp px-1 font-mono text-[0.65rem] leading-4 font-bold text-on-lamp">
                   {badge}
                 </span>
               )}

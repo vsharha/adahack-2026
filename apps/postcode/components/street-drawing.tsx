@@ -22,14 +22,6 @@ const fullStreetPoints = 300;
 /** Where each shared goal that goes ahead plants a street tree, in order. */
 const streetTreeSlots = [200, 800, 500, 1100, 300, 900];
 
-function mix(from: string, to: string, t: number) {
-  const parse = (hex: string) =>
-    [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-  const a = parse(from);
-  const b = parse(to);
-  return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(",")})`;
-}
-
 function WindowBox({ x, y }: { x: number; y: number }) {
   return (
     <g className="grow-in">
@@ -53,7 +45,7 @@ function Tree({ x, scale = 1 }: { x: number; scale?: number }) {
       className="grow-in"
       transform={`translate(${x} ${ground}) scale(${scale})`}
     >
-      <rect x={-3} y={-30} width={6} height={30} fill="#5b4a37" />
+      <rect x={-3} y={-30} width={6} height={30} fill="var(--trunk)" />
       <circle cx={0} cy={-46} r={22} fill="var(--moss)" />
       <circle cx={-12} cy={-36} r={13} fill="var(--leaf)" opacity={0.85} />
       <circle cx={10} cy={-56} r={11} fill="var(--leaf)" opacity={0.7} />
@@ -109,7 +101,7 @@ function House({
         fill="var(--sandstone)"
         stroke="var(--sandstone-dark)"
       />
-      <rect x={x} y={top} width={houseWidth} height={12} fill="var(--slate)" />
+      <rect x={x} y={top} width={houseWidth} height={12} fill="var(--roof)" />
       {[0, 1, 2].flatMap((floor) =>
         windowXs.map((wx) => (
           <rect
@@ -118,8 +110,8 @@ function House({
             y={windowY(floor)}
             width={18}
             height={30}
-            fill="#e9eef0"
-            stroke="var(--slate)"
+            fill="var(--window)"
+            stroke="var(--window-frame)"
             strokeWidth={2}
           />
         )),
@@ -129,7 +121,7 @@ function House({
         y={ground - 42}
         width={20}
         height={42}
-        fill={isCurrent ? "var(--lamp)" : "var(--slate)"}
+        fill={isCurrent ? "var(--lamp)" : "var(--door)"}
       />
       {points >= tiers.groundBoxes &&
         windowXs.map((wx) => (
@@ -163,7 +155,7 @@ function House({
             width={76}
             height={34}
             rx={17}
-            fill={tag.tone === "you" ? "var(--lamp)" : "var(--slate)"}
+            fill={tag.tone === "you" ? "var(--lamp)" : "var(--tag)"}
           />
           <text
             x={x + 50}
@@ -171,11 +163,7 @@ function House({
             textAnchor="middle"
             fontSize={21}
             fontWeight={700}
-            fill={
-              tag.tone === "you"
-                ? "var(--foreground)"
-                : "var(--primary-foreground)"
-            }
+            fill={tag.tone === "you" ? "var(--on-lamp)" : "var(--on-tag)"}
           >
             {tag.text}
           </text>
@@ -198,11 +186,8 @@ export function StreetDrawing({
   const scroller = useRef<HTMLDivElement>(null);
   const total = totalPoints(state);
   const trees = sharedGoalsGoingAhead(state).length;
-  const verge = mix(
-    "#b9ad8e",
-    "#79b26a",
-    Math.min(1, total / fullStreetPoints),
-  );
+  const greenness = Math.round(Math.min(1, total / fullStreetPoints) * 100);
+  const verge = `color-mix(in oklab, var(--verge-full) ${greenness}%, var(--verge-bare))`;
   const youIndex = households.findIndex((h) => h.id === youHouseholdId);
 
   useEffect(() => {
@@ -239,13 +224,19 @@ export function StreetDrawing({
             tag={tagFor(household.id)}
           />
         ))}
-        <rect x={0} y={ground} width={1200} height={20} fill="#9aa3a0" />
+        <rect
+          x={0}
+          y={ground}
+          width={1200}
+          height={20}
+          fill="var(--pavement)"
+        />
         <rect
           x={0}
           y={ground + 20}
           width={1200}
           height={30}
-          fill={verge}
+          style={{ fill: verge }}
           className="transition-[fill] duration-1000"
         />
         {streetTreeSlots.slice(0, trees).map((x) => (

@@ -25,14 +25,14 @@ export function Celebration({
       role="dialog"
       aria-modal
       aria-labelledby="celebration-title"
-      className="celebration-in absolute inset-0 z-50 flex flex-col items-center bg-moss px-6 pt-16 pb-8 text-center text-primary-foreground"
+      className="celebration-in absolute inset-0 z-50 flex flex-col items-center bg-moss px-6 pt-16 pb-8 text-center text-on-moss"
     >
       <svg viewBox="-60 -110 120 120" className="w-44" aria-hidden>
-        <rect x={-4} y={-40} width={8} height={40} fill="#5b4a37" />
+        <rect x={-4} y={-40} width={8} height={40} fill="var(--trunk)" />
         <g className="grow-in">
           <circle cx={0} cy={-62} r={34} fill="var(--leaf)" />
-          <circle cx={-20} cy={-46} r={20} fill="#9ccc8c" />
-          <circle cx={18} cy={-80} r={18} fill="#9ccc8c" />
+          <circle cx={-20} cy={-46} r={20} fill="var(--leaf-light)" />
+          <circle cx={18} cy={-80} r={18} fill="var(--leaf-light)" />
         </g>
         {[-48, -24, 24, 48].map((x, i) => (
           <circle
@@ -47,7 +47,7 @@ export function Celebration({
         ))}
       </svg>
 
-      <p className="mt-6 font-mono text-sm text-primary-foreground/80">
+      <p className="mt-6 font-mono text-sm text-on-moss/80">
         {pledgers.length} neighbours pledged
       </p>
       <h1 id="celebration-title" className="mt-2 text-3xl font-bold">
@@ -58,23 +58,20 @@ export function Celebration({
       <ul className="mt-6 flex flex-wrap justify-center gap-3">
         {pledgers.map((u) => (
           <li key={u.id} className="flex flex-col items-center gap-1">
-            <Avatar
-              user={u}
-              className="size-12 text-lg ring-2 ring-primary-foreground"
-            />
+            <Avatar user={u} className="size-12 text-lg ring-2 ring-on-moss" />
             <span className="text-sm">{u.name}</span>
           </li>
         ))}
       </ul>
 
-      <p className="mt-6 text-primary-foreground/90">
+      <p className="mt-6 text-on-moss/90">
         A new tree is planted on your street. Each household that does it earns{" "}
         {goal.points} points.
       </p>
 
       <Button
         size="lg"
-        className="mt-auto h-12 w-full bg-primary-foreground text-base text-moss hover:bg-primary-foreground/90"
+        className="mt-auto h-12 w-full bg-on-moss text-base text-moss hover:bg-on-moss/90"
         onClick={onClose}
         autoFocus
       >

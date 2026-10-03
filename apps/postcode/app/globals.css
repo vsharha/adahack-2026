@@ -4,17 +4,89 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Dusk: a dark theme with a soft leaf green, and the street at evening with
+   lit windows. */
+:root[data-theme="dusk"] {
+  color-scheme: dark;
+  --background: #252a3c;
+  --foreground: #eef1f5;
+  --card: #2d3448;
+  --card-foreground: #eef1f5;
+  --popover: #2d3448;
+  --popover-foreground: #eef1f5;
+  --primary: #97c49c;
+  --primary-foreground: #18241b;
+  --secondary: #33405a;
+  --secondary-foreground: #eef1f5;
+  --muted: #33405a;
+  --muted-foreground: #a9b2c3;
+  --accent: #33405a;
+  --accent-foreground: #eef1f5;
+  --border: #3d475d;
+  --input: #3d475d;
+  --ring: #97c49c;
+  --radius: 0.875rem;
+
+  --moss: #97c49c;
+  --on-moss: #18241b;
+  --leaf: #7fb886;
+  --leaf-light: #b8dcb9;
+  --lamp: #f0c45a;
+  --on-lamp: #1d1d1d;
+
+  --sandstone: #6f6552;
+  --sandstone-dark: #564e40;
+  --roof: #1d2130;
+  --window: #f3d38a;
+  --window-frame: #3b3a3a;
+  --door: #2a2f40;
+  --trunk: #4a3b2c;
+  --pavement: #3a4152;
+  --verge-bare: #464a44;
+  --verge-full: #6fae78;
+  --tag: #3d475d;
+  --on-tag: #eef1f5;
+
+  --avatar-1: #97c49c;
+  --on-avatar-1: #18241b;
+  --avatar-2: #7f9cc4;
+  --on-avatar-2: #141c2a;
+  --avatar-3: #f0c45a;
+  --on-avatar-3: #1d1d1d;
+  --avatar-4: #d8a37a;
+  --on-avatar-4: #22170f;
+  --avatar-5: #c497b8;
+  --on-avatar-5: #24161f;
+  --avatar-6: #7cc0c2;
+  --on-avatar-6: #10292a;
+
+  --device: #121418;
+  --device-shadow: rgb(0 0 0 / 0.5);
+}
+
 @theme inline {
   --font-sign: var(--font-body);
   --font-sign: var(--font-cinzel);
   --font-sans: var(--font-body);
   --font-mono: var(--font-data);
-  --color-sandstone: var(--sandstone);
-  --color-sandstone-dark: var(--sandstone-dark);
-  --color-slate: var(--slate);
   --color-moss: var(--moss);
+  --color-on-moss: var(--on-moss);
   --color-leaf: var(--leaf);
   --color-lamp: var(--lamp);
+  --color-on-lamp: var(--on-lamp);
+  --color-device: var(--device);
+  --color-avatar-1: var(--avatar-1);
+  --color-on-avatar-1: var(--on-avatar-1);
+  --color-avatar-2: var(--avatar-2);
+  --color-on-avatar-2: var(--on-avatar-2);
+  --color-avatar-3: var(--avatar-3);
+  --color-on-avatar-3: var(--on-avatar-3);
+  --color-avatar-4: var(--avatar-4);
+  --color-on-avatar-4: var(--on-avatar-4);
+  --color-avatar-5: var(--avatar-5);
+  --color-on-avatar-5: var(--on-avatar-5);
+  --color-avatar-6: var(--avatar-6);
+  --color-on-avatar-6: var(--on-avatar-6);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -88,12 +160,46 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Brand */
+  --moss: #2f6b3f;
+  --on-moss: #f4f6f4;
+  --leaf: #79b26a;
+  --leaf-light: #9ccc8c;
+  --lamp: #e3b23c;
+  --on-lamp: #1f2a30;
+
+  /* Street drawing */
   --sandstone: #cdb88f;
   --sandstone-dark: #a8925f;
-  --slate: #46525a;
-  --moss: #2f6b3f;
-  --leaf: #79b26a;
-  --lamp: #e3b23c;
+  --roof: #46525a;
+  --window: #e9eef0;
+  --window-frame: #46525a;
+  --door: #46525a;
+  --trunk: #5b4a37;
+  --pavement: #9aa3a0;
+  --verge-bare: #b9ad8e;
+  --verge-full: #79b26a;
+  --tag: #46525a;
+  --on-tag: #f4f6f4;
+
+  /* Avatars, one pair per colour */
+  --avatar-1: #2f6b3f;
+  --on-avatar-1: #f4f6f4;
+  --avatar-2: #46525a;
+  --on-avatar-2: #f4f6f4;
+  --avatar-3: #e3b23c;
+  --on-avatar-3: #1f2a30;
+  --avatar-4: #a8925f;
+  --on-avatar-4: #1f2a30;
+  --avatar-5: #7a4e6e;
+  --on-avatar-5: #f4f6f4;
+  --avatar-6: #2d6e73;
+  --on-avatar-6: #f4f6f4;
+
+  /* Phone mockup */
+  --device: #1f2224;
+  --device-shadow: rgb(31 42 48 / 0.45);
 }
 
 .dark {

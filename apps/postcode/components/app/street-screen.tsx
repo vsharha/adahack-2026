@@ -71,7 +71,9 @@ export function StreetScreen() {
 
       <section>
         <div className="flex items-baseline justify-between px-5">
-          <h2 className="font-sign text-4xl font-semibold text-slate">EH8</h2>
+          <h2 className="font-sign text-4xl font-semibold text-foreground">
+            EH8
+          </h2>
           <p className="text-sm text-muted-foreground">
             {neighbours} neighbours on the app
           </p>
@@ -96,8 +98,8 @@ export function StreetScreen() {
       </section>
 
       {needsYou && (
-        <section className="mx-5 rounded-2xl bg-moss p-5 text-primary-foreground">
-          <p className="font-mono text-sm text-primary-foreground/80">
+        <section className="mx-5 rounded-2xl bg-moss p-5 text-on-moss">
+          <p className="font-mono text-sm text-on-moss/80">
             {needsYou.missing === 1
               ? "1 more neighbour needed"
               : `${needsYou.missing} more neighbours needed`}
@@ -113,13 +115,13 @@ export function StreetScreen() {
                 className="-mr-2 size-8 text-sm ring-2 ring-moss"
               />
             ))}
-            <p className="ml-4 text-sm text-primary-foreground/90">
+            <p className="ml-4 text-sm text-on-moss/90">
               {pledgers.length > 0 &&
                 `${pledgers.map((u) => u.name).join(", ")} pledged`}
             </p>
           </div>
           <Button
-            className="mt-4 w-full bg-primary-foreground text-moss hover:bg-primary-foreground/90"
+            className="mt-4 w-full bg-on-moss text-moss hover:bg-on-moss/90"
             onClick={() =>
               dispatch({ type: "pledge", goalId: needsYou.goal.id })
             }

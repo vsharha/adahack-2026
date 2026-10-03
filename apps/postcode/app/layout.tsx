@@ -5,6 +5,7 @@ import {
   Atkinson_Hyperlegible_Next,
   Cinzel,
 } from "next/font/google";
+import { theme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 const body = Atkinson_Hyperlegible_Next({
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme={theme}
       className={cn("font-sans", body.variable, data.variable, sign.variable)}
     >
       <body className="min-h-dvh antialiased">{children}</body>

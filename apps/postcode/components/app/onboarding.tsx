@@ -305,7 +305,7 @@ export function Onboarding({
                         className={cn(
                           "grid size-6 place-items-center rounded-full border-2",
                           selected
-                            ? "border-moss bg-moss text-primary-foreground"
+                            ? "border-moss bg-moss text-on-moss"
                             : "border-border",
                         )}
                       >
