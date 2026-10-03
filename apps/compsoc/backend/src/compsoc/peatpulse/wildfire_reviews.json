@@ -1,0 +1,36 @@
+[
+  {
+    "event_id": "skail_2018",
+    "record_ids": [36437, 36438],
+    "name": "Skail / Strath Naver",
+    "date_lower": "2018-04-15",
+    "date_upper": "2018-04-15",
+    "date_basis": "Reported start day; exact time and arrival within each cell unknown",
+    "source_url": "https://mapping.emergency.copernicus.eu/news/the-copernicus-emergency-management-service-monitors-wildfires-in-northern-scotland/",
+    "evidence": "Copernicus reports a wildfire in north Sutherland starting 15 April. NatureScot Skail polygons have the same date and location; both fragments share one event ID.",
+    "reviewed_on": "2026-10-03"
+  },
+  {
+    "event_id": "west_halladale_2019",
+    "record_ids": [36559],
+    "name": "West Halladale",
+    "date_lower": "2019-05-12",
+    "date_upper": "2019-05-12",
+    "date_basis": "Independently reported event day; exact ignition and cell arrival unknown",
+    "source_url": "https://data.jncc.gov.uk/data/9d119d39-111f-4fcf-966a-b8e98b0e6b6f/jncc-report-730.pdf",
+    "evidence": "JNCC Report 730, printed page 27, describes a large wildfire affecting Halladale on 12 May 2019 and extending into Forsinard Flows. Matches the named NatureScot extent.",
+    "reviewed_on": "2026-10-03"
+  },
+  {
+    "event_id": "glenuig_2023",
+    "record_ids": [49512],
+    "name": "Glenuig / Kinloch Moidart",
+    "date_lower": "2023-04-19",
+    "date_upper": "2023-04-21",
+    "date_basis": "Reported response interval; ignition day and cell arrival unresolved",
+    "source_url": "https://westword.org.uk/may2023.html",
+    "supporting_url": "https://www.fbu.org.uk/sites/default/files/21018%20OPT%203%20FBU%20Wildfire%20Scorched%20Firefighters%20and%20resilience%20of%20wildfire%20%283%29%20%281%29.pdf",
+    "evidence": "Local reporting with resident testimony describes the wildfire response on 19-21 April. The FBU independently describes the three-day Glenuig wildfire. NatureScot records the extent on 21 April; that date is not treated as ignition.",
+    "reviewed_on": "2026-10-03"
+  }
+]

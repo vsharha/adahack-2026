@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="PeatPulse technical report: open data, methods, grouped validation and measured results against Copernicus FWI."
+    />
+    <title>Technical report: PeatPulse</title>
+    <link rel="icon" href="./assets/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#report">Skip to report</a>
+    <nav class="report-nav" aria-label="Report navigation">
+      <a href="./">← PeatPulse</a>
+    </nav>
+    <img
+      class="report-cover"
+      src="./assets/peatland.jpg"
+      width="1672"
+      height="941"
+      alt="Illustration of wet peatland, reflective pools and distant trees in mist."
+      fetchpriority="high"
+    />
+    <main class="report-document" id="report">
+      <h1>PeatPulse technical report</h1>
+      <nav class="contents" aria-label="Report contents">
+        <ol>
+          <li><a href="#problem">The problem</a></li>
+          <li><a href="#data">The data</a></li>
+          <li><a href="#method">The method</a></li>
+          <li><a href="#evaluation">How we tested it</a></li>
+          <li><a href="#results">The results</a></li>
+          <li><a href="#compute">Running on a laptop</a></li>
+          <li><a href="#limits">What this establishes</a></li>
+          <li><a href="#reproduce">Source code</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ol>
+      </nav>
+
+      <section id="problem">
+        <h2>1. The problem</h2>
+        <p>
+          A peatland is a wetland where waterlogged conditions slow the
+          breakdown of dead plants, allowing layers of peat to build up over
+          time. <a href="https://en.wikipedia.org/wiki/Peatland">Wikipedia</a>.
+        </p>
+        <p>
+          A study of UK fires from 2001–2021 found that fires burning into peat
+          caused up to 90% of annual UK fire-driven carbon emissions in
+          particularly dry years. That percentage concerns UK wildfire
+          emissions.
+          <a
+            href="https://news.exeter.ac.uk/faculty-of-environment-science-and-economy/dry-years-fuel-uk-peatland-fire-carbon-emissions/"
+            >The study also highlights the Flow Country fires</a
+          >.
+        </p>
+        <p>
+          PeatPulse asks a practical question:
+          <strong
+            >if a land manager can check only a few peatland patches, which
+            should receive attention first?</strong
+          >
+        </p>
+        <p>
+          We rank Scottish peatland cells for
+          <strong>satellite-mapped burning within the next seven days</strong>.
+        </p>
+        <p>
+          On the five-patch daily shortlist, PeatPulse performed
+          <strong>20 percentage points better</strong> than Copernicus’s Fire
+          Weather Index (FWI) ranking.
+        </p>
+      </section>
+
+      <section id="data">
+        <h2>2. The data</h2>
+        <p>
+          We built a dataset by joining public sources by location and date. One
+          row is one fixed
+          <strong>1 km × 1 km cell on one prediction day</strong>.
+        </p>
+        <div
+          class="table-scroll"
+          tabindex="0"
+          role="region"
+          aria-label="Data sources"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Source</th>
+                <th scope="col">How we used it</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <a href="https://gis-downloads.nature.scot/"
+                    >NatureScot Carbon and Peatland Map 2016</a
+                  >
+                </th>
+                <td>Define peatland footprints and sample cells.</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a
+                    href="https://open-meteo.com/en/docs/historical-weather-api"
+                    >ERA5 through Open-Meteo</a
+                  >
+                </th>
+                <td>
+                  Weather conditions and trailing summaries; approximately 0.25°
+                  source grid.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a
+                    href="https://www.climateengine.org/datasets/hazards/cemsfire_daily_800/"
+                    >Copernicus CEMS through Climate Engine / Earth Engine</a
+                  >
+                </th>
+                <td>
+                  Four model inputs; directly ranked FWI is the reference
+                  baseline.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a
+                    href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD"
+                    >Sentinel-1 GRD through Earth Engine</a
+                  >
+                </th>
+                <td>
+                  Test whether radar adds predictive value. It did not improve
+                  the best alert result.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a
+                    href="https://developers.google.com/earth-engine/datasets/catalog/FIRMS"
+                    >NASA FIRMS</a
+                  >
+                  and
+                  <a
+                    href="https://services1.arcgis.com/LM9GyVFsughzHdbO/arcgis/rest/services/Scottish_Wildfire_and_Muirburn_Extents/FeatureServer/0"
+                    >NatureScot burn extents</a
+                  >
+                </th>
+                <td>
+                  Check uncertain negative labels and connect related burn
+                  groups. These are not predictors.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="table-scroll"
+          tabindex="0"
+          role="region"
+          aria-label="Dataset size"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Dataset measure</th>
+                <th scope="col" class="numeric">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Period</th>
+                <td class="numeric">2018–2025</td>
+              </tr>
+              <tr>
+                <th scope="row">Sampled 1 km cells</th>
+                <td class="numeric">346</td>
+              </tr>
+              <tr>
+                <th scope="row">Cells with usable training/test rows</th>
+                <td class="numeric">342</td>
+              </tr>
+              <tr>
+                <th scope="row">Full panel before quality checks</th>
+                <td class="numeric">1,011,012 rows</td>
+              </tr>
+              <tr>
+                <th scope="row">Usable rows</th>
+                <td class="numeric">535,473</td>
+              </tr>
+              <tr>
+                <th scope="row">Positive rows</th>
+                <td class="numeric">218</td>
+              </tr>
+              <tr>
+                <th scope="row">Provisional negative rows</th>
+                <td class="numeric">535,255</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          A <strong>positive row</strong> means the cell has a quality-qualified
+          mapped burn interval inside the following seven days, with at least 24
+          hours of conservative lead time.
+        </p>
+      </section>
+
+      <section id="method">
+        <h2>3. The method</h2>
+        <p>
+          The strongest model for our daily shortlist is a
+          <strong>Random Forest classifier</strong> using 16 weather and CEMS
+          inputs. It gives each location a score, then ranks locations from
+          highest to lowest to help decide which patches to check first. It
+          ranks relative concern; it does not predict whether a fire will
+          happen.
+          <strong
+            >These scores have not been calibrated as real-world fire
+            probabilities.</strong
+          >
+        </p>
+        <div
+          class="table-scroll"
+          tabindex="0"
+          role="region"
+          aria-label="Model inputs"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Input group</th>
+                <th scope="col">Variables</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Conditions on the prediction day</th>
+                <td>
+                  Temperature, relative humidity, wind speed, vapour-pressure
+                  deficit (atmospheric drying demand).
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Recent conditions</th>
+                <td>
+                  Precipitation over 24 hours, 7 days and 30 days; consecutive
+                  dry days; 7-day mean temperature and vapour-pressure deficit.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Season</th>
+                <td>Two numerical values encoding the day of year.</td>
+              </tr>
+              <tr>
+                <th scope="row">CEMS fire indicators</th>
+                <td>
+                  FWI, Drought Code, Duff Moisture Code and Fine Fuel Moisture
+                  Code.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          We chose candidate variables based on plausible drying and burning
+          processes and available historical coverage. An initial audit examined
+          missing data, time series and Spearman correlations using
+          geography-selected training locations. It removed duplicate
+          weather-location/day observations from that correlation calculation.
+        </p>
+        <p>
+          We compared weather alone, weather plus CEMS, and weather plus CEMS
+          plus eight radar features. The radar features were VV/VH levels,
+          changes, deviations from the preceding 90-day median, recent
+          persistence and observation age.
+        </p>
+        <p>
+          We also trained logistic regression, Extra Trees and histogram
+          gradient boosting. The Random Forest led the tested daily alert
+          policy; Extra Trees gave the best standalone average precision across
+          all rows and dates.
+        </p>
+      </section>
+
+      <section id="evaluation">
+        <h2>4. How we tested it</h2>
+        <p>
+          We used <strong>five-fold grouped cross-validation</strong>. A cell’s
+          entire history and its connected burn/comparison cells stay together.
+          For each fold, models train on the other groups and score the withheld
+          groups. Every usable row receives one held-out prediction.
+        </p>
+        <div
+          class="table-scroll"
+          tabindex="0"
+          role="region"
+          aria-label="Training and test splits"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Fold</th>
+                <th scope="col" class="numeric">Train rows</th>
+                <th scope="col" class="numeric">Train positives</th>
+                <th scope="col" class="numeric">Test rows</th>
+                <th scope="col" class="numeric">Test positives</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td class="numeric">486,545</td>
+                <td class="numeric">202</td>
+                <td class="numeric">48,928</td>
+                <td class="numeric">16</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td class="numeric">369,146</td>
+                <td class="numeric">162</td>
+                <td class="numeric">166,327</td>
+                <td class="numeric">56</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td class="numeric">467,075</td>
+                <td class="numeric">173</td>
+                <td class="numeric">68,398</td>
+                <td class="numeric">45</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td class="numeric">342,499</td>
+                <td class="numeric">148</td>
+                <td class="numeric">192,974</td>
+                <td class="numeric">70</td>
+              </tr>
+              <tr>
+                <th scope="row">5</th>
+                <td class="numeric">476,627</td>
+                <td class="numeric">187</td>
+                <td class="numeric">58,846</td>
+                <td class="numeric">31</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Random Forest candidates used 50 trees with maximum depth 3, or 100
+          trees with maximum depth 8. Because fire examples are rare, we gave
+          them extra weight, used up to 50,000 no-fire examples while tuning,
+          and used all eligible rows for the final training runs.
+        </p>
+        <p>
+          The reference is the
+          <strong>actual historical Copernicus FWI value</strong>, ranked
+          directly. Both methods see identical candidates on identical dates,
+          including candidates with unknown outcomes. If scores tied, we used
+          the same order by location and date.
+        </p>
+      </section>
+
+      <section id="results">
+        <h2>5. The results</h2>
+        <p>
+          Let’s use the actual example from the report: a historical check at
+          <strong>1pm on 14 April 2019</strong>.
+        </p>
+        <h3>What went in</h3>
+        <p>
+          For each <strong>1 km peatland square</strong>, the model uses 16
+          weather and fire-danger measurements. This square in northwest
+          Scotland (57.7355° N, 5.2856° W) had:
+        </p>
+        <ul>
+          <li>
+            Weather: <strong>8.8°C</strong>, <strong>48% humidity</strong>,
+            <strong>24 km/h wind</strong>, and an air-dryness reading of
+            <strong>0.59 kPa</strong>. Its seven-day average temperature was
+            <strong>5.94°C</strong>.
+          </li>
+          <li>
+            Rain: <strong>0 mm</strong> in the last day,
+            <strong>0.1 mm</strong> in the last week, and
+            <strong>89.2 mm</strong> in the last 30 days; it had been dry for
+            <strong>10 days</strong>.
+          </li>
+          <li>
+            Copernicus fire-danger readings: FWI <strong>7.18</strong>, drought
+            code <strong>24.95</strong>, duff moisture code <strong>8</strong>,
+            and fine-fuel moisture code <strong>84.91</strong>.
+          </li>
+          <li>
+            Recent weather summaries and the time of year, also included in the
+            model’s 16 measurements.
+          </li>
+        </ul>
+        <h3>How it ranked patches</h3>
+        <p>
+          For that date, the Random Forest compared
+          <strong>103 peatland squares</strong> in its test sample. It gave each
+          square a score and sorted them from highest to lowest. This square
+          came <strong>1st</strong>, so it made the five-square shortlist.
+        </p>
+        <p>
+          The score is just for sorting;
+          <strong>0.91 does not mean a 91% chance of fire</strong>. Copernicus’s
+          FWI reading alone ranked the same square <strong>59th</strong>,
+          outside its top five.
+        </p>
+        <p>
+          <strong>What we checked afterward:</strong> the satellite record
+          estimated burning around <strong>19 April</strong>, within the
+          following week. That made this a match in the historical test; it is
+          satellite evidence, not an on-the-ground fire report.
+        </p>
+        <p>
+          Across all test dates, PeatPulse’s five highest-ranked squares
+          included a patch linked to <strong>13 of 25 mapped burn areas</strong>
+          at least once. FWI’s list included one linked to
+          <strong>8 of 25</strong>. Adjacent squares linked to the same mapped
+          burn count as one area.
+        </p>
+        <p class="download-link">
+          <a href="./assets/shortlist-results.csv" download
+            >Download shortlist results (CSV)</a
+          >
+        </p>
+      </section>
+
+      <section id="compute">
+        <h2>6. Running on a laptop</h2>
+        <p>
+          All model fitting and scoring ran on the local CPU. The additional
+          algorithm-comparison experiment completed in
+          <strong>389 seconds (about 6.5 minutes)</strong>, including its final
+          selected-model refit. That is the experiment runtime, not the total
+          time spent downloading and preparing data.
+        </p>
+        <p>
+          The saved weather/CEMS Random Forest is approximately
+          <strong>4.6 MB</strong>. It uses tabular statistics and decision
+          trees. Earth Engine supplied cloud-based data extraction; the
+          resulting cached dataset, model training and evaluation were local.
+        </p>
+        <p>
+          This addresses the challenge’s interest in small-compute methods and
+          verifiable baselines. Raspberry Pi execution and energy consumption
+          have not been measured.
+        </p>
+      </section>
+
+      <section id="limits">
+        <h2>7. What this establishes</h2>
+        <p>
+          On this historical grouped benchmark, a learned combination of weather
+          and existing fire-danger indices placed more mapped burn groups on
+          daily shortlists than directly ranked FWI. The experiment also tested
+          the original satellite-radar hypothesis and found no improvement in
+          the main alert metric.
+        </p>
+      </section>
+
+      <section id="reproduce">
+        <h2>8. Source code</h2>
+        <p>
+          <a
+            href="https://github.com/vsharha/adahack-2026/tree/main/apps/compsoc/backend/src/compsoc/peatpulse"
+            >View the PeatPulse source on GitHub</a
+          >.
+        </p>
+      </section>
+
+      <section id="sources">
+        <h2>9. Sources</h2>
+        <ol>
+          <li>
+            <a href="https://gis-downloads.nature.scot/"
+              >NatureScot open spatial data</a
+            >
+            : Carbon and Peatland Map 2016.
+          </li>
+          <li>
+            <a href="https://open-meteo.com/en/docs/historical-weather-api"
+              >Open-Meteo historical weather API</a
+            >
+            : ERA5 extraction.
+          </li>
+          <li>
+            <a
+              href="https://www.climateengine.org/datasets/hazards/cemsfire_daily_800/"
+              >Climate Engine CEMS Fire</a
+            >
+            : historical indices through Earth Engine.
+          </li>
+          <li>
+            <a href="https://climate.copernicus.eu/fire-weather-index"
+              >Copernicus Fire Weather Index</a
+            >
+            : baseline meaning and scope.
+          </li>
+          <li>
+            <a
+              href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD64A1"
+              >MODIS MCD64A1.061</a
+            >
+            : burned area, dates and quality.
+          </li>
+          <li>
+            <a
+              href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD"
+              >Sentinel-1 GRD</a
+            >
+            : radar backscatter.
+          </li>
+          <li>
+            <a
+              href="https://developers.google.com/earth-engine/datasets/catalog/FIRMS"
+              >NASA FIRMS</a
+            >
+            : corroborating thermal detections.
+          </li>
+          <li>
+            <a
+              href="https://services1.arcgis.com/LM9GyVFsughzHdbO/arcgis/rest/services/Scottish_Wildfire_and_Muirburn_Extents/FeatureServer/0"
+              >NatureScot Scottish Wildfire and Muirburn Extents</a
+            >
+            : dated mapped records.
+          </li>
+          <li>
+            <a
+              href="https://www.nature.scot/scotlands-flow-country-secures-world-heritage-site-status"
+              >NatureScot: Flow Country carbon storage</a
+            >, 26 July 2024.
+          </li>
+          <li>
+            <a
+              href="https://news.exeter.ac.uk/faculty-of-environment-science-and-economy/dry-years-fuel-uk-peatland-fire-carbon-emissions/"
+              >University of Exeter: peatland fire carbon emissions</a
+            >, 21 February 2025.
+          </li>
+        </ol>
+      </section>
+      <footer class="report-footer">
+        <p>PeatPulse · AdaHack 2026 · CompSoc challenge · 3 October 2026</p>
+        <a href="./">Back to PeatPulse ↑</a>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f5ef" />
+    <title>PeatPulse · Fire map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="vendor/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="map-shell" aria-label="Peatland fire map">
+        <div
+          id="map"
+          role="region"
+          aria-label="Map showing held-out validation alerts from FWI and our model"
+        ></div>
+        <fieldset class="layer-controls">
+          <legend>More alerts per cell</legend>
+          <label class="layer-toggle">
+            <input id="show-baseline" type="checkbox" checked />
+            <span class="dot baseline-dot" aria-hidden="true"></span>
+            <span id="fwi-label">FWI picked more</span>
+            <span class="catch-count" id="fwi-count"></span>
+          </label>
+          <label class="layer-toggle">
+            <input id="show-peatpulse" type="checkbox" checked />
+            <span class="dot peatpulse-dot" aria-hidden="true"></span>
+            <span id="model-label">Model picked more</span>
+            <span class="catch-count" id="model-count"></span>
+          </label>
+        </fieldset>
+        <div id="loading" class="loading">Loading map…</div>
+      </section>
+    </main>
+    <script src="vendor/leaflet.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

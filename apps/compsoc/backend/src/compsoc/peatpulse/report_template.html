@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" /><title>
+    PeatPulse · data audit
+  </title>
+  <style>
+    body {
+      font:
+        16px/1.6 system-ui,
+        sans-serif;
+      color: #19352e;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 24px;
+      background: #fff;
+    }
+    h1 {
+      font-size: 42px;
+      line-height: 1.1;
+    }
+    h2 {
+      margin-top: 54px;
+    }
+    .eyebrow {
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      color: #62766c;
+    }
+    .summary {
+      border-left: 4px solid #236954;
+      padding: 12px 20px;
+      background: #f1f6f1;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      margin: 12px 0;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 12px;
+    }
+    td,
+    th {
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+    .scroll {
+      overflow: auto;
+    }
+    a {
+      color: #236954;
+    }
+    .muted {
+      color: #63716b;
+    }
+    @media print {
+      body {
+        max-width: none;
+      }
+      h2 {
+        break-after: avoid;
+      }
+      img {
+        break-inside: avoid;
+      }
+    }
+  </style>
+  <p class="eyebrow">PEATPULSE / REAL DATA AUDIT / 3 OCTOBER 2026</p>
+  <h1>What can we actually feed the model?</h1>
+  <p>
+    Highland peatlands · 2018–2024 · reproducible downloads, measured coverage
+    and training-only correlations.
+  </p>
+  <div class="summary">
+    <b>${part0} area-days across ${part1} audit cells.</b>
+    ${part2} weather locations; ${part3} usable radar area-scene observations;
+    ${part4} usable field water-level readings.
+    <br /><b>No fire-prediction performance has been measured.</b> Burn type and
+    ignition timing remain unverified.
+  </div>
+  <h2>Five actual input rows</h2>
+  <p>
+    One date, five geography-selected places. These are a few columns from the
+    downloaded table; the fire outcome is still unknown.
+  </p>
+  <div class="scroll">${input_examples}</div>
+  <h2>Coverage and sampling</h2>
+  <p>
+    The full peat screen contains ${part5} 1km cells with at least 50% Class 1/2
+    peat. The initial audit uses 32 geography-selected cells, 12 descriptive
+    burn-case cells and one Forsinard context cell. This is a data-feasibility
+    sample, not a representative full-population wildfire benchmark. Case cells
+    do not enter feature-correlation analysis.
+  </p>
+  ${part6}
+  <h2>The fire-label issue is visible</h2>
+  <p>
+    ${part7} dated Highland burn polygons; ${part8} overlap priority peat.
+    Spatial/temporal grouping yields ${part9} candidate groups on peat,
+    <b>not verified independent wildfires</b>. Catalogue absence is not proof of
+    no fire. <code>fire_next_7d</code> remains blank; it has not been silently
+    filled with zero. All polygons within 1km and seven recorded days are
+    connected for review; grouping can merge separate events or split one event.
+  </p>
+  <p>
+    NASA FIRMS provides ${thermal_count} high-confidence MODIS raster detections
+    within Highland during 2018–2024. These are thermal observations, not a
+    count of distinct fires. The rasterized near-real-time product can support
+    event review; muirburn and wildfire still need to be distinguished.
+  </p>
+  <h2>What changes before a recorded burn?</h2>
+  <p>${part10}</p>
+  ${part11}
+  <p>
+    Radar shows scattering changes. It does not directly measure peat
+    temperature or underground moisture. A downward change is not automatically
+    a drying diagnosis. The plotted FWI is the historical Copernicus CEMS index,
+    accessed through Climate Engine's Earth Engine collection. The verified
+    archive covers ${cems_days} of 2,557 days. Missing dates (${cems_missing})
+    remain blank. These are historical reanalysis indices, not an archive of
+    warnings actually issued by Scottish authorities. Total precipitation
+    includes snow.
+  </p>
+  <h2>Which features overlap?</h2>
+  <p>
+    Spearman correlations use only 2018–2021 and geography-selected locations.
+    When radar is available, one row per cell/overpass is used so daily
+    forward-filling does not create repeated evidence. We also export
+    correlations after removing each cell/month's median. High correlation flags
+    an ablation test; it does not justify automatically deleting a feature.
+  </p>
+  ${part12}
+  <div class="scroll">${part13}</div>
+  <h2>Which inputs are missing?</h2>
+  ${part14}
+  <p>
+    Radar uses Sentinel-1A only, one descending relative orbit per cell selected
+    using training coverage, median backscatter over mapped peat, and 30m
+    extraction scale. An assumed 48-hour delivery delay is applied; observations
+    older than 18 days are marked stale. Actual historical delivery times are
+    unverified, so these remain hindcast features.
+  </p>
+  <p>
+    ERA5 and CEMS have a roughly 0.25° grid: nearby 1km cells can share weather
+    values. Radar extraction at 30m is summarized over each 1km peat footprint.
+    The data do not establish 10m fire-prediction accuracy. Freezing,
+    vegetation, standing water and terrain can also alter radar backscatter.
+  </p>
+  <h2>Ground measurements provide a separate check</h2>
+  ${part15}
+  <p>
+    QC flag 2 sensors are excluded; plotted groups require at least two valid
+    sensors per day. Treatment codes follow the source archive. These
+    observations can validate hydrology; they are not wildfire outcomes and do
+    not establish that restoration caused a difference.
+  </p>
+  <h2>Proposed model inputs</h2>
+  <p>
+    “Retain candidate” is the initial feature list. Final selection requires
+    validation on defensible fire labels. No feature has been declared useful
+    from correlation alone.
+  </p>
+  <div class="scroll">${part16}</div>
+  <h2>The comparison we can run once labels are ready</h2>
+  <p>
+    Historical CEMS FWI reference → basic-weather Random Forest → weather plus
+    CEMS indices → the same inputs plus land context → the same model plus
+    radar. Count distinct fires warned about at the same warning budget. Keep
+    2023–2024 untouched for final testing, group whole events and purge
+    overlapping seven-day outcome windows. No performance bars are shown because
+    running that comparison on unresolved burn labels would produce an
+    unsupported result.
+  </p>
+  <h2>Data checks: ${validation_status}</h2>
+  <p>
+    ${validation_checks}. Verified ${validation_hashes} source-download
+    checksums. Full results are saved locally in
+    <code>data/report/validation.json</code>.
+  </p>
+  <h2>Data files</h2>
+  <ul>
+    <li>
+      <a href="../processed/model_inputs.csv.gz"
+        >All model input rows (compressed CSV)</a
+      >
+    </li>
+    <li>
+      <a href="../processed/model_inputs_sample.csv"
+        >First 100 input rows (CSV)</a
+      >
+    </li>
+    <li>
+      <a href="../processed/feature_dictionary.csv"
+        >Feature definitions and decisions</a
+      >
+    </li>
+    <li>
+      <a href="../processed/burn_record_audit.csv"
+        >Every burn record and its eligibility status</a
+      >
+    </li>
+    <li>
+      <a href="../processed/candidate_event_manifest.csv"
+        >Candidate event groups for review</a
+      >
+    </li>
+    <li>
+      <a href="../processed/radar_observations.csv"
+        >Actual radar measurements and scene IDs</a
+      >
+    </li>
+    <li>
+      <a href="../processed/firms_highland_raster_detections.csv"
+        >NASA thermal observations for event review</a
+      >
+    </li>
+    <li>
+      <a href="../processed/feature_correlations_train.csv"
+        >All training-only feature correlations</a
+      >
+    </li>
+    <li>
+      <a href="../processed/within_cell_month_correlations_train.csv"
+        >Correlations after cell/month centering</a
+      >
+    </li>
+    <li>
+      <a href="../processed/raw_file_inventory.json"
+        >Checksums for every cached source file</a
+      >
+    </li>
+    <li>
+      <a href="../processed/source_manifest.json"
+        >Download provenance and checksums</a
+      >
+    </li>
+  </ul>
+  <h2>Sources</h2>
+  <p>
+    <a href="https://open-meteo.com/en/docs/historical-weather-api"
+      >Open-Meteo ERA5</a
+    >
+    ·
+    <a
+      href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD"
+      >ESA Sentinel-1 via Earth Engine</a
+    >
+    · <a href="https://gis-downloads.nature.scot/">NatureScot</a> ·
+    <a href="https://zenodo.org/records/11186744"
+      >CentrePeat Forsinard, CC BY 4.0</a
+    >
+    ·
+    <a href="https://xclim.readthedocs.io/en/stable/indices.html"
+      >xclim FWI implementation</a
+    >
+    ·
+    <a href="https://www.climateengine.org/datasets/hazards/cemsfire_daily_800/"
+      >CEMS via Climate Engine</a
+    >
+    ·
+    <a href="https://developers.google.com/earth-engine/datasets/catalog/FIRMS"
+      >NASA FIRMS via Earth Engine</a
+    >.
+  </p>
+  <p class="muted">
+    Generated from local source data. Analysis scope and limits are part of the
+    result.
+  </p>
+</html>

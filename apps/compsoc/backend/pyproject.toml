@@ -3,7 +3,21 @@ name = "compsoc"
 version = "0.1.0"
 description = "AdaHack 2026 CompSoc challenge project"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "cdsapi>=0.7.7",
+    "earthengine-api>=1.7.46",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "pyarrow>=25.0.1",
+    "pyproj>=3.8.0",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+    "shapely>=2.1.2",
+    "xarray>=2026.9.0",
+    "xclim>=0.62.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]

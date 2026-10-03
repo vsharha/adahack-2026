@@ -1,8 +1,8 @@
-# PeatPulse — four answers
+# PeatPulse: four answers
 
 ## 1. What datasets will we use?
 
-- **Weather:** [Open-Meteo](https://open-meteo.com/en/docs/historical-weather-api) and [Copernicus](https://ewds.climate.copernicus.eu/datasets/cems-fire-historical-v1?tab=overview) — rain, temperature, wind and drought.
+- **Weather:** [Open-Meteo](https://open-meteo.com/en/docs/historical-weather-api) and [Copernicus](https://ewds.climate.copernicus.eu/datasets/cems-fire-historical-v1?tab=overview): rain, temperature, wind and drought.
 - **Peat drying:** [Sentinel-1 satellite radar](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD).
 - **Peat locations and condition:** [NatureScot maps](https://gis-downloads.nature.scot/).
 - **Past fires:** [NatureScot burn records](https://services1.arcgis.com/LM9GyVFsughzHdbO/arcgis/rest/services/Scottish_Wildfire_and_Muirburn_Extents/FeatureServer/0) and [NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/download/).
@@ -11,7 +11,7 @@ Fire records need checking for dates, duplicates and managed burns. Radar provid
 
 ## 2. What will our model be?
 
-**A small Random Forest classifier** — around 50 decision trees that learn patterns from past data.
+**A small Random Forest classifier**, with around 50 decision trees that learn patterns from past data.
 
 | Version      | Inputs                                                            |
 | ------------ | ----------------------------------------------------------------- |
@@ -34,7 +34,7 @@ Copernicus provides historical reconstructed FWI records. Scotland's actual publ
 
 **You own the model. Your teammate owns the evidence and demo.**
 
-| You — predictions                   | Teammate — validation and presentation                 |
+| You: predictions                    | Teammate: validation and presentation                  |
 | ----------------------------------- | ------------------------------------------------------ |
 | Get weather/FWI and Sentinel-1 data | Get historical fire records and check their dates/type |
 | Build peat-drying features          | Match fires to locations and dates                     |

@@ -1,0 +1,6 @@
+fold,train_rows,train_positive_rows,test_rows,test_positive_rows,test_burn_groups
+1,486545,202,48928,16,5
+2,369146,162,166327,56,6
+3,467075,173,68398,45,5
+4,342499,148,192974,70,5
+5,476627,187,58846,31,4

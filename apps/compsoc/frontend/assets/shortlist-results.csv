@@ -1,0 +1,7 @@
+model,name,daily_shortlist,groups_caught,groups_total,group_recall_pct,alerts,known_outcome_alerts,positive_alert_rows,provisional_negative_alerts,unknown_outcome_alerts,positive_share_known_alerts_pct,groups_caught_before_first_group_burn
+strong_weather,PeatPulse (weather + CEMS),1,6,25,24.0,14256,7647,6,7641,6609,0.07846214201647705,5
+strong_weather,PeatPulse (weather + CEMS),3,11,25,44.0,42752,22812,15,22797,19940,0.06575486586007365,6
+strong_weather,PeatPulse (weather + CEMS),5,13,25,52.0,71248,37949,22,37927,33299,0.05797254209597091,7
+cems_fwi_reference,Copernicus FWI,1,2,25,8.0,14256,8020,2,8018,6236,0.02493765586034913,0
+cems_fwi_reference,Copernicus FWI,3,7,25,28.0,42752,23816,11,23805,18936,0.04618743701713134,4
+cems_fwi_reference,Copernicus FWI,5,8,25,32.0,71248,39492,21,39471,31756,0.05317532664843513,5

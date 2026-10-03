@@ -10,5 +10,10 @@ export default defineConfig([
   {
     settings: { next: { rootDir: "apps/postcode" }, react: { version: "19" } },
   },
-  globalIgnores(["**/.next/**", "**/next-env.d.ts", "**/.venv/**"]),
+  globalIgnores([
+    "**/.next/**",
+    "**/next-env.d.ts",
+    "**/.venv/**",
+    "apps/compsoc/map-preview/vendor/leaflet.js",
+  ]),
 ]);

@@ -8,7 +8,7 @@ This folder is the CompSoc project: a Python backend in `backend/` and a JavaScr
 
 ## Backend
 
-A Python package managed with [uv](https://docs.astral.sh/uv/). It holds no code yet.
+A Python package managed with [uv](https://docs.astral.sh/uv/). It contains the PeatPulse data pipeline, model and tests.
 
 - `backend/src/compsoc/`: the package.
 - `backend/tests/`: tests, once there are any.
@@ -24,11 +24,18 @@ From the repository root, `pnpm check:compsoc` runs Ruff linting, the Ruff forma
 
 ## Frontend
 
-`frontend/` is empty. The framework, and how the frontend gets results from the backend, are not chosen yet. Ask the user before scaffolding it. Setting it up needs these shared changes, with the user's approval:
+`frontend/` contains the standalone PeatPulse website. It uses semantic HTML and local CSS. The landing page has two choices: “Read the story” opens a work-in-progress page; “Read the report” opens the technical report. Keep this website separate from `map-preview/`.
 
-- `pnpm-workspace.yaml` matches only `apps/*`, so add `apps/compsoc/frontend` for pnpm to see the frontend's `package.json`.
-- Add `dev:compsoc` and `build:compsoc` scripts to the root `package.json`, and make the frontend a pnpm workspace package, so `pnpm verify:compsoc` type-checks it. The root ESLint config is Next.js-specific; a frontend on another framework needs its own lint setup.
-- Record the frontend's commands here.
+Run from the repository root:
+
+```sh
+uv --directory apps/compsoc/backend run python -m http.server 4317 --bind 127.0.0.1 --directory ../frontend
+pnpm exec prettier --check apps/compsoc/frontend
+```
+
+Open <http://127.0.0.1:4317>. There is no framework build step or frontend dependency install for this slice. Use the frontend-design skill and verify changes in a live browser. The cover is an illustration; do not present it as scientific imagery. Source and generation details are in `frontend/assets/cover-source.md`.
+
+Any future framework integration that changes root workspace, scripts or ESLint config still requires the user's approval. Record the selected framework and updated commands here when that integration is approved.
 
 ## Data
 
