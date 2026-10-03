@@ -198,14 +198,15 @@ export default function Home() {
                 </Badge>
               </div>
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => window.print()}
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Download PDF"
+                <a
+                  href="/data/optiver-executive-summary.pdf"
+                  download
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+                  aria-label="Download PDF executive summary"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download PDF</span>
-                </button>
+                </a>
                 <button
                   onClick={copySummary}
                   className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -462,22 +463,50 @@ export default function Home() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="capitalize">{exp.category}</CardTitle>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Top {exp.data.length} by purchased tonnes
+                    </p>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-[300px]">
+                    <div className="h-[350px]">
                       <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={exp.data}
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={100}
-                            fill="#8884d8"
+                        <BarChart
+                          data={exp.data}
+                          layout="vertical"
+                          margin={{ top: 5, right: 120, left: 20, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                          <XAxis
+                            type="number"
+                            domain={[0, 'dataMax']}
+                            tickFormatter={(value) => `${value}%`}
+                          />
+                          <YAxis
+                            type="category"
+                            dataKey="name"
+                            width={120}
+                            tick={{ fontSize: 11 }}
+                          />
+                          <RechartsTooltip
+                            formatter={(value) => [
+                              `${(value as number).toFixed(1)}%`,
+                              "Share",
+                            ]}
+                            contentStyle={{
+                              borderRadius: '8px',
+                              border: 'none',
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                            }}
+                          />
+                          <Bar
                             dataKey="value"
-                            label={({ name, percent }) =>
-                              `${name}: ${((percent as number) * 100).toFixed(1)}%`
-                            }
-                            labelLine={false}
+                            radius={[0, 4, 4, 0]}
+                            label={{
+                              position: 'right',
+                              fill: 'var(--foreground)',
+                              fontSize: 12,
+                              formatter: (value: number) => `${value.toFixed(1)}%`,
+                            }}
                           >
                             {exp.data.map((entry, index) => (
                               <Cell
@@ -487,14 +516,8 @@ export default function Home() {
                                 }
                               />
                             ))}
-                          </Pie>
-                          <RechartsTooltip
-                            formatter={(value) => [
-                              `${(value as number).toFixed(1)}%`,
-                              "Share",
-                            ]}
-                          />
-                        </PieChart>
+                          </Bar>
+                        </BarChart>
                       </ResponsiveContainer>
                     </div>
                   </CardContent>
@@ -607,8 +630,8 @@ export default function Home() {
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>
-                            Average deficit when failing to hit target (Expected
-                            Shortfall)
+                            Mean delivery deficit across all scenarios,
+                            including zero deficit when the target is reached
                           </p>
                         </TooltipContent>
                       </Tooltip>
@@ -636,7 +659,8 @@ export default function Home() {
             </h2>
             <p className="text-muted-foreground max-w-3xl">
               Search, filter and sort the individual credits in the diversified
-              candidate. The map and portfolio totals always show the full allocation.
+              candidate. The map and portfolio totals always show the full
+              allocation.
             </p>
           </div>
 
@@ -703,8 +727,15 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="flex gap-4 pt-4 border-t">
-                <a href="/data/optiver-executive-summary.pdf" download className="inline-flex items-center gap-2 text-primary hover:underline"><Download className="w-4 h-4" />Download PDF summary</a>
+              <div className="flex flex-wrap gap-4 pt-4 border-t">
+                <a
+                  href="/data/optiver-executive-summary.pdf"
+                  download
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF summary
+                </a>
                 <a
                   href="/data/report.json"
                   download
