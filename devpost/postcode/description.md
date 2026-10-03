@@ -1,3 +1,3 @@
-# Postcode Lottery
+# Greener by postcode
 
 TODO: Add the Devpost submission description.
