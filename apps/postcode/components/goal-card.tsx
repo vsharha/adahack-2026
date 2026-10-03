@@ -82,7 +82,6 @@ export function GoalCard({
       data-notification-target={focused ? "true" : undefined}
       className={cn(
         "flex flex-col gap-3 rounded-xl border bg-card p-4 transition-colors duration-500",
-        unlocked && goal.level !== "household" && "border-moss/50",
         focused && "scroll-mt-[calc(var(--status-bar)+1rem)] outline-none",
       )}
     >
@@ -90,6 +89,7 @@ export function GoalCard({
         <p className="text-sm text-muted-foreground">{scope}</p>
         <p className="tabular-nums text-xs text-moss-ink">
           +{goal.points} contribution
+          {goal.activity && ` · up to ${goal.activity.rewardPoints} rewards`}
         </p>
       </header>
 
@@ -104,24 +104,16 @@ export function GoalCard({
               {goal.activity.durationMinutes &&
                 ` · ${goal.activity.durationMinutes} minutes`}
             </p>
-            <p className="text-sm text-muted-foreground">
-              Organised by{" "}
-              {goal.activity.organiserIds
-                .map((id) => findUser(state, id)?.name)
-                .filter(Boolean)
-                .join(" and ")}
-            </p>
-            <p className="text-xs font-bold text-moss-ink">
-              Fictional demo activity
+            <p className="text-xs text-muted-foreground">
+              Demo activity · one organiser confirms attendance
             </p>
           </>
         )}
-        {!goal.activity && <p className="text-sm">{goal.description}</p>}
-        <p className="text-xs text-muted-foreground">
-          {goal.activity
-            ? `Organiser-confirmed · up to ${goal.activity.rewardPoints} reward points`
-            : "Self-reported · no reward points"}
-        </p>
+        {!goal.activity && (
+          <p className="text-xs text-muted-foreground">
+            Self-reported · no reward points
+          </p>
+        )}
       </div>
 
       {goal.level !== "household" && (
@@ -130,62 +122,66 @@ export function GoalCard({
           <p className="text-sm" aria-live="polite">
             {unlocked ? (
               <span className="font-bold text-moss-ink">
-                Going ahead: {pledges} neighbours pledged
+                Going ahead · {pledges} neighbours
               </span>
             ) : (
               <>
                 <span className="tabular-nums">
                   {pledges} of {goal.threshold}
                 </span>{" "}
-                neighbours have pledged. It goes ahead at {goal.threshold}.
+                pledged · {goal.threshold - pledges} more needed
               </>
             )}
           </p>
         </div>
       )}
 
-      <footer className="mt-auto flex flex-wrap items-center gap-3">
-        {goal.activity ? (
-          !pledged ? (
+      {(!goal.activity || !pledged) && (
+        <footer className="mt-auto flex flex-wrap items-center gap-3">
+          {goal.activity ? (
+            !pledged ? (
+              <Button
+                onClick={() => dispatch({ type: "pledge", goalId: goal.id })}
+              >
+                {unlocked ? "Join in" : "Pledge"}
+              </Button>
+            ) : (
+              <p className="text-sm text-moss-ink">You pledged to join</p>
+            )
+          ) : done ? (
+            <p className="flex items-center gap-1.5 font-bold text-moss-ink">
+              <Check className="size-4" /> Your household has done this
+            </p>
+          ) : canMarkDone ? (
+            <Button
+              onClick={() => dispatch({ type: "mark-done", goalId: goal.id })}
+            >
+              Mark as done
+            </Button>
+          ) : pledged ? (
+            <Button
+              variant="outline"
+              onClick={() =>
+                dispatch({ type: "withdraw-pledge", goalId: goal.id })
+              }
+            >
+              Withdraw pledge
+            </Button>
+          ) : (
             <Button
               onClick={() => dispatch({ type: "pledge", goalId: goal.id })}
             >
               {unlocked ? "Join in" : "Pledge"}
             </Button>
-          ) : (
-            <p className="text-sm text-moss-ink">You pledged to join</p>
-          )
-        ) : done ? (
-          <p className="flex items-center gap-1.5 font-bold text-moss-ink">
-            <Check className="size-4" /> Your household has done this
-          </p>
-        ) : canMarkDone ? (
-          <Button
-            onClick={() => dispatch({ type: "mark-done", goalId: goal.id })}
-          >
-            Mark as done
-          </Button>
-        ) : pledged ? (
-          <Button
-            variant="outline"
-            onClick={() =>
-              dispatch({ type: "withdraw-pledge", goalId: goal.id })
-            }
-          >
-            Withdraw pledge
-          </Button>
-        ) : (
-          <Button onClick={() => dispatch({ type: "pledge", goalId: goal.id })}>
-            {unlocked ? "Join in" : "Pledge"}
-          </Button>
-        )}
-        {doneCount > 0 && goal.level !== "household" && (
-          <p className="text-sm text-muted-foreground">
-            {doneCount} {doneCount === 1 ? "household has" : "households have"}{" "}
-            done it
-          </p>
-        )}
-      </footer>
+          )}
+          {doneCount > 0 && goal.level !== "household" && (
+            <p className="text-sm text-muted-foreground">
+              {doneCount}{" "}
+              {doneCount === 1 ? "household has" : "households have"} done it
+            </p>
+          )}
+        </footer>
+      )}
       {goal.activity && <ActivityParticipation goal={goal} />}
       <details className="border-t pt-2 text-sm">
         <summary className="flex min-h-11 cursor-pointer items-center font-bold text-moss-ink outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
@@ -193,6 +189,16 @@ export function GoalCard({
         </summary>
         <div className="space-y-2 pb-2">
           <p>{goal.description}</p>
+          {goal.activity && (
+            <p className="text-muted-foreground">
+              Organised by{" "}
+              {goal.activity.organiserIds
+                .map((id) => findUser(state, id)?.name)
+                .filter(Boolean)
+                .join(" and ")}
+              . Either organiser can confirm; only one confirmation is needed.
+            </p>
+          )}
           <p className="text-muted-foreground">Why here: {goal.basis}</p>
           <p className="text-xs text-muted-foreground">
             {goal.activity

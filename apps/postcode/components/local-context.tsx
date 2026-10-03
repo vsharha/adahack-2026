@@ -1,4 +1,4 @@
-import { Leaf, Wind, Zap } from "lucide-react";
+import { ExternalLink, Leaf, Wind, Zap } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { notificationHref } from "@/lib/notification-target";
@@ -11,6 +11,22 @@ const date = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
   timeZone: "Europe/London",
 });
+
+function SourceLink({ href, label }: { href: string; label: string }) {
+  return (
+    <p className="text-xs text-muted-foreground">
+      Source:{" "}
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center gap-1 rounded-sm underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        {label} <ExternalLink className="size-3" aria-hidden />
+      </a>
+    </p>
+  );
+}
 
 export function LocalContext() {
   const aqi = area.air.hours.map((hour) => hour.europeanAqi);
@@ -32,14 +48,7 @@ export function LocalContext() {
           </h3>
           {area.greenSpaces.map((space) => (
             <p key={space.name}>
-              <a
-                href={space.source}
-                target="_blank"
-                rel="noreferrer"
-                className="underline underline-offset-4"
-              >
-                {space.name}
-              </a>
+              {space.name}
               <span className="block text-sm text-muted-foreground">
                 {space.kind} · Edinburgh Council directory
               </span>
@@ -51,10 +60,20 @@ export function LocalContext() {
           </p>
           <Link
             href={notificationHref({ tab: "goals", goalId: "g-litter-pick" })}
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({
+              variant: "outline",
+              className: "w-full",
+            })}
           >
             View the garden litter pick
           </Link>
+          {area.greenSpaces.map((space) => (
+            <SourceLink
+              key={space.name}
+              href={space.source}
+              label="Edinburgh Council directory"
+            />
+          ))}
         </article>
         <article className="space-y-2 p-4">
           <h3 className="flex items-center gap-2 font-bold">
@@ -69,23 +88,22 @@ export function LocalContext() {
             less air pollution. Covers the surrounding model grid, rather than a
             street sensor.
           </p>
-          <a
-            href={area.air.source}
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm underline underline-offset-4"
-          >
-            Open-Meteo / CAMS forecast
-          </a>
           <Link
             href={notificationHref({
               tab: "goals",
               goalId: "g-car-free-school-run",
             })}
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({
+              variant: "outline",
+              className: "w-full",
+            })}
           >
             Explore walking and cycling
           </Link>
+          <SourceLink
+            href={area.air.source}
+            label="Open-Meteo / CAMS forecast"
+          />
         </article>
         <article className="space-y-2 p-4">
           <h3 className="flex items-center gap-2 font-bold">
@@ -102,20 +120,19 @@ export function LocalContext() {
             recorded meters. This informs home goals; it does not measure your
             household or award points.
           </p>
-          <a
-            href={area.electricity.source}
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm underline underline-offset-4"
-          >
-            Government electricity statistics
-          </a>
           <Link
             href="/goals?scope=household"
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({
+              variant: "outline",
+              className: "w-full",
+            })}
           >
             Explore home energy goals
           </Link>
+          <SourceLink
+            href={area.electricity.source}
+            label="Government electricity statistics"
+          />
         </article>
       </div>
     </section>

@@ -19,7 +19,6 @@ export type DemoAction =
   | { type: "pledge"; goalId: string; userId?: string }
   | { type: "withdraw-pledge"; goalId: string }
   | { type: "mark-done"; goalId: string; userId?: string }
-  | { type: "mark-activity-held"; goalId: string }
   | { type: "report-attendance"; goalId: string }
   | { type: "confirm-attendance"; actionId: string }
   | { type: "decline-attendance"; actionId: string; reason: string }
@@ -135,31 +134,12 @@ export function reduceDemoState(
         ],
       };
     }
-    case "mark-activity-held": {
-      const goal = state.goals.find((goal) => goal.id === action.goalId);
-      const activity = goal?.activity;
-      if (
-        !goal ||
-        !activity ||
-        activity.heldAt ||
-        !activity.organiserIds.includes(user.id) ||
-        !isUnlocked(state, goal) ||
-        now < activity.scheduledAt
-      )
-        return state;
-      return {
-        ...state,
-        goals: state.goals.map((item) =>
-          item.id === goal.id
-            ? { ...item, activity: { ...activity, heldAt: now } }
-            : item,
-        ),
-      };
-    }
     case "report-attendance": {
       const goal = state.goals.find((goal) => goal.id === action.goalId);
       if (
-        !goal?.activity?.heldAt ||
+        !goal?.activity ||
+        !isUnlocked(state, goal) ||
+        now < goal.activity.scheduledAt ||
         !goalsForUser(state, user).some((item) => item.id === goal.id) ||
         hasHouseholdCompleted(state, goal.id, user.householdId) ||
         !state.pledges.some(
@@ -194,7 +174,8 @@ export function reduceDemoState(
       if (
         !claim ||
         claim.status !== "pending" ||
-        !goal?.activity?.heldAt ||
+        !goal?.activity ||
+        now < goal.activity.scheduledAt ||
         claim.activityId !== goal.activity.id ||
         !goal.activity.organiserIds.includes(user.id) ||
         user.householdId === claim.householdId

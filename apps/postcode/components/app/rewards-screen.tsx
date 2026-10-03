@@ -36,8 +36,8 @@ export function RewardsScreen() {
           </dd>
         </dl>
         <p className="text-sm text-muted-foreground">
-          Earn rewards when an organiser confirms your participation. Spending
-          keeps your contribution and house colour unchanged.
+          Each household starts with 20 demo rewards. Earn more when one
+          organiser confirms your participation.
         </p>
       </section>
 

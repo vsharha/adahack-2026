@@ -11,29 +11,33 @@ const goalId = "g-litter-pick";
 const as = (state: DemoState, userId: string) =>
   reduceDemoState(state, { type: "sign-in", userId }, now);
 
-function heldActivity() {
+function unlockedActivity() {
   let state = as(structuredClone(initialState), "priya");
   state = reduceDemoState(state, { type: "pledge", goalId }, now);
-  state = as(state, "margaret");
-  return reduceDemoState(state, { type: "mark-activity-held", goalId }, now);
+  state.rewardEarnings = [];
+  return state;
 }
 
-test("attendance requires a pledged household and a held activity", () => {
+test("attendance requires a pledged household and enough neighbours", () => {
   let state = as(structuredClone(initialState), "priya");
   assert.equal(
     reduceDemoState(state, { type: "report-attendance", goalId }, now),
     state,
   );
-  assert.equal(
-    reduceDemoState(state, { type: "mark-activity-held", goalId }, now),
-    state,
+  state = reduceDemoState(state, { type: "pledge", goalId }, now);
+  state.pledges = state.pledges.filter(
+    (pledge) => !(pledge.goalId === goalId && pledge.userId === "ewan"),
   );
-  state = as(heldActivity(), "isla");
   assert.equal(
     reduceDemoState(state, { type: "report-attendance", goalId }, now),
     state,
   );
-  state = as(heldActivity(), "priya");
+  state = as(unlockedActivity(), "isla");
+  assert.equal(
+    reduceDemoState(state, { type: "report-attendance", goalId }, now),
+    state,
+  );
+  state = as(unlockedActivity(), "priya");
   assert.equal(
     reduceDemoState(state, { type: "mark-done", goalId }, now),
     state,
@@ -41,7 +45,7 @@ test("attendance requires a pledged household and a held activity", () => {
 });
 
 test("pending claims award nothing and confirmation awards contribution once", () => {
-  let state = as(heldActivity(), "priya");
+  let state = as(unlockedActivity(), "priya");
   const before = householdPoints(state, "h1");
   state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
   const claim = state.actions.at(-1)!;
@@ -80,7 +84,7 @@ test("pending claims award nothing and confirmation awards contribution once", (
 });
 
 test("designated organisers cannot approve claims from their household", () => {
-  let state = heldActivity();
+  let state = unlockedActivity();
   state.users.push({
     id: "housemate",
     name: "Housemate",
@@ -125,7 +129,7 @@ test("designated organisers cannot approve claims from their household", () => {
 
 test("decline requires a reason and a fresh claim can be submitted", () => {
   let state = reduceDemoState(
-    as(heldActivity(), "priya"),
+    as(unlockedActivity(), "priya"),
     { type: "report-attendance", goalId },
     now,
   );
@@ -171,7 +175,7 @@ test("private reports are restricted to the household that owns the goal", () =>
 });
 
 test("the monthly cap makes a partial award without reducing contribution", () => {
-  let state = as(heldActivity(), "priya");
+  let state = as(unlockedActivity(), "priya");
   state.rewardEarnings = [
     { actionId: "earlier", householdId: "h1", points: 95, earnedAt: now },
   ];
@@ -190,7 +194,7 @@ test("the monthly cap makes a partial award without reducing contribution", () =
 });
 
 test("reaching the allowance does not prevent participation or contribution", () => {
-  let state = as(heldActivity(), "priya");
+  let state = as(unlockedActivity(), "priya");
   state.rewardEarnings = [
     { actionId: "earlier", householdId: "h1", points: 100, earnedAt: now },
   ];
@@ -241,7 +245,7 @@ test("UK calendar months count confirmation time and retain previous balances", 
 });
 
 test("housemates share claims and reward allowance", () => {
-  let state = as(heldActivity(), "priya");
+  let state = as(unlockedActivity(), "priya");
   state.users.push({
     id: "housemate",
     name: "Housemate",
@@ -279,7 +283,7 @@ test("housemates share claims and reward allowance", () => {
 });
 
 test("redemption spends rewards once and preserves contribution and earning allowance", () => {
-  let state = as(heldActivity(), "priya");
+  let state = as(unlockedActivity(), "priya");
   state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
   const claim = state.actions.at(-1)!;
   state = as(state, "margaret");
@@ -312,6 +316,7 @@ test("redemption spends rewards once and preserves contribution and earning allo
 
 test("unknown offers, insufficient balance and signed-out redemption change nothing", () => {
   const state = as(structuredClone(initialState), "priya");
+  state.rewardEarnings = [];
   assert.equal(
     reduceDemoState(
       state,
@@ -351,7 +356,7 @@ test("another household cannot spend the claimant household's rewards", () => {
 });
 
 test("a repeat activity uses a new dated record and shares the same allowance", () => {
-  let state = as(heldActivity(), "priya");
+  let state = as(unlockedActivity(), "priya");
   state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
   const first = state.actions.at(-1)!;
   state = as(state, "margaret");
@@ -370,10 +375,14 @@ test("a repeat activity uses a new dated record and shares the same allowance", 
       ...goal.activity,
       id: "litter-pick-2026-10-10",
       scheduledAt: nextDate,
-      heldAt: nextDate,
     },
   });
-  state.pledges.push({ goalId: "repeat-litter-pick", userId: "priya" });
+  state.pledges.push(
+    ...["priya", "fiona", "ewan"].map((userId) => ({
+      goalId: "repeat-litter-pick",
+      userId,
+    })),
+  );
   state = as(state, "priya");
   state = reduceDemoState(
     state,
@@ -391,22 +400,21 @@ test("a repeat activity uses a new dated record and shares the same allowance", 
   assert.equal(rewardsEarnedThisMonth(state, "h1", nextDate), 40);
 });
 
-test("an organiser cannot mark an activity as held before its scheduled date", () => {
+test("attendance cannot be reported before the scheduled date", () => {
   let state = as(structuredClone(initialState), "priya");
   state = reduceDemoState(state, { type: "pledge", goalId }, now);
-  state = as(state, "margaret");
   assert.equal(
     reduceDemoState(
       state,
-      { type: "mark-activity-held", goalId },
+      { type: "report-attendance", goalId },
       "2026-10-02T12:00:00Z",
     ),
     state,
   );
 });
 
-test("reset restores the seed, removing claims, earnings, vouchers and held status", () => {
-  let state = as(heldActivity(), "priya");
+test("reset restores starting rewards and removes claims, earned rewards and vouchers", () => {
+  let state = as(unlockedActivity(), "priya");
   state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
   const claim = state.actions.at(-1)!;
   state = as(state, "margaret");
@@ -423,7 +431,8 @@ test("reset restores the seed, removing claims, earnings, vouchers and held stat
   );
   state = reduceDemoState(state, { type: "reset" }, now);
   assert.deepEqual(state, initialState);
-  assert.equal(state.rewardEarnings.length, 0);
+  assert.deepEqual(state.rewardEarnings, initialState.rewardEarnings);
+  assert.equal(rewardBalance(state, "h1"), 20);
   assert.equal(state.redemptions.length, 0);
   assert.equal(
     state.goals.find((goal) => goal.id === goalId)?.activity?.heldAt,
@@ -450,11 +459,68 @@ test("legacy browser progress migrates without retroactive rewards or lost pledg
   const migrated = migrateDemoState(saved);
   assert.equal(migrated.currentUserId, "priya");
   assert.equal(householdPoints(migrated, "h1"), 10);
-  assert.equal(rewardBalance(migrated, "h1"), 0);
+  assert.equal(rewardBalance(migrated, "h1"), 20);
+  assert.equal(rewardsEarnedThisMonth(migrated, "h1", now), 0);
   assert.equal(migrated.goals.filter((goal) => goal.id === goalId).length, 1);
   assert.equal(
     migrated.pledges.filter((pledge) => pledge.goalId === goalId).length,
     2,
   );
   assert.deepEqual(migrateDemoState(migrated), migrated);
+});
+
+test("every demo household can redeem immediately without using the monthly allowance", () => {
+  for (const user of initialState.users) {
+    let state = as(structuredClone(initialState), user.id);
+    assert.equal(rewardBalance(state, user.householdId), 20);
+    assert.equal(rewardsEarnedThisMonth(state, user.householdId, now), 0);
+    const contribution = householdPoints(state, user.householdId);
+    state = reduceDemoState(
+      state,
+      { type: "redeem-reward", offerId: "bicycle-repair" },
+      now,
+    );
+    assert.equal(state.redemptions.length, 1);
+    assert.equal(rewardBalance(state, user.householdId), 0);
+    assert.equal(householdPoints(state, user.householdId), contribution);
+    assert.equal(rewardsEarnedThisMonth(state, user.householdId, now), 0);
+  }
+  const joined = reduceDemoState(
+    structuredClone(initialState),
+    { type: "add-user", name: "New neighbour", interests: [] },
+    now,
+  );
+  const user = joined.users.at(-1)!;
+  assert.equal(rewardBalance(joined, user.householdId), 20);
+});
+
+test("migration grants starting rewards once and preserves spending and earned rewards", async () => {
+  const { migrateDemoState } = await import("../lib/demo-migration");
+  let state = as(unlockedActivity(), "priya");
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const claim = state.actions.at(-1)!;
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: claim.id },
+    now,
+  );
+  state = as(state, "priya");
+  state = reduceDemoState(
+    state,
+    { type: "redeem-reward", offerId: "bicycle-repair" },
+    now,
+  );
+  state = migrateDemoState(state);
+  assert.equal(rewardBalance(state, "h1"), 20);
+  assert.equal(rewardsEarnedThisMonth(state, "h1", now), 20);
+  assert.equal(state.redemptions.length, 1);
+  assert.equal(state.actions.at(-1)?.confirmedBy, "margaret");
+  assert.deepEqual(migrateDemoState(state), state);
+  state = reduceDemoState(
+    state,
+    { type: "redeem-reward", offerId: "bicycle-repair" },
+    now,
+  );
+  assert.equal(state.redemptions.length, 1);
 });

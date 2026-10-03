@@ -20,7 +20,7 @@ export function ActivityScreen() {
     )?.activity;
     return (
       claim.status === "pending" &&
-      activity?.heldAt &&
+      activity &&
       claim.activityId === activity.id &&
       activity.organiserIds.includes(me.id) &&
       claim.householdId !== me.householdId

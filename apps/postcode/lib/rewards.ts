@@ -22,6 +22,7 @@ export function rewardsEarnedThisMonth(
   return state.rewardEarnings
     .filter(
       (earning) =>
+        earning.source !== "demo-starting" &&
         earning.householdId === householdId &&
         rewardMonth(earning.earnedAt) === currentMonth,
     )

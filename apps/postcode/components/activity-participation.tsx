@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import type { Goal } from "@/lib/types";
-import { rewardAward } from "@/lib/rewards";
 import { isUnlocked } from "@/lib/progress";
 import { notificationHref } from "@/lib/notification-target";
 import { cn } from "@/lib/utils";
@@ -26,167 +25,95 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
       findUser(state, pledge.userId)?.householdId === me.householdId,
   );
   const organiser = activity.organiserIds.includes(me.id);
-  const canMarkHeld =
-    isUnlocked(state, goal) && new Date().toISOString() >= activity.scheduledAt;
-  const available = rewardAward(
-    state,
-    me.householdId,
-    activity.rewardPoints,
-    new Date().toISOString(),
-  );
+  const ready = isUnlocked(state, goal);
+  const scheduled = new Date().toISOString() >= activity.scheduledAt;
   const awarded =
     state.rewardEarnings.find((earning) => earning.actionId === claim?.id)
       ?.points ?? 0;
-  const names = activity.organiserIds
-    .map((id) => findUser(state, id)?.name)
-    .filter(Boolean)
-    .join(" and ");
-  const confirmingNames = activity.organiserIds
-    .map((id) => findUser(state, id))
-    .filter((user) => user && user.householdId !== me.householdId)
-    .map((user) => user?.name)
-    .join(" or ");
   const stage =
-    claim?.status === "confirmed"
-      ? 4
-      : claim?.status === "pending"
-        ? 3
-        : activity.heldAt
-          ? 2
-          : isUnlocked(state, goal)
-            ? 1
-            : 0;
-  const steps = [
-    pledged ? "Pledged" : "Pledges",
-    "Going ahead",
-    "Held",
-    "Reported",
-    "Confirmed",
-  ];
+    claim?.status === "confirmed" ? 2 : claim?.status === "pending" ? 1 : 0;
+  if (!pledged && !organiser) return null;
+
   return (
     <section
       className="space-y-3 border-t pt-3"
       aria-label="Activity participation"
     >
-      <ol className="grid grid-cols-5 gap-1" aria-label="Activity progress">
-        {steps.map((step, index) => (
-          <li
-            key={step}
-            aria-current={index === stage ? "step" : undefined}
-            className={cn(
-              "flex flex-col items-center gap-1 text-center text-[0.6rem] leading-tight",
-              index <= stage
-                ? "font-bold text-moss-ink"
-                : "text-muted-foreground",
-            )}
-          >
-            <span
+      {pledged && (
+        <ol className="grid grid-cols-3 gap-2" aria-label="Activity progress">
+          {["Pledged", "Reported", "Confirmed"].map((step, index) => (
+            <li
+              key={step}
+              aria-current={index === stage ? "step" : undefined}
               className={cn(
-                "grid size-6 place-items-center rounded-full border",
-                index <= stage && "border-moss bg-moss/15",
+                "flex items-center justify-center gap-1 text-xs",
+                index <= stage
+                  ? "font-bold text-moss-ink"
+                  : "text-muted-foreground",
               )}
-              aria-hidden
             >
-              {index < stage || stage === 4 ? (
-                <Check className="size-3.5" />
-              ) : (
-                index + 1
-              )}
-            </span>
-            {step}
-          </li>
-        ))}
-      </ol>
-      {!activity.heldAt ? (
+              {index < stage || stage === 2 ? (
+                <Check className="size-3 shrink-0" aria-hidden />
+              ) : null}
+              {step}
+            </li>
+          ))}
+        </ol>
+      )}
+      {claim?.status === "pending" ? (
         <>
-          <p className="text-sm text-muted-foreground">
-            {isUnlocked(state, goal)
-              ? `${names} will mark the activity as held before you report attendance.`
-              : "Waiting for enough neighbours to pledge."}
-          </p>
-          {organiser && (
-            <Button
-              variant="outline"
-              disabled={!canMarkHeld}
-              onClick={() =>
-                dispatch({ type: "mark-activity-held", goalId: goal.id })
-              }
-            >
-              Mark activity as held
-            </Button>
-          )}
-        </>
-      ) : claim?.status === "pending" ? (
-        <>
-          <p className="text-sm font-bold text-moss-ink" role="status">
-            Awaiting confirmation · no points awarded yet
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {confirmingNames || "An organiser outside your household"} can
-            confirm your attendance.
+          <p className="text-sm text-muted-foreground" role="status">
+            Waiting for one organiser to confirm.
           </p>
           <Link
             href={notificationHref({ tab: "activity", actionId: claim.id })}
             className={buttonVariants({ variant: "outline" })}
           >
-            View attendance report
+            View report
           </Link>
         </>
       ) : claim?.status === "confirmed" ? (
         <>
-          <p className="text-sm font-bold text-moss-ink" role="status">
-            Attendance confirmed by{" "}
-            {findUser(state, claim.confirmedBy ?? null)?.name} · +
+          <p className="text-sm text-moss-ink" role="status">
+            {findUser(state, claim.confirmedBy ?? null)?.name} confirmed · +
             {claim.contributionPoints} contribution · +{awarded} rewards
           </p>
           <Link href="/rewards" className={buttonVariants()}>
             View rewards
           </Link>
         </>
-      ) : (
+      ) : pledged ? (
         <>
-          <p className="text-sm text-muted-foreground">
-            Activity held.{" "}
-            {pledged
-              ? "Report your household’s attendance for organiser confirmation."
-              : organiser
-                ? "Households can now report attendance."
-                : "Join this activity to report attendance."}
-          </p>
           {claim?.status === "declined" && (
             <p className="text-sm" role="status">
-              Claim declined: {claim.declineReason}. If this was a mistake,
-              report again.
+              Declined: {claim.declineReason}
             </p>
           )}
-          {pledged ? (
-            <>
-              <p className="text-xs text-muted-foreground">
-                If confirmed now: +{goal.points} contribution and +{available}{" "}
-                rewards. Your remaining monthly allowance is checked when
-                confirmed.
-              </p>
-              <Button
-                onClick={() =>
-                  dispatch({ type: "report-attendance", goalId: goal.id })
-                }
-              >
-                {claim?.status === "declined"
-                  ? "Report attendance again"
-                  : "Report attendance"}
-              </Button>
-            </>
-          ) : (
-            organiser && (
-              <Link
-                href="/activity"
-                className={buttonVariants({ variant: "outline" })}
-              >
-                Review attendance
-              </Link>
-            )
+          {ready && (
+            <Button
+              disabled={!scheduled}
+              onClick={() =>
+                dispatch({ type: "report-attendance", goalId: goal.id })
+              }
+            >
+              {claim?.status === "declined"
+                ? "Report attendance again"
+                : "Report attendance"}
+            </Button>
+          )}
+          {ready && !scheduled && (
+            <p className="text-xs text-muted-foreground">
+              Report after the activity starts.
+            </p>
           )}
         </>
+      ) : (
+        <Link
+          href="/activity"
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Review attendance
+        </Link>
       )}
     </section>
   );

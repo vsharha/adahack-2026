@@ -53,7 +53,7 @@ export function HouseholdRewards() {
             </p>
             {voucher ? (
               <div
-                className="space-y-2 rounded-lg border border-dashed border-moss/60 bg-moss/10 p-3"
+                className="space-y-2 rounded-lg border border-dashed bg-moss/10 p-3"
                 role="status"
               >
                 <p className="flex items-center gap-2 font-bold">

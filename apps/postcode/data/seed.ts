@@ -91,7 +91,13 @@ export const householdSuggestions: HouseholdSuggestion[] = [
 export const initialState: DemoState = {
   users: premadeUsers,
   currentUserId: null,
-  rewardEarnings: [],
+  rewardEarnings: households.map((household) => ({
+    actionId: `demo-starting-${household.id}`,
+    householdId: household.id,
+    points: 20,
+    earnedAt: "2026-10-03T00:00:00Z",
+    source: "demo-starting",
+  })),
   redemptions: [],
   goals: [
     {

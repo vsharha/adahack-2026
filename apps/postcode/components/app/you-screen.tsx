@@ -99,6 +99,7 @@ export function YouScreen() {
           <dd className="tabular-nums text-xl font-bold">
             {householdPoints(state, me.householdId)}
           </dd>
+          <div className="h-4" aria-hidden />
         </div>
         <div className="flex flex-col gap-1 p-3">
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
@@ -122,9 +123,11 @@ export function YouScreen() {
         green; spending rewards never changes it.
       </p>
       <dl className="grid grid-cols-2 gap-4 text-center">
-        <div>
-          <dt className="text-sm text-muted-foreground">Pledges</dt>
-          <dd className="tabular-nums font-bold">{pledges}</dd>
+        <div className="flex flex-col gap-1 p-3">
+          <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+            Pledges
+          </dt>
+          <dd className="tabular-nums text-xl font-bold">{pledges}</dd>
         </div>
         <div className="flex flex-col gap-1 p-3">
           <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">

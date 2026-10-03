@@ -54,7 +54,15 @@ export function migrateDemoState(saved: StoredDemoState): DemoState {
       contributionPoints:
         action.contributionPoints ?? previousPoints.get(action.goalId) ?? 0,
     })),
-    rewardEarnings: saved.rewardEarnings ?? [],
+    rewardEarnings: [
+      ...(saved.rewardEarnings ?? []),
+      ...initialState.rewardEarnings.filter(
+        (starting) =>
+          !saved.rewardEarnings?.some(
+            (earning) => earning.actionId === starting.actionId,
+          ),
+      ),
+    ],
     redemptions: saved.redemptions ?? [],
   };
 }

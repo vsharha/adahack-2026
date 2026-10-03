@@ -94,6 +94,7 @@ export interface RewardEarning {
   householdId: string;
   points: number;
   earnedAt: string;
+  source?: "demo-starting";
 }
 
 export interface Redemption {
