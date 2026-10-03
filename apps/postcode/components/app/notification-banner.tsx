@@ -2,43 +2,70 @@
 
 import { Sprout } from "lucide-react";
 import { Avatar } from "@/components/avatar";
+import {
+  Toast,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+  useToastManager,
+} from "@/components/ui/toast";
 import { findUser, useDemoState } from "@/lib/demo-store";
-import { dismissNotification, useNotification } from "@/lib/notifications";
+import { notificationToastManager } from "@/lib/notifications";
+
+function NotificationList() {
+  const { toasts } = useToastManager<{ fromUserId?: string }>();
+  const state = useDemoState();
+
+  return toasts.map((notification) => {
+    const from = notification.data?.fromUserId
+      ? findUser(state, notification.data.fromUserId)
+      : undefined;
+
+    return (
+      <Toast
+        key={notification.id}
+        toast={notification}
+        swipeDirection="up"
+        className="notification-toast border-0 bg-card/95 text-foreground ring-1 ring-foreground/10 backdrop-blur"
+      >
+        <ToastContent className="p-3">
+          {from ? (
+            <Avatar user={from} />
+          ) : (
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-moss text-on-moss">
+              <Sprout className="size-5" />
+            </span>
+          )}
+          <div className="min-w-0 flex-1">
+            <ToastTitle className="font-bold" />
+            <ToastDescription />
+          </div>
+          <ToastClose
+            aria-label="Dismiss notification"
+            className="self-start"
+          />
+        </ToastContent>
+      </Toast>
+    );
+  });
+}
 
 export function NotificationBanner() {
-  const notification = useNotification();
-  const state = useDemoState();
-  if (!notification) return null;
-  const from = notification.fromUserId
-    ? findUser(state, notification.fromUserId)
-    : undefined;
-
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-[calc(var(--status-bar)+0.5rem)] z-50 px-2">
-      <button
-        key={notification.id}
-        type="button"
-        onClick={dismissNotification}
-        aria-live="polite"
-        className="notification-in pointer-events-auto flex w-full items-center gap-3 rounded-2xl bg-card/95 p-3 text-left shadow-lg ring-1 ring-foreground/10 backdrop-blur outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+    <ToastProvider
+      toastManager={notificationToastManager}
+      timeout={5000}
+      limit={1}
+    >
+      <ToastViewport
+        className="notification-viewport"
+        aria-label="Notifications"
       >
-        {from ? (
-          <Avatar user={from} />
-        ) : (
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-moss text-on-moss">
-            <Sprout className="size-5" />
-          </span>
-        )}
-        <span className="min-w-0 flex-1">
-          <span className="block text-sm font-bold">{notification.title}</span>
-          <span className="block text-sm text-muted-foreground">
-            {notification.body}
-          </span>
-        </span>
-        <span className="self-start tabular-nums text-xs text-muted-foreground">
-          now
-        </span>
-      </button>
-    </div>
+        <NotificationList />
+      </ToastViewport>
+    </ToastProvider>
   );
 }

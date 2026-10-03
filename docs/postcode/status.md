@@ -35,6 +35,14 @@ Each feature has a build state: works, mocked, planned or cut.
 
 | Separate contribution and reward balances | Works | Checked in the Codex browser on 3 October 2026, commit `Separate contribution and reward balances`. Existing Priya state migrated to 60 contribution and zero available rewards without losing her reports or pledges. Street retained 220 contribution. Goals and activity labelled private reports as self-reported with no rewards. Old browser storage remains intact; the new store uses version 3. `pnpm fix:postcode` and `pnpm verify:postcode` passed. |
 
+## Notification dismissal
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Smooth notification dismissal with shadcn Toast`. Notifications use the CLI-installed shadcn Base UI Toast. A welcome notification appeared through onboarding. A temporary verification page exercised the same notification manager for hover, replacement and dismissal, then was removed along with the temporary demo account.
+
+Hover held a notification beyond its five-second timeout for six seconds; leaving resumed dismissal. Keyboard focus through F6 also held it beyond the timeout. A replacement updated the single visible toast and refreshed its timer. Closing showed `data-ending-style` while opacity decreased from 0.10 to zero and the banner moved upward, then the element was removed. Both entrance and exit use a 350ms transition; reduced-motion CSS removes that transition.
+
+The light view at 320 × 760 had no horizontal overflow. The dark 390 × 844 phone frame at 1280 × 950 kept the banner 8px below the drawn status bar. The notification remained visible across navigation to Street. No browser console errors; the existing THREE.Clock deprecation warning remains. All 16 participation tests, `pnpm fix:postcode`, `pnpm verify:postcode` and `pnpm build:postcode` passed.
+
 ## Floating bottom navigation
 
 Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Add a dedicated Rewards tab`. Street, Goals, Activity, Rewards and You opened through the floating navigation with the matching selected state. Browser Back from Rewards restored You. The rounded green selection uses a 300ms CSS transform transition, and destination content uses a 180ms fade. Both effects are disabled for reduced motion by their CSS media queries.
