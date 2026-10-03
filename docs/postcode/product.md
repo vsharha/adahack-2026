@@ -38,6 +38,7 @@ Not yet checked against existing projects. Candidates to check include condition
 
 ## Decisions
 
+- The Street illustration sits 32px below the postcode row, so the house labels remain below the heading without changing its background or stacking order. 3 October 2026.
 - The Street invitation sits directly below a compact street illustration and above statistics, so the main action is visible at phone size. Local-context panels link to the relevant activity, walking and cycling goal, or household goals. This connects information to a next step. 3 October 2026.
 - Celebrations open the exact goal through View activity or View goal. Activity cards show progress from pledges through going ahead, held, reported and confirmed, with links to the report and rewards. This keeps the participation sequence explicit. 3 October 2026.
 - Organisers see pending attendance at the top of Activity and are labelled on the account picker. Decline reveals its reason field on demand, keeping confirmation easy to find during the demo. 3 October 2026.

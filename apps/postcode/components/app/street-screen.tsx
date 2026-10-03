@@ -90,7 +90,7 @@ export function StreetScreen({
             {neighbours} neighbours on the app
           </p>
         </div>
-        <div className="mt-1">
+        <div className="mt-8">
           <StreetView
             youHouseholdId={me.householdId}
             showNeighbours

@@ -99,6 +99,10 @@ Each rehearsal ended with +20 contribution and +20 rewards, a repair voucher, ze
 
 The three-minute narration and operator cues are in [pitch/script.md](pitch/script.md); the full route is in [pitch/demo.md](pitch/demo.md). A local 60-second captioned walkthrough uses captured screens from the first rehearsal. It is a screenshot sequence, not a continuous screen recording, and is kept outside Git.
 
+## Street illustration spacing
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Move Street houses below the postcode`. The Street illustration has a 32px top margin. In the dark phone view, the postcode row ended at 196px and the highest house label started at 198.98px, so the labels cleared the heading. The postcode background and stacking order retain their original behaviour. The browser logged no JavaScript errors. `pnpm fix:postcode` and `pnpm verify:postcode` passed.
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.
