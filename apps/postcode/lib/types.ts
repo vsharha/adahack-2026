@@ -102,6 +102,9 @@ export interface Redemption {
   cost: number;
   redeemedAt: string;
   voucherCode: string;
+  offerTitle: string;
+  benefit: string;
+  restrictions: string;
 }
 
 /** Everything the demo changes in the browser; the rest of the seed is fixed. */

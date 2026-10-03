@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DeleteAccountDialog } from "@/components/app/delete-account-dialog";
 import { Avatar } from "@/components/avatar";
+import { HouseholdRewards } from "@/components/household-rewards";
 import { Button } from "@/components/ui/button";
 import { households, interestGroups, streetPostcode } from "@/data/seed";
 import { dispatch, isPremade, useDemoState, useMe } from "@/lib/demo-store";
@@ -132,6 +133,7 @@ export function YouScreen() {
           </p>
         )}
       </section>
+      <HouseholdRewards />
       <dl className="grid grid-cols-2 gap-4 text-center">
         <div>
           <dt className="text-sm text-muted-foreground">Pledges</dt>

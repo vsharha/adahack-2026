@@ -229,6 +229,9 @@ test("UK calendar months count confirmation time and retain previous balances", 
       cost: 20,
       redeemedAt: now,
       voucherCode: "DEMO-TEST",
+      offerTitle: "Repair",
+      benefit: "Example",
+      restrictions: "Demo",
     },
   ];
   assert.equal(rewardsEarnedThisMonth(state, "h1", now), 20);
@@ -273,4 +276,76 @@ test("housemates share claims and reward allowance", () => {
     "confirmed",
   );
   assert.equal(rewardsEarnedThisMonth(state, "h1", now), 100);
+});
+
+test("redemption spends rewards once and preserves contribution and earning allowance", () => {
+  let state = as(heldActivity(), "priya");
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const claim = state.actions.at(-1)!;
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: claim.id },
+    now,
+  );
+  state = as(state, "priya");
+  const contribution = householdPoints(state, "h1");
+  state = reduceDemoState(
+    state,
+    { type: "redeem-reward", offerId: "bicycle-repair" },
+    now,
+  );
+  assert.equal(rewardBalance(state, "h1"), 0);
+  assert.equal(householdPoints(state, "h1"), contribution);
+  assert.equal(rewardsEarnedThisMonth(state, "h1", now), 20);
+  assert.match(state.redemptions[0].voucherCode, /^DEMO-/);
+  assert.equal(state.redemptions[0].benefit, "£5 off a bicycle repair");
+  assert.equal(
+    reduceDemoState(
+      state,
+      { type: "redeem-reward", offerId: "bicycle-repair" },
+      now,
+    ),
+    state,
+  );
+});
+
+test("unknown offers, insufficient balance and signed-out redemption change nothing", () => {
+  const state = as(structuredClone(initialState), "priya");
+  assert.equal(
+    reduceDemoState(
+      state,
+      { type: "redeem-reward", offerId: "bicycle-repair" },
+      now,
+    ),
+    state,
+  );
+  assert.equal(
+    reduceDemoState(state, { type: "redeem-reward", offerId: "unknown" }, now),
+    state,
+  );
+  const signedOut = reduceDemoState(state, { type: "sign-out" }, now);
+  assert.equal(
+    reduceDemoState(
+      signedOut,
+      { type: "redeem-reward", offerId: "bicycle-repair" },
+      now,
+    ),
+    signedOut,
+  );
+});
+
+test("another household cannot spend the claimant household's rewards", () => {
+  const state = as(structuredClone(initialState), "margaret");
+  state.rewardEarnings = [
+    { actionId: "earlier", householdId: "h1", points: 100, earnedAt: now },
+  ];
+  assert.equal(
+    reduceDemoState(
+      state,
+      { type: "redeem-reward", offerId: "bicycle-repair" },
+      now,
+    ),
+    state,
+  );
 });

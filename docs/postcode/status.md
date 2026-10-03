@@ -45,6 +45,8 @@ Light mode at 320 × 760 had no horizontal overflow; the bar sat 12px from each 
 
 | Organiser-confirmed rewards with a household monthly allowance | Works | Checked in the Codex browser on 3 October 2026, commit `Cap household reward earnings by month`. The fresh demo showed 0 of 100 on You; reporting previewed 20 contribution and 20 rewards. Margaret’s confirmation displayed +20 of each. Nine unit tests passed, including a 95-to-100 partial reward, full contribution at the cap, UK calendar-month boundaries, balance carry-forward, household sharing and retained confirmed records after account deletion. `pnpm fix:postcode` and `pnpm verify:postcode` passed. The allowance and rewards are demo settings, not funded partner commitments. |
 
+| Fictional partner rewards and persistent demo vouchers | Works | Checked in the Codex browser on 3 October 2026, commit `Add fictional household reward vouchers`. Priya’s confirmed litter pick gave her 30 contribution and 20 rewards. You showed bicycle repair, refill and secondhand offers with costs, benefits and restrictions. Redeeming the 20-point repair offer created a DEMO voucher, reduced rewards to zero and retained 30 contribution and 20 of 100 earned that month. Reload retained the voucher and balances. Insufficient-balance offers were disabled. No browser errors. Twelve unit tests, `pnpm fix:postcode` and `pnpm verify:postcode` passed. All partners and vouchers are fictional, with no real redemption. |
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

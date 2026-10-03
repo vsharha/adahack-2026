@@ -6,6 +6,8 @@ import {
 } from "@/lib/progress";
 import { findUser, isPremade, nextHousehold } from "@/lib/households";
 import { rewardAward } from "@/lib/rewards";
+import { rewardOffers } from "@/data/rewards";
+import { rewardBalance } from "@/lib/progress";
 import type { DemoState, InterestId, User } from "@/lib/types";
 
 export type DemoAction =
@@ -21,6 +23,7 @@ export type DemoAction =
   | { type: "report-attendance"; goalId: string }
   | { type: "confirm-attendance"; actionId: string }
   | { type: "decline-attendance"; actionId: string; reason: string }
+  | { type: "redeem-reward"; offerId: string }
   | {
       type: "toggle-reaction";
       actionId: string;
@@ -236,6 +239,37 @@ export function reduceDemoState(
                   declineReason: action.reason.trim(),
                 },
         ),
+      };
+    }
+    case "redeem-reward": {
+      const offer = rewardOffers.find((offer) => offer.id === action.offerId);
+      if (
+        !offer ||
+        rewardBalance(state, user.householdId) < offer.cost ||
+        state.redemptions.some(
+          (redemption) =>
+            redemption.householdId === user.householdId &&
+            redemption.offerId === offer.id,
+        )
+      )
+        return state;
+      const id = crypto.randomUUID();
+      return {
+        ...state,
+        redemptions: [
+          ...state.redemptions,
+          {
+            id,
+            householdId: user.householdId,
+            offerId: offer.id,
+            cost: offer.cost,
+            redeemedAt: now,
+            voucherCode: `DEMO-${id.slice(0, 8).toUpperCase()}`,
+            offerTitle: offer.title,
+            benefit: offer.benefit,
+            restrictions: offer.restrictions,
+          },
+        ],
       };
     }
     case "toggle-reaction":
