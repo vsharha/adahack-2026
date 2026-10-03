@@ -28,29 +28,27 @@ export function Celebration({
       data-status-surface="moss"
       className="celebration-in absolute inset-0 z-50 flex flex-col items-center bg-moss px-6 pt-16 pb-8 text-center text-on-moss"
     >
-      <div className="rounded-illustration bg-background/20 px-6 pt-5 pb-3">
-        <svg viewBox="-60 -110 120 120" className="w-36" aria-hidden>
-          <rect x={-4} y={-40} width={8} height={40} fill="var(--trunk)" />
-          <g className="grow-in">
-            <circle cx={0} cy={-62} r={34} fill="var(--leaf)" />
-            <circle cx={-20} cy={-46} r={20} fill="var(--leaf-light)" />
-            <circle cx={18} cy={-80} r={18} fill="var(--leaf-light)" />
-          </g>
-          {[-48, -24, 24, 48].map((x, i) => (
-            <ellipse
-              key={x}
-              className="leaf-fall"
-              style={{ animationDelay: `${300 + i * 150}ms` }}
-              cx={x}
-              cy={-96 + (i % 2) * 14}
-              rx={7}
-              ry={3}
-              transform={`rotate(-35 ${x} ${-96 + (i % 2) * 14})`}
-              fill="var(--lamp)"
-            />
-          ))}
-        </svg>
-      </div>
+      <svg viewBox="-60 -110 120 120" className="w-44" aria-hidden>
+        <rect x={-4} y={-40} width={8} height={40} fill="var(--trunk)" />
+        <g className="grow-in">
+          <circle cx={0} cy={-62} r={34} fill="var(--leaf)" />
+          <circle cx={-20} cy={-46} r={20} fill="var(--leaf-light)" />
+          <circle cx={18} cy={-80} r={18} fill="var(--leaf-light)" />
+        </g>
+        {[-48, -24, 24, 48].map((x, i) => (
+          <ellipse
+            key={x}
+            className="leaf-fall"
+            style={{ animationDelay: `${300 + i * 150}ms` }}
+            cx={x}
+            cy={-96 + (i % 2) * 14}
+            rx={7}
+            ry={3}
+            transform={`rotate(-35 ${x} ${-96 + (i % 2) * 14})`}
+            fill="var(--lamp)"
+          />
+        ))}
+      </svg>
 
       <p className="mt-6 text-sm text-on-moss/80">
         {pledgers.length} neighbours pledged

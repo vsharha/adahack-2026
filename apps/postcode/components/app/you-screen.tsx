@@ -108,7 +108,7 @@ export function YouScreen() {
             .map((g) => (
               <li
                 key={g.id}
-                className="rounded-leaf border border-moss/40 bg-moss/10 px-3 py-1 text-sm"
+                className="rounded-full border border-moss/40 bg-moss/10 px-3 py-1 text-sm"
               >
                 {g.name}
               </li>
