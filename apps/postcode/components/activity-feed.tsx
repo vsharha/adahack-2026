@@ -1,11 +1,104 @@
 "use client";
 
+import { SmilePlus } from "lucide-react";
+import { useState } from "react";
 import { Avatar } from "@/components/avatar";
 import { households } from "@/data/seed";
 import { dispatch, findUser, useDemoState } from "@/lib/demo-store";
+import type { CompletedAction } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const reactionEmojis = ["🌱", "👏", "💚"];
+
+function Reactions({
+  action,
+  isOwn,
+}: {
+  action: CompletedAction;
+  isOwn: boolean;
+}) {
+  const state = useDemoState();
+  const [picking, setPicking] = useState(false);
+  const used = reactionEmojis.filter((emoji) =>
+    action.reactions.some((r) => r.emoji === emoji),
+  );
+  const mine = action.reactions.find((r) => r.userId === state.currentUserId);
+  const names = action.reactions
+    .map((r) => findUser(state, r.userId)?.name)
+    .filter(Boolean)
+    .join(", ");
+
+  return (
+    <>
+      {used.length > 0 && (
+        <span
+          className="flex items-center gap-1 text-sm text-muted-foreground"
+          title={names}
+          aria-label={`${action.reactions.length} reactions from ${names}`}
+        >
+          <span aria-hidden className="flex -space-x-1">
+            {used.map((emoji) => (
+              <span
+                key={emoji}
+                className="grid size-6 place-items-center rounded-full bg-card text-xs ring-2 ring-background"
+              >
+                {emoji}
+              </span>
+            ))}
+          </span>
+          <span className="font-mono text-xs">{action.reactions.length}</span>
+        </span>
+      )}
+      {!isOwn &&
+        (picking ? (
+          <span
+            role="group"
+            aria-label="Choose a reaction"
+            className="flex items-center gap-0.5 rounded-full border bg-card p-0.5 shadow-sm"
+          >
+            {reactionEmojis.map((emoji) => (
+              <button
+                key={emoji}
+                type="button"
+                aria-pressed={mine?.emoji === emoji}
+                aria-label={`React with ${emoji}`}
+                onClick={() => {
+                  dispatch({
+                    type: "toggle-reaction",
+                    actionId: action.id,
+                    emoji,
+                  });
+                  setPicking(false);
+                }}
+                className={cn(
+                  "grid size-8 place-items-center rounded-full text-base outline-none transition-transform hover:scale-110 focus-visible:ring-3 focus-visible:ring-ring/50",
+                  mine?.emoji === emoji && "bg-moss/20",
+                )}
+              >
+                {emoji}
+              </button>
+            ))}
+          </span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPicking(true)}
+            className={cn(
+              "ml-auto flex items-center gap-1 rounded-full px-2 py-1 text-sm outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50",
+              mine ? "font-bold text-moss-ink" : "text-muted-foreground",
+            )}
+          >
+            {mine ? (
+              <span aria-hidden>{mine.emoji}</span>
+            ) : (
+              <SmilePlus className="size-4" />
+            )}
+            {mine ? "Reacted" : "React"}
+          </button>
+        ))}
+    </>
+  );
+}
 
 const dateFormat = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -54,43 +147,7 @@ export function ActivityFeed({ limit }: { limit?: number }) {
                 >
                   {dateFormat.format(new Date(action.completedAt))}
                 </time>
-                {reactionEmojis.map((emoji) => {
-                  const count = action.reactions.filter(
-                    (r) => r.emoji === emoji,
-                  ).length;
-                  const mine = action.reactions.some(
-                    (r) =>
-                      r.emoji === emoji && r.userId === state.currentUserId,
-                  );
-                  if (isOwn && count === 0) return null;
-                  return (
-                    <button
-                      key={emoji}
-                      type="button"
-                      disabled={isOwn}
-                      aria-pressed={mine}
-                      aria-label={`React with ${emoji}`}
-                      onClick={() =>
-                        dispatch({
-                          type: "toggle-reaction",
-                          actionId: action.id,
-                          emoji,
-                        })
-                      }
-                      className={cn(
-                        "rounded-full border px-2 py-0.5 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-default",
-                        mine
-                          ? "border-moss bg-moss/10"
-                          : "border-border bg-card hover:bg-muted",
-                      )}
-                    >
-                      {emoji}
-                      {count > 0 && (
-                        <span className="ml-1 font-mono text-xs">{count}</span>
-                      )}
-                    </button>
-                  );
-                })}
+                <Reactions action={action} isOwn={isOwn} />
               </div>
             </div>
           </li>

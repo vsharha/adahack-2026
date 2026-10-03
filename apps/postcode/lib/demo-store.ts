@@ -152,16 +152,17 @@ function reduce(state: DemoState, action: DemoAction): DemoState {
         ...state,
         actions: state.actions.map((a) => {
           if (a.id !== action.actionId) return a;
+          // One reaction per person: the same emoji removes it, another
+          // replaces it.
           const mine = a.reactions.some(
             (r) => r.userId === user.id && r.emoji === action.emoji,
           );
+          const others = a.reactions.filter((r) => r.userId !== user.id);
           return {
             ...a,
             reactions: mine
-              ? a.reactions.filter(
-                  (r) => !(r.userId === user.id && r.emoji === action.emoji),
-                )
-              : [...a.reactions, { userId: user.id, emoji: action.emoji }],
+              ? others
+              : [...others, { userId: user.id, emoji: action.emoji }],
           };
         }),
       };
