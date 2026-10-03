@@ -116,17 +116,15 @@ export function ActivityFeed({
   limit,
   completedOnly = false,
   focusedActionId,
+  items,
 }: {
   limit?: number;
   completedOnly?: boolean;
   focusedActionId?: string;
+  items?: CompletedAction[];
 }) {
-  useNotificationTarget(
-    `report-${focusedActionId}`,
-    focusedActionId !== undefined,
-  );
   const state = useDemoState();
-  const actions = [...state.actions]
+  const actions = [...(items ?? state.actions)]
     .filter(
       (action) =>
         !completedOnly ||
@@ -135,6 +133,10 @@ export function ActivityFeed({
     )
     .sort((a, b) => b.completedAt.localeCompare(a.completedAt))
     .slice(0, limit);
+  useNotificationTarget(
+    `report-${focusedActionId}`,
+    actions.some((action) => action.id === focusedActionId),
+  );
 
   if (actions.length === 0) {
     return (
@@ -177,7 +179,7 @@ export function ActivityFeed({
                 {action.status === "self-reported"
                   ? "reported completing"
                   : "reported attending"}{" "}
-                <span className="font-bold">{goal?.title.toLowerCase()}</span>
+                <span className="font-bold">{goal?.title}</span>
               </p>
               {action.note && <p className="text-sm">“{action.note}”</p>}
               <p className="text-xs text-muted-foreground" role="status">

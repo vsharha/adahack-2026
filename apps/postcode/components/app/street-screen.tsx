@@ -63,11 +63,13 @@ export function StreetScreen({
     : [];
 
   return (
-    <div className="space-y-6 pb-6">
-      <header className="flex items-center justify-between px-5 pt-4">
+    <div className="space-y-4 pb-6">
+      <header className="flex items-center justify-between px-5 pt-3">
         <div>
-          <p className="text-muted-foreground">{greeting(new Date())},</p>
-          <h1 className="text-2xl font-bold">{me.name}</h1>
+          <p className="text-xs text-muted-foreground">
+            {greeting(new Date())}
+          </p>
+          <h1 className="text-xl font-bold">{me.name}</h1>
         </div>
         <button
           type="button"
@@ -81,7 +83,7 @@ export function StreetScreen({
 
       <section>
         <div className="flex items-baseline justify-between px-5">
-          <h2 className="text-4xl font-bold tracking-tight text-foreground">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">
             {streetPostcode}
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -93,9 +95,19 @@ export function StreetScreen({
             youHouseholdId={me.householdId}
             showNeighbours
             active={active}
+            compact
           />
         </div>
-        <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
+      </section>
+
+      <StreetGoalInvitation
+        key={me.id}
+        invitation={needsYou ? { ...needsYou, pledgers } : undefined}
+        paused={!active || celebrating}
+      />
+
+      <section>
+        <dl className="mx-5 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
           <div className="flex flex-col gap-1 p-3">
             <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
               Street contribution
@@ -110,17 +122,10 @@ export function StreetScreen({
           </div>
         </dl>
         <p className="mt-2 px-5 text-xs text-muted-foreground">
-          House colours show contribution. Illustrated trees mark goals going
-          ahead; they do not represent real trees planted or measured
-          electricity savings.
+          Illustrated progress: contribution colours houses; unlocked goals add
+          trees. No measured savings or real planting.
         </p>
       </section>
-
-      <StreetGoalInvitation
-        key={me.id}
-        invitation={needsYou ? { ...needsYou, pledgers } : undefined}
-        paused={!active || celebrating}
-      />
 
       <LocalContext />
 

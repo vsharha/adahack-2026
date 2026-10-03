@@ -43,6 +43,7 @@ export type Goal = GoalScope & {
   activity?: {
     id: string;
     scheduledAt: string;
+    durationMinutes?: number;
     organiserIds: string[];
     rewardPoints: number;
     heldAt?: string;

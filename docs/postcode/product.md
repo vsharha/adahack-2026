@@ -38,6 +38,11 @@ Not yet checked against existing projects. Candidates to check include condition
 
 ## Decisions
 
+- The Street invitation sits directly below a compact street illustration and above statistics, so the main action is visible at phone size. Local-context panels link to the relevant activity, walking and cycling goal, or household goals. This connects information to a next step. 3 October 2026.
+- Celebrations open the exact goal through View activity or View goal. Activity cards show progress from pledges through going ahead, held, reported and confirmed, with links to the report and rewards. This keeps the participation sequence explicit. 3 October 2026.
+- Organisers see pending attendance at the top of Activity and are labelled on the account picker. Decline reveals its reason field on demand, keeping confirmation easy to find during the demo. 3 October 2026.
+- Goal cards keep the title, pledge progress and action visible, with the local basis and rules inside Why this goal?. Primary and standard small buttons are at least 44px high for phone use. 3 October 2026.
+- The presentation follows Priya’s garden litter-pick pledge, Margaret’s held and confirmation controls, and Priya’s repair voucher in about three minutes. Two rehearsals and a local captured-screen backup support the live demo. 3 October 2026.
 - A Street pledge keeps its original goal card beneath a blurred, rounded overlay with a centred checkmark and "Accepted". The confirmation appears only after any full-screen celebration closes, then fades before the next goal appears, so accepting a goal cannot look like a failed tap. 3 October 2026.
 - Secondary buttons use a slightly darker themed background, including outlined actions, so they stand out from cards and page backgrounds. 3 October 2026.
 - App text is not selectable, and "Use my location" uses the primary button style during onboarding, to match the requested phone-app interaction and emphasise location lookup. 3 October 2026.

@@ -15,6 +15,14 @@ import type { Goal } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useNotificationTarget } from "@/lib/use-notification-target";
 
+const activityDate = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: "Europe/London",
+});
+
 function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
   const state = useDemoState();
   const pledgers = state.pledges
@@ -73,22 +81,42 @@ export function GoalCard({
       tabIndex={focused ? -1 : undefined}
       data-notification-target={focused ? "true" : undefined}
       className={cn(
-        "flex flex-col gap-4 rounded-xl border bg-card p-5 transition-colors duration-500",
+        "flex flex-col gap-3 rounded-xl border bg-card p-4 transition-colors duration-500",
         unlocked && goal.level !== "household" && "border-moss/50",
         focused && "scroll-mt-[calc(var(--status-bar)+1rem)] outline-none",
       )}
     >
-      <header className="flex items-baseline justify-between gap-3">
+      <header className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="text-sm text-muted-foreground">{scope}</p>
-        <p className="shrink-0 tabular-nums text-sm text-moss-ink">
+        <p className="tabular-nums text-xs text-moss-ink">
           +{goal.points} contribution
         </p>
       </header>
 
       <div className="space-y-1.5">
         <h3 className="text-lg leading-snug font-bold">{goal.title}</h3>
-        <p>{goal.description}</p>
-        <p className="text-sm text-muted-foreground">Why here: {goal.basis}</p>
+        {goal.activity && (
+          <>
+            <p className="text-sm">
+              <time dateTime={goal.activity.scheduledAt}>
+                {activityDate.format(new Date(goal.activity.scheduledAt))}
+              </time>
+              {goal.activity.durationMinutes &&
+                ` · ${goal.activity.durationMinutes} minutes`}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Organised by{" "}
+              {goal.activity.organiserIds
+                .map((id) => findUser(state, id)?.name)
+                .filter(Boolean)
+                .join(" and ")}
+            </p>
+            <p className="text-xs font-bold text-moss-ink">
+              Fictional demo activity
+            </p>
+          </>
+        )}
+        {!goal.activity && <p className="text-sm">{goal.description}</p>}
         <p className="text-xs text-muted-foreground">
           {goal.activity
             ? `Organiser-confirmed · up to ${goal.activity.rewardPoints} reward points`
@@ -159,6 +187,20 @@ export function GoalCard({
         )}
       </footer>
       {goal.activity && <ActivityParticipation goal={goal} />}
+      <details className="border-t pt-2 text-sm">
+        <summary className="flex min-h-11 cursor-pointer items-center font-bold text-moss-ink outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+          Why this goal?
+        </summary>
+        <div className="space-y-2 pb-2">
+          <p>{goal.description}</p>
+          <p className="text-muted-foreground">Why here: {goal.basis}</p>
+          <p className="text-xs text-muted-foreground">
+            {goal.activity
+              ? "An organiser outside your household confirms attendance before points are awarded. Rewards remain subject to your monthly household allowance."
+              : "Private actions are self-reported. Each household can report completion once; these actions earn contribution, not spendable rewards."}
+          </p>
+        </div>
+      </details>
     </article>
   );
 }

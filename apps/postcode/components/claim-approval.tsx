@@ -9,6 +9,7 @@ export function ClaimApproval({ claim }: { claim: CompletedAction }) {
   const state = useDemoState();
   const me = useMe();
   const [reason, setReason] = useState("");
+  const [declining, setDeclining] = useState(false);
   const goal = state.goals.find((goal) => goal.id === claim.goalId);
   if (
     claim.status !== "pending" ||
@@ -34,26 +35,46 @@ export function ClaimApproval({ claim }: { claim: CompletedAction }) {
       >
         Confirm attendance
       </Button>
-      <label className="block text-sm" htmlFor={`decline-${claim.id}`}>
-        Reason if declining
-      </label>
-      <input
-        id={`decline-${claim.id}`}
-        value={reason}
-        onChange={(event) => setReason(event.target.value)}
-        maxLength={240}
-        className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      />
-      <Button
-        size="sm"
-        variant="outline"
-        disabled={!reason.trim()}
-        onClick={() =>
-          dispatch({ type: "decline-attendance", actionId: claim.id, reason })
-        }
-      >
-        Decline claim
-      </Button>
+      {!declining ? (
+        <Button
+          size="sm"
+          variant="outline"
+          className="ml-2"
+          onClick={() => setDeclining(true)}
+        >
+          Decline
+        </Button>
+      ) : (
+        <div className="space-y-2">
+          <label className="block text-sm" htmlFor={`decline-${claim.id}`}>
+            Reason if declining
+          </label>
+          <input
+            id={`decline-${claim.id}`}
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            maxLength={240}
+            className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={!reason.trim()}
+            onClick={() =>
+              dispatch({
+                type: "decline-attendance",
+                actionId: claim.id,
+                reason,
+              })
+            }
+          >
+            Decline claim
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => setDeclining(false)}>
+            Cancel
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

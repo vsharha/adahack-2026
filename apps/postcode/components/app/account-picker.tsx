@@ -50,6 +50,13 @@ export function AccountPicker({ onJoin }: { onJoin: () => void }) {
                   <span className="text-sm text-muted-foreground">
                     {households.find((h) => h.id === user.householdId)?.label}
                   </span>
+                  {state.goals.some((goal) =>
+                    goal.activity?.organiserIds.includes(user.id),
+                  ) && (
+                    <span className="mt-1 block text-xs font-bold text-moss-ink">
+                      Activity organiser
+                    </span>
+                  )}
                 </span>
               </button>
               {removable && (

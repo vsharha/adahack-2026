@@ -8,7 +8,7 @@ import { sharedGoalsGoingAhead, totalPoints } from "@/lib/progress";
 
 const StreetScene = dynamic(
   () => import("@/components/street-scene").then((m) => m.StreetScene),
-  { ssr: false, loading: () => <div className="h-64 w-full" /> },
+  { ssr: false, loading: () => <div className="h-full w-full" /> },
 );
 
 let webGL: boolean | undefined;
@@ -35,11 +35,13 @@ export function StreetView({
   youHouseholdId,
   showNeighbours = false,
   active = true,
+  compact = false,
 }: {
   youHouseholdId?: string;
   showNeighbours?: boolean;
   /** False while the view is kept alive but hidden, so the 3D scene pauses. */
   active?: boolean;
+  compact?: boolean;
 }) {
   const state = useDemoState();
   const canRender3D = useSyncExternalStore(
@@ -50,18 +52,20 @@ export function StreetView({
   const label = `The illustrated street: ${totalPoints(state)} contribution points earned, ${sharedGoalsGoingAhead(state).length} shared goals going ahead. House colours represent participation, not measured savings.`;
 
   return (
-    <div>
+    <div className={compact ? "h-40" : "h-64"}>
       {canRender3D ? (
         <StreetScene
           youHouseholdId={youHouseholdId}
           showNeighbours={showNeighbours}
           active={active}
           label={label}
+          compact={compact}
         />
       ) : (
         <StreetDrawing
           youHouseholdId={youHouseholdId}
           showNeighbours={showNeighbours}
+          compact={compact}
         />
       )}
     </div>

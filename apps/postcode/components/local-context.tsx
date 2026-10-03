@@ -1,4 +1,7 @@
 import { Leaf, Wind, Zap } from "lucide-react";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { notificationHref } from "@/lib/notification-target";
 import area from "@/data/area.json";
 
 const number = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 0 });
@@ -46,6 +49,12 @@ export function LocalContext() {
             A local place to care for together. The litter pick is a fictional
             demo activity.
           </p>
+          <Link
+            href={notificationHref({ tab: "goals", goalId: "g-litter-pick" })}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            View the garden litter pick
+          </Link>
         </article>
         <article className="space-y-2 p-4">
           <h3 className="flex items-center gap-2 font-bold">
@@ -68,6 +77,15 @@ export function LocalContext() {
           >
             Open-Meteo / CAMS forecast
           </a>
+          <Link
+            href={notificationHref({
+              tab: "goals",
+              goalId: "g-car-free-school-run",
+            })}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Explore walking and cycling
+          </Link>
         </article>
         <article className="space-y-2 p-4">
           <h3 className="flex items-center gap-2 font-bold">
@@ -92,6 +110,12 @@ export function LocalContext() {
           >
             Government electricity statistics
           </a>
+          <Link
+            href="/goals?scope=household"
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Explore home energy goals
+          </Link>
         </article>
       </div>
     </section>

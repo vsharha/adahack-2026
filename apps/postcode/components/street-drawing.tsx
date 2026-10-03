@@ -177,10 +177,12 @@ function House({
 export function StreetDrawing({
   youHouseholdId,
   showNeighbours = false,
+  compact = false,
 }: {
   youHouseholdId?: string;
   /** Tags each house with the initials of the neighbours who live there. */
   showNeighbours?: boolean;
+  compact?: boolean;
 }) {
   const state = useDemoState();
   const scroller = useRef<HTMLDivElement>(null);
@@ -211,7 +213,9 @@ export function StreetDrawing({
     <div ref={scroller} className="overflow-x-auto overscroll-x-contain">
       <svg
         viewBox="0 -20 1200 360"
-        className="h-auto w-full min-w-[720px]"
+        className={
+          compact ? "h-40 w-auto min-w-[720px]" : "h-auto w-full min-w-[720px]"
+        }
         role="img"
         aria-label={`The illustrated street: ${total} contribution points earned, ${trees} shared goals going ahead. House colours represent participation, not measured savings.`}
       >

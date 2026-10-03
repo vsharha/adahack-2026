@@ -3,6 +3,8 @@
 import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/ui/button";
 import { findUser, useDemoState } from "@/lib/demo-store";
+import { useRouter } from "next/navigation";
+import { notificationHref } from "@/lib/notification-target";
 
 /** Full-screen moment when a shared goal reaches its pledge threshold. */
 export function Celebration({
@@ -12,6 +14,7 @@ export function Celebration({
   goalId: string;
   onClose: () => void;
 }) {
+  const router = useRouter();
   const state = useDemoState();
   const goal = state.goals.find((g) => g.id === goalId);
   if (!goal) return null;
@@ -26,9 +29,9 @@ export function Celebration({
       aria-modal
       aria-labelledby="celebration-title"
       data-status-surface="moss"
-      className="celebration-in absolute inset-0 z-50 flex flex-col items-center bg-moss px-6 pt-16 pb-8 text-center text-on-moss"
+      className="celebration-in absolute inset-0 z-50 flex flex-col items-center overflow-y-auto bg-moss px-6 pt-16 pb-8 text-center text-on-moss"
     >
-      <svg viewBox="-60 -110 120 120" className="w-44" aria-hidden>
+      <svg viewBox="-60 -110 120 120" className="w-28 shrink-0" aria-hidden>
         <rect x={-4} y={-40} width={8} height={40} fill="var(--trunk)" />
         <g className="grow-in">
           <circle cx={0} cy={-62} r={34} fill="var(--leaf)" />
@@ -74,14 +77,26 @@ export function Celebration({
           : `Households can report completing it for ${goal.points} contribution points.`}
       </p>
 
-      <Button
-        size="lg"
-        className="mt-auto h-12 w-full bg-on-moss text-base text-moss hover:bg-on-moss/90"
-        onClick={onClose}
-        autoFocus
-      >
-        Let&apos;s do it
-      </Button>
+      <div className="mt-auto w-full space-y-2 pt-6">
+        <Button
+          size="lg"
+          className="w-full bg-on-moss text-base text-moss hover:bg-on-moss/90"
+          onClick={() => {
+            onClose();
+            router.push(notificationHref({ tab: "goals", goalId: goal.id }));
+          }}
+          autoFocus
+        >
+          {goal.activity ? "View activity" : "View goal"}
+        </Button>
+        <Button
+          variant="ghost"
+          className="w-full text-on-moss hover:bg-on-moss/10"
+          onClick={onClose}
+        >
+          Back to Street
+        </Button>
+      </div>
     </div>
   );
 }

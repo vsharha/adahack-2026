@@ -372,12 +372,14 @@ export function StreetScene({
   youHouseholdId,
   showNeighbours = false,
   active = true,
+  compact = false,
   label,
 }: {
   youHouseholdId?: string;
   showNeighbours?: boolean;
   /** False while the scene is kept alive but hidden, so it stops rendering. */
   active?: boolean;
+  compact?: boolean;
   label: string;
 }) {
   const state = useDemoState();
@@ -415,7 +417,7 @@ export function StreetScene({
       role="img"
       aria-label={label}
       aria-busy={!ready}
-      className="relative h-64 w-full motion-safe:transition-opacity motion-safe:duration-500 motion-safe:ease-out"
+      className={`relative ${compact ? "h-40" : "h-64"} w-full motion-safe:transition-opacity motion-safe:duration-500 motion-safe:ease-out`}
       style={{ opacity: ready ? 1 : 0 }}
     >
       <Canvas
