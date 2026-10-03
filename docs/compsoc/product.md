@@ -6,6 +6,7 @@ The [four-family algorithm comparison](peatpulse-algorithm-comparison.md) confir
 
 ## Decisions
 
+- Write the Devpost description in the same plain language as the technical report, using its measured FWI comparison and stating the limits of the historical satellite benchmark. **3 October 2026.**
 - Reduce the overall page scale and report text width after the user found the site too zoomed in, because the report fonts, cover image and text column should fit more comfortably on screen. **3 October 2026.**
 - Create a fresh PeatPulse demo website and develop it one agreed step at a time, because the user wants a new presentation experience rather than reuse of the existing data explorer. **3 October 2026.**
 - Start the website with a subdued peatland background and two choices: “Read the story” opens a simple work-in-progress page, while “Read the report” opens the technical report. Remove the report’s print button and link the source section to GitHub. **3 October 2026.**
