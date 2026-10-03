@@ -143,7 +143,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
           </p>
         )}
       </footer>
-      {goal.activity && unlocked && <ActivityParticipation goal={goal} />}
+      {goal.activity && <ActivityParticipation goal={goal} />}
     </article>
   );
 }

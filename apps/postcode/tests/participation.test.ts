@@ -349,3 +349,112 @@ test("another household cannot spend the claimant household's rewards", () => {
     state,
   );
 });
+
+test("a repeat activity uses a new dated record and shares the same allowance", () => {
+  let state = as(heldActivity(), "priya");
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const first = state.actions.at(-1)!;
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: first.id },
+    now,
+  );
+  const goal = state.goals.find((goal) => goal.id === goalId)!;
+  assert.ok(goal.activity);
+  const nextDate = "2026-10-10T12:00:00Z";
+  state.goals.push({
+    ...goal,
+    id: "repeat-litter-pick",
+    activity: {
+      ...goal.activity,
+      id: "litter-pick-2026-10-10",
+      scheduledAt: nextDate,
+      heldAt: nextDate,
+    },
+  });
+  state.pledges.push({ goalId: "repeat-litter-pick", userId: "priya" });
+  state = as(state, "priya");
+  state = reduceDemoState(
+    state,
+    { type: "report-attendance", goalId: "repeat-litter-pick" },
+    nextDate,
+  );
+  const repeat = state.actions.at(-1)!;
+  assert.notEqual(repeat.activityId, first.activityId);
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: repeat.id },
+    nextDate,
+  );
+  assert.equal(rewardsEarnedThisMonth(state, "h1", nextDate), 40);
+});
+
+test("an organiser cannot mark an activity as held before its scheduled date", () => {
+  let state = as(structuredClone(initialState), "priya");
+  state = reduceDemoState(state, { type: "pledge", goalId }, now);
+  state = as(state, "margaret");
+  assert.equal(
+    reduceDemoState(
+      state,
+      { type: "mark-activity-held", goalId },
+      "2026-10-02T12:00:00Z",
+    ),
+    state,
+  );
+});
+
+test("reset restores the seed, removing claims, earnings, vouchers and held status", () => {
+  let state = as(heldActivity(), "priya");
+  state = reduceDemoState(state, { type: "report-attendance", goalId }, now);
+  const claim = state.actions.at(-1)!;
+  state = as(state, "margaret");
+  state = reduceDemoState(
+    state,
+    { type: "confirm-attendance", actionId: claim.id },
+    now,
+  );
+  state = as(state, "priya");
+  state = reduceDemoState(
+    state,
+    { type: "redeem-reward", offerId: "bicycle-repair" },
+    now,
+  );
+  state = reduceDemoState(state, { type: "reset" }, now);
+  assert.deepEqual(state, initialState);
+  assert.equal(state.rewardEarnings.length, 0);
+  assert.equal(state.redemptions.length, 0);
+  assert.equal(
+    state.goals.find((goal) => goal.id === goalId)?.activity?.heldAt,
+    undefined,
+  );
+});
+
+test("legacy browser progress migrates without retroactive rewards or lost pledges", async () => {
+  const { migrateDemoState } = await import("../lib/demo-migration");
+  const seed = structuredClone(initialState);
+  const saved = {
+    users: seed.users,
+    currentUserId: "priya",
+    goals: seed.goals
+      .filter((goal) => goal.id !== goalId)
+      .map((goal) => ({ ...goal, basis: "Old placeholder" })),
+    pledges: seed.pledges.filter((pledge) => pledge.goalId !== goalId),
+    actions: seed.actions.map(({ status, contributionPoints, ...action }) => {
+      assert.ok(status);
+      assert.ok(contributionPoints);
+      return action;
+    }),
+  };
+  const migrated = migrateDemoState(saved);
+  assert.equal(migrated.currentUserId, "priya");
+  assert.equal(householdPoints(migrated, "h1"), 10);
+  assert.equal(rewardBalance(migrated, "h1"), 0);
+  assert.equal(migrated.goals.filter((goal) => goal.id === goalId).length, 1);
+  assert.equal(
+    migrated.pledges.filter((pledge) => pledge.goalId === goalId).length,
+    2,
+  );
+  assert.deepEqual(migrateDemoState(migrated), migrated);
+});

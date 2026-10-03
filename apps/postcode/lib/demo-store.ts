@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 import { reduceDemoState, type DemoAction } from "@/lib/demo-reducer";
 import { initialState } from "@/data/seed";
 import { findUser } from "@/lib/households";
+import { migrateDemoState, type StoredDemoState } from "@/lib/demo-migration";
 import { sharedGoalsGoingAhead } from "@/lib/progress";
 import type { DemoState, User } from "@/lib/types";
 
@@ -19,55 +20,13 @@ let state: DemoState | undefined;
 const listeners = new Set<() => void>();
 const eventListeners = new Set<(event: DemoEvent) => void>();
 
-function addDemoActivity(saved: DemoState): DemoState {
-  const goal = initialState.goals.find((item) => item.id === "g-litter-pick");
-  if (!goal) return saved;
-  if (saved.goals.some((item) => item.id === goal.id))
-    return {
-      ...saved,
-      goals: saved.goals.map((item) =>
-        item.id === goal.id &&
-        item.activity &&
-        item.activity.rewardPoints === undefined
-          ? {
-              ...item,
-              activity: {
-                ...item.activity,
-                rewardPoints: goal.activity?.rewardPoints ?? 0,
-              },
-            }
-          : item,
-      ),
-    };
-  return {
-    ...saved,
-    goals: [goal, ...saved.goals],
-    pledges: [
-      ...saved.pledges,
-      ...initialState.pledges.filter((pledge) => pledge.goalId === goal.id),
-    ],
-  };
-}
-
 function load(): DemoState {
   try {
     const saved = localStorage.getItem(storageKey);
-    if (saved) return addDemoActivity(JSON.parse(saved) as DemoState);
+    if (saved) return migrateDemoState(JSON.parse(saved) as StoredDemoState);
     const previous = localStorage.getItem("postcode-demo-state-v2");
-    if (previous) {
-      const old = JSON.parse(previous) as DemoState;
-      const points = new Map(old.goals.map((goal) => [goal.id, goal.points]));
-      return addDemoActivity({
-        ...old,
-        actions: old.actions.map((action) => ({
-          ...action,
-          status: "self-reported",
-          contributionPoints: points.get(action.goalId) ?? 0,
-        })),
-        rewardEarnings: [],
-        redemptions: [],
-      });
-    }
+    if (previous)
+      return migrateDemoState(JSON.parse(previous) as StoredDemoState);
   } catch {
     // Storage can be unavailable (private windows); the seed still works.
   }

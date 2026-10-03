@@ -213,7 +213,7 @@ export function StreetDrawing({
         viewBox="0 -20 1200 360"
         className="h-auto w-full min-w-[720px]"
         role="img"
-        aria-label={`The street: ${total} points earned, ${trees} shared goals going ahead.`}
+        aria-label={`The illustrated street: ${total} contribution points earned, ${trees} shared goals going ahead. House colours represent participation, not measured savings.`}
       >
         {households.map((household, i) => (
           <House

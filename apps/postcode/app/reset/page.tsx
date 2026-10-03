@@ -23,7 +23,8 @@ export default function ResetPage() {
         <h1 className="text-2xl font-bold">Reset the demo?</h1>
         <p className="text-muted-foreground">
           This restores the five premade neighbours and their goals. Every
-          pledge, completed goal and reaction made in the demo is removed
+          pledge, report, confirmation, reward earning, voucher and reaction
+          made in the demo is removed
           {hydrated && added > 0
             ? `, along with ${added} added ${added === 1 ? "account" : "accounts"}`
             : ""}

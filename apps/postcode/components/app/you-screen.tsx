@@ -65,7 +65,11 @@ export function YouScreen() {
     (u) => u.householdId === me.householdId && u.id !== me.id,
   );
   const pledges = state.pledges.filter((p) => p.userId === me.id).length;
-  const done = state.actions.filter((a) => a.userId === me.id).length;
+  const done = state.actions.filter(
+    (a) =>
+      a.userId === me.id &&
+      (a.status === "self-reported" || a.status === "confirmed"),
+  ).length;
   const earned = rewardsEarnedThisMonth(
     state,
     me.householdId,
@@ -82,6 +86,14 @@ export function YouScreen() {
           {housemates.length > 0 &&
             ` · with ${housemates.map((u) => u.name).join(" and ")}`}
         </p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-3"
+          onClick={() => dispatch({ type: "sign-out" })}
+        >
+          Switch account
+        </Button>
       </header>
 
       <dl className="grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
@@ -165,14 +177,7 @@ export function YouScreen() {
 
       <AppearancePicker />
 
-      <section className="space-y-2 border-t pt-6">
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => dispatch({ type: "sign-out" })}
-        >
-          Switch account
-        </Button>
+      <section className="space-y-2">
         {!isPremade(me.id) && (
           <Button
             variant="destructive"

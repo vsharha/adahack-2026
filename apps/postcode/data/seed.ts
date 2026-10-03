@@ -129,7 +129,8 @@ export const initialState: DemoState = {
       title: "Plant up the verge for pollinators",
       description:
         "Sow wildflowers along the shared verge on a Saturday morning.",
-      basis: "Green space near EH8 and its distance from the street.",
+      basis:
+        "Nicolson Square Gardens is a nearby public garden; this is a suggested activity, not a measured biodiversity need.",
       points: 20,
       origin: "suggested",
     },

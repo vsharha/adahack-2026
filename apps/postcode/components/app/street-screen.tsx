@@ -102,6 +102,11 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
             <dd className="tabular-nums text-xl font-bold">{goingAhead}</dd>
           </div>
         </dl>
+        <p className="mt-2 px-5 text-xs text-muted-foreground">
+          House colours show contribution. Illustrated trees mark goals going
+          ahead; they do not represent real trees planted or measured
+          electricity savings.
+        </p>
       </section>
 
       {needsYou && (
@@ -142,7 +147,7 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
 
       <section className="px-5">
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-lg font-bold">Done on the street</h2>
+          <h2 className="text-lg font-bold">Completed reports</h2>
           <Button
             variant="link"
             className="px-0"

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import type { Goal } from "@/lib/types";
 import { rewardAward } from "@/lib/rewards";
+import { isUnlocked } from "@/lib/progress";
 
 const date = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -30,6 +31,8 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
       findUser(state, pledge.userId)?.householdId === me.householdId,
   );
   const organiser = activity.organiserIds.includes(me.id);
+  const canMarkHeld =
+    isUnlocked(state, goal) && new Date().toISOString() >= activity.scheduledAt;
   const available = rewardAward(
     state,
     me.householdId,
@@ -62,9 +65,15 @@ export function ActivityParticipation({ goal }: { goal: Goal }) {
             The organiser marks this activity as held before households can
             report attendance.
           </p>
+          {!isUnlocked(state, goal) && (
+            <p className="text-xs text-muted-foreground">
+              Waiting for enough pledges before this can go ahead.
+            </p>
+          )}
           {organiser && (
             <Button
               variant="outline"
+              disabled={!canMarkHeld}
               onClick={() =>
                 dispatch({ type: "mark-activity-held", goalId: goal.id })
               }

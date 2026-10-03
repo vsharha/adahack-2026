@@ -47,7 +47,7 @@ export function StreetView({
     supportsWebGL,
     () => true,
   );
-  const label = `The street: ${totalPoints(state)} points earned, ${sharedGoalsGoingAhead(state).length} shared goals going ahead.`;
+  const label = `The illustrated street: ${totalPoints(state)} contribution points earned, ${sharedGoalsGoingAhead(state).length} shared goals going ahead. House colours represent participation, not measured savings.`;
 
   return (
     <div>

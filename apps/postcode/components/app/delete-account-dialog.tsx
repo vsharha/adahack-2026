@@ -30,8 +30,10 @@ export function DeleteAccountDialog({
             Delete {user.name}&apos;s account?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Their pledges, completed goals and reactions are removed from the
-            street, and their house becomes free.
+            Their pledges, private reports, unconfirmed claims and reactions are
+            removed. Confirmed participation, contribution, rewards and vouchers
+            stay with the household. Their house becomes free if no other
+            account lives there.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

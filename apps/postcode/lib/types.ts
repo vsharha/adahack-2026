@@ -37,7 +37,7 @@ export type Goal = GoalScope & {
   description: string;
   /** The local data the goal was suggested from, shown to explain why. */
   basis: string;
-  /** Earned by a household each time it reports completing the goal. */
+  /** Contribution awarded for one eligible household completion. */
   points: number;
   origin: "suggested" | "written";
   activity?: {
