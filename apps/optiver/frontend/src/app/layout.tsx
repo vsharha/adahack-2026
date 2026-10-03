@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "Optiver Carbon Portfolio Optimizer | AdaHack 2026",
   description:
     "Build a carbon credit portfolio that delivers 100,000 tonnes CO₂e on a budget and survives the unexpected.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
