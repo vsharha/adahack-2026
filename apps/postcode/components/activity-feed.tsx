@@ -3,6 +3,11 @@
 import { SmilePlus } from "lucide-react";
 import { useState } from "react";
 import { Avatar } from "@/components/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { households } from "@/data/seed";
 import { dispatch, findUser, useDemoState } from "@/lib/demo-store";
 import type { CompletedAction } from "@/lib/types";
@@ -49,12 +54,25 @@ function Reactions({
           <span className="font-mono text-xs">{action.reactions.length}</span>
         </span>
       )}
-      {!isOwn &&
-        (picking ? (
-          <span
-            role="group"
+      {!isOwn && (
+        <Popover open={picking} onOpenChange={setPicking}>
+          <PopoverTrigger
+            className={cn(
+              "ml-auto flex items-center gap-1 rounded-full px-2 py-1 text-sm outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 data-popup-open:bg-muted",
+              mine ? "font-bold text-moss-ink" : "text-muted-foreground",
+            )}
+          >
+            {mine ? (
+              <span aria-hidden>{mine.emoji}</span>
+            ) : (
+              <SmilePlus className="size-4" />
+            )}
+            {mine ? "Reacted" : "React"}
+          </PopoverTrigger>
+          <PopoverContent
+            align="end"
             aria-label="Choose a reaction"
-            className="flex items-center gap-0.5 rounded-full border bg-card p-0.5 shadow-sm"
+            className="w-auto flex-row gap-0.5 rounded-full p-1"
           >
             {reactionEmojis.map((emoji) => (
               <button
@@ -71,31 +89,16 @@ function Reactions({
                   setPicking(false);
                 }}
                 className={cn(
-                  "grid size-8 place-items-center rounded-full text-base outline-none transition-transform hover:scale-110 focus-visible:ring-3 focus-visible:ring-ring/50",
+                  "grid size-9 place-items-center rounded-full text-lg outline-none transition-transform hover:scale-110 focus-visible:ring-3 focus-visible:ring-ring/50",
                   mine?.emoji === emoji && "bg-moss/20",
                 )}
               >
                 {emoji}
               </button>
             ))}
-          </span>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setPicking(true)}
-            className={cn(
-              "ml-auto flex items-center gap-1 rounded-full px-2 py-1 text-sm outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50",
-              mine ? "font-bold text-moss-ink" : "text-muted-foreground",
-            )}
-          >
-            {mine ? (
-              <span aria-hidden>{mine.emoji}</span>
-            ) : (
-              <SmilePlus className="size-4" />
-            )}
-            {mine ? "Reacted" : "React"}
-          </button>
-        ))}
+          </PopoverContent>
+        </Popover>
+      )}
     </>
   );
 }
