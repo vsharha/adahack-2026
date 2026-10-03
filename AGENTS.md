@@ -41,11 +41,13 @@ Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cove
 Each project's docs folder, `docs/postcode/` or `docs/compsoc/`, holds:
 
 - `brief.md`: the challenge brief and any challenge-specific criteria, verbatim.
-- `product.md`: what the product is, who it is for, and what sets it apart.
+- `product.md`: what the product is, who it is for, what sets it apart, and the decisions behind it.
 - `status.md`: what is built, mocked, planned or cut.
 - `pitch/`: internal pitch notes. `pitch/judges/` holds only what judges see.
 
 Update the project's `status.md` whenever a feature is built, mocked or cut, or its verification or impact evidence changes. Record how a working feature was verified: the flow, the result, the date and the commit. Changes to code or demo data mean re-checking the claims they affect. A cut feature keeps its line with the reason.
+
+When the user makes or changes a decision about the product or how it is built, record it in the project's `product.md` under "Decisions" without being asked. Decisions include the user it serves, a data source, a method or model, the stack, how parts connect, and the demo scope. Write one line each: the decision, the reason, and the date. When a decision changes, update its line in place so the section always describes the current plan. Record only what the user decided or confirmed, including decisions they report from teammates; a suggestion they have not accepted is not a decision.
 
 ## Dev server
 

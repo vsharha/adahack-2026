@@ -4,7 +4,7 @@ This folder is the CompSoc project: a Python backend in `backend/` and a JavaScr
 
 - Work only in `apps/compsoc/` and `docs/compsoc/`. Another pair owns `apps/postcode/` and `docs/postcode/`; never change their files.
 - Changes to shared files (root `package.json`, `pnpm-workspace.yaml`, `eslint.config.mjs`, `.gitignore`, the root `AGENTS.md`, `docs/event/`) need the user's approval first.
-- Update `docs/compsoc/status.md` as described in the root `AGENTS.md`.
+- Update `docs/compsoc/status.md`, and the decisions in `docs/compsoc/product.md`, as described in the root `AGENTS.md`.
 
 ## Backend
 
