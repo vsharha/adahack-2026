@@ -103,4 +103,4 @@ On 2026-10-03, the saved report and holdings passed `python -m optiver.audit`, a
 
 ## Judge presentation
 
-The six-slide PowerPoint in `pitch/judges/optiver-carbon-portfolio-pitch-final.pptx` covers the challenge, cost-versus-reliability comparison, shared-risk results, group-failure drill and modelling limits. On 2026-10-03, all six slides were rendered and inspected for legibility and the deck passed structural, layout, font and editable-chart validation. Figures match the saved 95% report; the deck was not opened in native PowerPoint. Verification commit: `Add Optiver judge pitch deck`.
+The four-slide PowerPoint in `pitch/judges/optiver-carbon-portfolio-2-minute-pitch.pptx` covers the challenge, cost-versus-reliability comparison, shared-risk limit and modelling caveats. Speaker notes allocate 25, 40, 30 and 25 seconds for a two-minute pitch. On 2026-10-03, all four slides were rendered and inspected for legibility and the deck passed structural, layout, font and editable-chart validation. Figures match the saved 95% report; the deck was not opened in native PowerPoint. Verification commit: `Shorten Optiver judge pitch to two minutes`.
