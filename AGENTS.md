@@ -71,7 +71,8 @@ When the user makes or changes a decision about the product or how it is built, 
 - Subject line only, short, describing what was done. Match the style of previous commits.
 - Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
 - Stage only the files you changed, by path. Never `git add -A` or `git add .`.
-- After each commit, run `git pull --rebase --autostash` so history stays linear without merge commits, then `git push` without asking first. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and `uv sync --directory apps/compsoc/backend`, then `pnpm verify` again before pushing.
+- Push once per task, when handing the finished task back to the user, without asking first. Run `git pull --rebase --autostash` so history stays linear without merge commits, then `pnpm verify` so the task's commits are checked on top of teammates' work, then `git push`. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and `uv sync --directory apps/compsoc/backend` before `pnpm verify`.
+- Push straight after any commit that changes `pnpm-lock.yaml`, `uv.lock`, a `package.json` or a `pyproject.toml`, following the same steps, because these files conflict easily between teammates.
 - If the push is rejected because the remote moved, pull and push again. If the pull stops on a conflict, resolve it as described under "Protecting shared work", or stop and ask.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
 
