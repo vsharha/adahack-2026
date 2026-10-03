@@ -8,8 +8,8 @@
     "lint": "eslint --cache --max-warnings 0 . && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
     "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore . && pnpm fix:compsoc",
     "verify": "pnpm check && pnpm check:compsoc && pnpm lint",
-    "check:compsoc": "uv --directory apps/compsoc run ruff check && uv --directory apps/compsoc run ruff format --check && uv --directory apps/compsoc run pyright",
-    "fix:compsoc": "uv --directory apps/compsoc run ruff check --fix && uv --directory apps/compsoc run ruff format"
+    "check:compsoc": "uv --directory apps/compsoc/backend run ruff check && uv --directory apps/compsoc/backend run ruff format --check && uv --directory apps/compsoc/backend run pyright",
+    "fix:compsoc": "uv --directory apps/compsoc/backend run ruff check --fix && uv --directory apps/compsoc/backend run ruff format"
   },
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {

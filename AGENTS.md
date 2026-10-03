@@ -24,14 +24,14 @@ The repository holds two independent projects. Each pair works only in its own f
 
 ## Repository
 
-A pnpm monorepo holding a Next.js app and a Python project. Run the commands below from the repository root.
+A pnpm monorepo holding the Postcode Lottery Next.js app and the CompSoc project, whose backend is Python. Run the commands below from the repository root.
 
 - `pnpm dev:postcode` starts the Postcode Lottery dev server on port 3000.
 - `pnpm build:postcode` builds the Postcode Lottery app.
-- `pnpm fix` applies ESLint fixes and Prettier formatting, then Ruff fixes and formatting to the CompSoc project.
-- `pnpm verify` type-checks the Postcode Lottery app, runs Ruff and Pyright on the CompSoc project, then checks linting and formatting. ESLint warnings fail it.
+- `pnpm fix` applies ESLint fixes and Prettier formatting, then Ruff fixes and formatting to the CompSoc backend.
+- `pnpm verify` type-checks the Postcode Lottery app, runs Ruff and Pyright on the CompSoc backend, then checks linting and formatting. ESLint warnings fail it.
 
-Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cover the CompSoc project's Python. The CompSoc project's own commands are in `apps/compsoc/AGENTS.md`.
+Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cover the CompSoc backend's Python. The CompSoc project's own commands are in `apps/compsoc/AGENTS.md`.
 
 ## Docs
 
@@ -59,7 +59,7 @@ Update the project's `status.md` whenever a feature is built, mocked or cut, or 
 - Subject line only, short, describing what was done. Match the style of previous commits.
 - Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
 - Stage only the files you changed, by path. Never `git add -A` or `git add .`.
-- After each commit, run `git pull --rebase --autostash` so history stays linear without merge commits, then `git push` without asking first. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and `uv sync --directory apps/compsoc`, then `pnpm verify` again before pushing.
+- After each commit, run `git pull --rebase --autostash` so history stays linear without merge commits, then `git push` without asking first. If the pull brought in changes to `pnpm-lock.yaml`, `apps/compsoc/backend/uv.lock`, `package.json` or `pyproject.toml` files, or root config, run `pnpm install` and `uv sync --directory apps/compsoc/backend`, then `pnpm verify` again before pushing.
 - If the push is rejected because the remote moved, pull and push again. If the pull stops on a conflict, resolve it as described under "Protecting shared work", or stop and ask.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
 
@@ -73,7 +73,7 @@ Update the project's `status.md` whenever a feature is built, mocked or cut, or 
 
 ## Dependencies and config
 
-- Add dependencies to the Postcode Lottery app with `pnpm --filter postcode add`, and commit `pnpm-lock.yaml` in the same commit. Add them to the CompSoc project with `uv add` run inside `apps/compsoc/`, and commit `pyproject.toml` and `uv.lock` together. Never delete a lockfile to resolve a conflict: run `pnpm install` or `uv lock` and commit the result.
+- Add dependencies to the Postcode Lottery app with `pnpm --filter postcode add`, and commit `pnpm-lock.yaml` in the same commit. Add them to the CompSoc backend with `uv add` run inside `apps/compsoc/backend/`, and commit `pyproject.toml` and `uv.lock` together. Never delete a lockfile to resolve a conflict: run `pnpm install` or `uv lock` and commit the result.
 - Ask before upgrading a major version or changing `eslint.config.mjs`, any `tsconfig.json` or `pnpm-workspace.yaml`. TypeScript is pinned to 6.0 and ESLint to 9 because `eslint-config-next` 16 supports nothing newer.
 
 ## Secrets
