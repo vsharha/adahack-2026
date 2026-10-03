@@ -93,7 +93,7 @@ export function Onboarding({
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col pt-(--status-bar)">
       <header className="flex items-center gap-3 px-3 pt-3">
         <Button variant="ghost" size="icon-lg" onClick={back} aria-label="Back">
           <ArrowLeft className="size-5" />

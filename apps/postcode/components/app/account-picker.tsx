@@ -18,7 +18,7 @@ export function AccountPicker({ onJoin }: { onJoin: () => void }) {
   const managing = manageMode && hasAdded;
 
   return (
-    <div className="flex h-full flex-col px-6 pt-14 pb-8">
+    <div className="flex h-full flex-col px-6 pt-[calc(var(--status-bar)+3.5rem)] pb-8">
       <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss">
         GREENER BY POSTCODE
       </p>

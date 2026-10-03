@@ -237,3 +237,18 @@
     animation: none;
   }
 }
+
+/* Solid behind the status bar's text, then eased out below it, so the edge
+   where scrolled content reappears is not visible. */
+.status-bar-fade {
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    var(--background) 40%,
+    color-mix(in oklab, var(--background) 82%, transparent) 54%,
+    color-mix(in oklab, var(--background) 55%, transparent) 68%,
+    color-mix(in oklab, var(--background) 28%, transparent) 82%,
+    color-mix(in oklab, var(--background) 9%, transparent) 93%,
+    transparent 100%
+  );
+}
