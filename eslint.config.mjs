@@ -8,7 +8,7 @@ export default defineConfig([
   ...nextTs,
   prettier,
   {
-    settings: { next: { rootDir: "apps/web" }, react: { version: "19" } },
+    settings: { next: { rootDir: "apps/postcode" }, react: { version: "19" } },
   },
   globalIgnores(["**/.next/**", "**/next-env.d.ts"]),
 ]);

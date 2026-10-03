@@ -5,31 +5,51 @@
 - **Event:** AdaHack 2026, a 12-hour hackathon run by Edinburgh Hoppers. Theme: sustainability.
 - **Date:** Saturday 3 October 2026. Coding begins at 09:45.
 - **Deadline:** submissions close at 18:15.
-- **Challenge:** not yet announced. It is published at the 09:15 opening and recorded verbatim in `docs/brief/challenge.md`.
-- **Judging:** prizes per challenge. The format and criteria are not yet known; record them in `docs/brief/challenge.md` once announced.
+- **Challenges:** the team enters two, each built by its own pair: Postcode Lottery and CompSoc. Their briefs are recorded verbatim in `docs/postcode/brief.md` and `docs/compsoc/brief.md`. All announced briefs are PDFs in `reference/`.
+- **Judging:** prizes per challenge. The criteria are in `docs/event/judging.md`.
+
+## Projects
+
+The repository holds two independent projects. Each pair works only in its own folders.
+
+| Project          | Code             | Docs             |
+| ---------------- | ---------------- | ---------------- |
+| Postcode Lottery | `apps/postcode/` | `docs/postcode/` |
+| CompSoc          | `apps/compsoc/`  | `docs/compsoc/`  |
+
+- Before changing anything, establish which project the user is working on. If they started the session inside a project folder, it is that one; otherwise ask.
+- Change files only in that project's code and docs folders. Never edit, move or delete the other project's files, even to fix a check that fails there; tell the user instead.
+- Shared files need the user's approval before changing: root `package.json`, `pnpm-workspace.yaml`, `eslint.config.mjs`, `.gitignore`, `.prettierignore`, the `AGENTS.md` and `CLAUDE.md` files outside the project, `docs/event/` and `reference/`. The shared `pnpm-lock.yaml` is the exception: it changes whenever a project adds a dependency.
+- Each project folder has its own `AGENTS.md` with its commands. Read it before working there.
 
 ## Repository
 
-A pnpm monorepo. The Next.js app is in `apps/web`. Run the commands below from the repository root.
+A pnpm monorepo. Run the commands below from the repository root.
 
-- `pnpm dev` starts the dev server.
-- `pnpm build` builds the app.
+- `pnpm dev:postcode` starts the Postcode Lottery dev server on port 3000.
+- `pnpm build:postcode` builds the Postcode Lottery app.
 - `pnpm fix` applies ESLint fixes and Prettier formatting.
-- `pnpm verify` type-checks, then checks linting and formatting. ESLint warnings fail it.
+- `pnpm verify` type-checks every project, then checks linting and formatting. ESLint warnings fail it.
+
+The CompSoc project's stack is not chosen yet; its commands go in `apps/compsoc/AGENTS.md` once it is.
 
 ## Docs
 
-- `docs/brief/description.md`: the event page, verbatim.
-- `docs/brief/challenge.md`: the chosen challenge brief and judging criteria, verbatim.
-- `docs/reference/product.md`: what the product is, who it is for, and what sets it apart.
-- `docs/reference/status.md`: what is built, mocked, planned or cut.
-- `docs/pitch/`: internal pitch notes. `docs/pitch/judges/` holds only what judges see.
+- `docs/event/description.md`: the event page, verbatim.
+- `docs/event/judging.md`: the event's judging criteria, verbatim.
 
-Update `docs/reference/status.md` whenever a feature is built, mocked or cut, or its verification or impact evidence changes. Record how a working feature was verified: the flow, the result, the date and the commit. Changes to code or demo data mean re-checking the claims they affect. A cut feature keeps its line with the reason.
+Each project's docs folder, `docs/postcode/` or `docs/compsoc/`, holds:
+
+- `brief.md`: the challenge brief and any challenge-specific criteria, verbatim.
+- `product.md`: what the product is, who it is for, and what sets it apart.
+- `status.md`: what is built, mocked, planned or cut.
+- `pitch/`: internal pitch notes. `pitch/judges/` holds only what judges see.
+
+Update the project's `status.md` whenever a feature is built, mocked or cut, or its verification or impact evidence changes. Record how a working feature was verified: the flow, the result, the date and the commit. Changes to code or demo data mean re-checking the claims they affect. A cut feature keeps its line with the reason.
 
 ## Dev server
 
-- Before starting the dev server, check whether one is already running for this project (for example `ps aux | grep "[n]ext dev"`, or probe port 3000) and reuse it.
+- Before starting a dev server, check whether one is already running for the same project (for example `ps aux | grep "[n]ext dev"`, or probe its port) and reuse it. Leave the other project's dev server alone.
 - When a change needs a fresh process (config, dependencies, env), stop the running dev server and start a new one. Never leave several instances running.
 
 ## Committing and pushing
@@ -53,8 +73,8 @@ Update `docs/reference/status.md` whenever a feature is built, mocked or cut, or
 
 ## Dependencies and config
 
-- Add dependencies with `pnpm add`, and commit `pnpm-lock.yaml` in the same commit. Never delete the lockfile to resolve a conflict: run `pnpm install` and commit the result.
-- Ask before upgrading a major version or changing `eslint.config.mjs`, `tsconfig.json` or `pnpm-workspace.yaml`. TypeScript is pinned to 6.0 and ESLint to 9 because `eslint-config-next` 16 supports nothing newer.
+- Add dependencies to the project with `pnpm --filter <project> add`, for example `pnpm --filter postcode add zod`, and commit `pnpm-lock.yaml` in the same commit. Never delete the lockfile to resolve a conflict: run `pnpm install` and commit the result.
+- Ask before upgrading a major version or changing `eslint.config.mjs`, any `tsconfig.json` or `pnpm-workspace.yaml`. TypeScript is pinned to 6.0 and ESLint to 9 because `eslint-config-next` 16 supports nothing newer.
 
 ## Secrets
 

@@ -2,8 +2,8 @@
   "name": "adahack-2026",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter web dev",
-    "build": "pnpm --filter web build",
+    "dev:postcode": "pnpm --filter postcode dev",
+    "build:postcode": "pnpm --filter postcode build",
     "check": "pnpm -r run check",
     "lint": "eslint --cache --max-warnings 0 . && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
     "fix": "eslint --cache --fix . && prettier --write --ignore-path .gitignore --ignore-path .prettierignore .",

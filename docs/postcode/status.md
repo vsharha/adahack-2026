@@ -1,6 +1,6 @@
-# Status
+# Postcode Lottery: status
 
-The record of what is built. Pitch claims come from here, so every line must be true of the current code.
+The record of what is built for the Postcode Lottery project. Pitch claims come from here, so every line must be true of the current code.
 
 ## Features
 
