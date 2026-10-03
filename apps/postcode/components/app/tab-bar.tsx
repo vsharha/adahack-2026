@@ -25,7 +25,7 @@ export function TabBar({ badges }: { badges?: Partial<Record<Tab, number>> }) {
   }, [router]);
 
   return (
-    <nav className="grid shrink-0 grid-cols-4 border-t bg-card pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+    <nav className="grid shrink-0 grid-cols-4 border-t bg-card pb-[max(0.5rem,env(safe-area-inset-bottom))] md:pb-5">
       {tabs.map(({ id, label, icon: Icon }) => {
         const badge = badges?.[id] ?? 0;
         const active = pathname === `/${id}`;
