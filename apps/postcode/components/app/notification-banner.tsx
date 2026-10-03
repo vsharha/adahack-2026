@@ -14,7 +14,7 @@ export function NotificationBanner() {
     : undefined;
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-2 z-50 px-2">
+    <div className="pointer-events-none absolute inset-x-0 top-[calc(var(--status-bar)+0.5rem)] z-50 px-2">
       <button
         key={notification.id}
         type="button"

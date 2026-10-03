@@ -4,6 +4,7 @@ import { Signal, Wifi } from "lucide-react";
  * Full screen on a phone; drawn as a handset on wider screens for demos.
  * `--status-bar` is the height of the drawn status bar, which floats over the
  * screen; scrolling screens pad their top by it so content starts below it.
+ * App content has its own stacking context below the drawn system chrome.
  */
 export function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
       <div className="relative flex h-dvh w-full flex-col overflow-hidden bg-background [--status-bar:0px] md:h-[844px] md:[--status-bar:3rem] md:max-h-[calc(100dvh-4rem)] md:w-[390px] md:rounded-[3.25rem] md:border-8 md:border-device md:shadow-[0_30px_80px_-20px_var(--device-shadow)]">
         <div
           aria-hidden
-          className="font-system absolute inset-x-0 top-0 z-40 hidden h-12 items-center justify-between px-7 text-[15px] font-semibold md:flex"
+          className="font-system pointer-events-none absolute inset-x-0 top-0 z-60 hidden h-12 items-center justify-between px-7 text-[15px] font-semibold md:flex"
         >
           <span className="status-bar-fade pointer-events-none absolute inset-x-0 top-0 -z-10 h-18" />
           <span className="tabular-nums">9:41</span>
@@ -27,7 +28,7 @@ export function PhoneFrame({ children }: { children: React.ReactNode }) {
             </span>
           </span>
         </div>
-        <div className="relative min-h-0 flex-1">{children}</div>
+        <div className="relative z-0 min-h-0 flex-1">{children}</div>
         <span
           aria-hidden
           className="pointer-events-none absolute bottom-2 left-1/2 z-50 hidden h-1.5 w-32 -translate-x-1/2 rounded-full bg-foreground/40 md:block"
