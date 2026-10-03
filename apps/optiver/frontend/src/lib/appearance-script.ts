@@ -14,11 +14,21 @@ export function applyTheme(): void {
     const saved = localStorage.getItem(appearanceStorageKey);
     const appearance: "system" | "light" | "dark" =
       saved === "light" || saved === "dark" ? saved : "system";
-    document.documentElement.dataset.theme = resolveTheme(appearance);
+    const theme = resolveTheme(appearance);
+    
+    // Use class instead of data attribute for Tailwind dark variant
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   } catch {
     // Storage unavailable; use system default
-    document.documentElement.dataset.theme = matchMedia(darkQuery).matches
-      ? "dark"
-      : "light";
+    const theme = matchMedia(darkQuery).matches ? "dark" : "light";
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }
 }

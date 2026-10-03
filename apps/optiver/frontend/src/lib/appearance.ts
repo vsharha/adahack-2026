@@ -24,7 +24,12 @@ function resolveTheme(appearance: Appearance): "light" | "dark" {
 }
 
 function apply() {
-  document.documentElement.dataset.theme = resolveTheme(read());
+  const theme = resolveTheme(read());
+  if (theme === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
 }
 
 export function setAppearance(appearance: Appearance) {
