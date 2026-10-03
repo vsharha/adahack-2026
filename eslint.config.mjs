@@ -10,5 +10,5 @@ export default defineConfig([
   {
     settings: { next: { rootDir: "apps/postcode" }, react: { version: "19" } },
   },
-  globalIgnores(["**/.next/**", "**/next-env.d.ts"]),
+  globalIgnores(["**/.next/**", "**/next-env.d.ts", "**/.venv/**"]),
 ]);

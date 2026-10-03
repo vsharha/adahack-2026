@@ -11,3 +11,8 @@ next-env.d.ts
 
 .DS_Store
 .idea
+
+# Python (apps/compsoc)
+.venv/
+__pycache__/
+.ruff_cache/
