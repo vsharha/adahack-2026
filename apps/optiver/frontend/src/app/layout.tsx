@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { appearanceScript } from "@/lib/appearance-script";
+import { ThemeSync } from "@/components/theme-sync";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -29,8 +31,13 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
+        <ThemeSync />
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>

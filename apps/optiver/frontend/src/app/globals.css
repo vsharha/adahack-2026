@@ -153,3 +153,69 @@
     @apply font-heading;
   }
 }
+
+/* Print styles for clean PDF export */
+@media print {
+  @page {
+    margin: 2cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+  }
+
+  /* Hide interactive elements */
+  header,
+  button,
+  [role="button"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure cards print with borders */
+  [class*="card"] {
+    break-inside: avoid;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+
+  /* Charts should print */
+  [class*="recharts"] {
+    max-width: 100% !important;
+  }
+
+  /* Links should show URLs */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Prevent orphans */
+  h1, h2, h3 {
+    break-after: avoid;
+  }
+
+  /* Use dark text on light background */
+  .bg-background {
+    background: white !important;
+  }
+
+  .text-foreground {
+    color: black !important;
+  }
+
+  .text-muted-foreground {
+    color: #666 !important;
+  }
+
+  /* Hide theme-specific backgrounds */
+  .bg-gradient-to-b,
+  [class*="from-"],
+  [class*="to-"] {
+    background: white !important;
+  }
+}

@@ -8,7 +8,6 @@ import {
   formatPercentage,
   formatTonnes,
   formatConfidenceInterval,
-  cn,
 } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -44,12 +43,17 @@ import {
   Leaf,
   TrendingUp,
   Shield,
-  AlertTriangle,
   Info,
   Download,
   FileText,
+  Copy,
+  Check,
 } from "lucide-react";
 import { useState } from "react";
+import { Summary } from "@/components/Summary";
+import { Frontier } from "@/components/Frontier";
+import { Map } from "@/components/Map";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const reportData = getReportData();
 const holdings = getHoldings();
@@ -80,6 +84,14 @@ export default function Home() {
     reportData.shared_latent_variances[0].toString(),
   );
 
+  if (!reportData.portfolios["Diversified candidate"]) {
+    return <main className="container mx-auto p-6 space-y-8">
+      <h1 className="text-3xl font-heading">Carbon portfolio results</h1>
+      <Summary report={reportData} correlation={selectedCorrelation} onCorrelationChange={setSelectedCorrelation} />
+      <p>No candidate passed this search. Review the budget, target and search settings before generating another report.</p>
+    </main>;
+  }
+
   const portfolios = portfolioOrder.map((name) => ({
     name,
     data: reportData.portfolios[name as keyof typeof reportData.portfolios],
@@ -100,18 +112,12 @@ export default function Home() {
       selectedCorrelation as keyof typeof diversifiedPortfolio.evaluations
     ];
 
-  const exposureData = Object.entries(
-    diversifiedPortfolio.exposures_by_tonnes,
-  ).map(([category, values]) => ({
-    category,
-    data: Object.entries(values as Record<string, number>)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 6)
-      .map(([name, value]) => ({
-        name,
-        value: value * 100,
-      })),
-  }));
+  const exposureData = Object.entries(diversifiedPortfolio.exposures_by_tonnes).map(([category, values]) => {
+    const sorted = Object.entries(values as Record<string, number>).sort((a,b) => b[1]-a[1]);
+    const data = sorted.slice(0,6).map(([name, value]) => ({name, value: value*100}));
+    if (sorted.length > 6) data.push({name: "Other", value: sorted.slice(6).reduce((sum,[,value]) => sum+value*100, 0)});
+    return {category, data};
+  });
 
   const getStatusBadge = (meetsRequirement: boolean) => {
     if (meetsRequirement) {
@@ -131,17 +137,60 @@ export default function Home() {
     );
   };
 
+  const [copied, setCopied] = useState(false);
+
+  const copySummary = async () => {
+    const text = `Optiver Portfolio: ${formatCurrency(diversifiedPortfolio.cost_usd)} for ${formatTonnes(diversifiedPortfolio.nominal_tonnes)} at ${formatPercentage(diversifiedEval.success_rate)} success rate (ρ=${selectedCorrelation})`;
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <main className="min-h-screen bg-background">
+      {/* Header with Theme Toggle */}
+      <header className="border-b bg-background sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Leaf className="w-6 h-6 text-primary" />
+            <h1 className="text-lg font-heading font-semibold">
+              Optiver Carbon Portfolio
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="border-b bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex items-center gap-3">
-              <Leaf className="w-8 h-8 text-primary" />
-              <Badge variant="outline" className="text-sm">
-                AdaHack 2026
-              </Badge>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Leaf className="w-8 h-8 text-primary" />
+                <Badge variant="outline" className="text-sm">
+                  AdaHack 2026
+                </Badge>
+              </div>
+              <button
+                onClick={copySummary}
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Copy summary to clipboard"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4" />
+                    <span>Copy summary</span>
+                  </>
+                )}
+              </button>
             </div>
             <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground tracking-tight">
               How much does it cost to make a carbon portfolio more reliable?
@@ -178,87 +227,12 @@ export default function Home() {
 
       {/* Key Results */}
       <section className="container mx-auto px-4 py-8 -mt-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-6xl mx-auto">
-          <Card className="border-t-4 border-t-primary shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Target Tonnes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl md:text-3xl font-heading font-semibold">
-                {formatTonnes(reportData.target)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {formatNumber(reportData.target)} tCO₂e
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-t-4 border-t-primary shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Diversified Cost
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl md:text-3xl font-heading font-semibold">
-                {formatCurrency(diversifiedPortfolio.cost_usd)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {formatCurrencyPrecise(diversifiedPortfolio.cost_usd)} total
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-t-4 border-t-primary shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Purchased Tonnes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl md:text-3xl font-heading font-semibold">
-                {formatTonnes(diversifiedPortfolio.nominal_tonnes)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {formatNumber(diversifiedPortfolio.nominal_tonnes)} tCO₂e
-                nominal
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-t-4 border-t-primary shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Projects
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl md:text-3xl font-heading font-semibold">
-                {diversifiedPortfolio.projects}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Diversified across {diversifiedPortfolio.projects} credits
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-t-4 border-t-primary shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Success Rate
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl md:text-3xl font-heading font-semibold text-primary">
-                {formatPercentage(diversifiedEval.success_rate)}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Modelled hit rate at ρ={selectedCorrelation}
-              </p>
-            </CardContent>
-          </Card>
+        <div className="max-w-6xl mx-auto">
+          <Summary
+            report={reportData}
+            correlation={selectedCorrelation}
+            onCorrelationChange={setSelectedCorrelation}
+          />
         </div>
       </section>
 
@@ -412,41 +386,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Correlation Scenario Selector */}
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
-          <Card className="bg-amber-50/50 border-amber-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-amber-600" />
-                Shared Variance Scenario
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">
-                These are assumed shared-risk settings, not observed
-                correlations. Higher values mean projects are more likely to
-                fail together due to common factors like country, developer,
-                registry, or project type.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {reportData.shared_latent_variances.map((rho) => (
-                  <button
-                    key={rho}
-                    onClick={() => setSelectedCorrelation(rho.toString())}
-                    className={cn(
-                      "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-                      selectedCorrelation === rho.toString()
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-                    )}
-                  >
-                    ρ = {rho}
-                  </button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <Frontier
+            correlation={selectedCorrelation}
+            sourceHash={reportData.data_sha256}
+          />
+        </div>
+      </section>
+      <section className="container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto">
+          <Map holdings={holdings} />
         </div>
       </section>
 
@@ -614,7 +564,7 @@ export default function Home() {
                       {formatTonnes(diversifiedEval.p05_tonnes)} tonnes
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      Guaranteed delivery in 95% of scenarios
+                      5th percentile of modelled delivery
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -636,7 +586,7 @@ export default function Home() {
                       {formatTonnes(diversifiedEval.mean_shortfall)} tonnes
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      Average shortfall in failing scenarios
+                      Average shortfall across all scenarios
                     </TableCell>
                   </TableRow>
                 </TableBody>
