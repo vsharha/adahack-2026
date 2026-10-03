@@ -24,7 +24,7 @@ export function HelpModal() {
       >
         <div className="flex items-start justify-between gap-4">
           <h2 id="help-title" className="font-heading text-2xl">
-            Read the portfolio in five steps
+            Understand the results in five steps
           </h2>
           <Button
             variant="ghost"
@@ -36,39 +36,37 @@ export function HelpModal() {
           </Button>
         </div>
         <p id="help-intro" className="text-sm text-muted-foreground mt-3">
-          A saved simulation run for the Optiver challenge. Start with the
-          delivery target, then explore what changes under shared risks.
+          This page shows saved results from the Optiver challenge. Start with
+          the 100,000-tonne goal, then see what happens when projects fail.
         </p>
         <ol className="list-decimal pl-5 my-6 space-y-4 text-sm">
           <li>
-            <strong>Read the investment case.</strong> Compare the target, cost
-            and modelled hit rate. The confidence interval shows simulation
-            sampling uncertainty.
+            <strong>Start with our result.</strong> See how much the credits
+            cost and how often they reached the goal in our tests.
           </li>
           <li>
-            <strong>Change the risk scenario.</strong> Select ρ=0, 0.3 or 0.6.
-            Larger settings mean more shared risk. Hit rates change; purchased
-            credits and costs stay fixed.
+            <strong>Change the shared-risk level.</strong> Higher levels mean
+            projects are more likely to fail together in our simulation. The
+            credits bought and their cost stay the same.
           </li>
           <li>
-            <strong>Compare strategies and the cost curve.</strong> See what
-            extra reliability costs, and why the cheapest baseline can miss
-            delivery.
+            <strong>Compare the three options.</strong> See why the cheapest
+            option misses the goal more often, and what a better chance costs.
           </li>
           <li>
-            <strong>Explore the map and holdings.</strong> Select a country,
-            then search or filter individual projects. Map points represent
-            countries, not exact project locations.
+            <strong>Explore the projects.</strong> Select a country on the map,
+            then search or filter projects. Map circles mark countries, not
+            exact project sites.
           </li>
           <li>
-            <strong>Take the results with you.</strong> Download the PDF
-            executive summary or the JSON/CSV data for the full saved run.
+            <strong>Keep a copy.</strong> Download the one-page PDF summary or
+            the full saved data.
           </li>
         </ol>
         <p className="text-xs text-muted-foreground border-t pt-4">
-          Synthetic prices and assumed failure models. These are modelled
-          outcomes, not guaranteed carbon delivery. This page does not run a new
-          optimisation.
+          Prices are made up for the challenge, and the failure model includes
+          our assumptions. These results are not a promise that credits will be
+          delivered. Changing this page does not buy new credits.
         </p>
         <Button className="mt-5 w-full" onClick={() => dialog.current?.close()}>
           Start exploring

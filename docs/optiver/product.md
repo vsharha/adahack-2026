@@ -4,6 +4,8 @@ A Python command-line tool and Next.js web app for the Optiver challenge: constr
 
 ## Decisions
 
+- Use plain language throughout the judge-facing dashboard, with short explanations of success rates and shared failures, so the team and judges can understand the result without modelling jargon; 2026-10-03.
+
 - Start Optiver as a third independent project, with a Python backend managed by uv and an empty frontend folder, matching CompSoc's structure, so Python work can start before choosing a UI; 2026-10-03.
 - Brainstorm and document the product direction before building features, so implementation follows an agreed plan; 2026-10-03.
 - Build the proposed Python portfolio builder using the inspected challenge dataset, cheap baselines and resilience comparisons, following the user's instruction to build after reviewing the dataset research; 2026-10-03.

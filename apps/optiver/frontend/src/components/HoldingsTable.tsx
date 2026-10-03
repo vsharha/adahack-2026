@@ -52,16 +52,15 @@ export function HoldingsTable({ holdings }: { holdings: HoldingRow[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Diversified Candidate Credits</CardTitle>
+        <CardTitle>Projects in our portfolio</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Search projects, developers, credit IDs or registries. Filters apply
-          together.
+          Search by project, company or ID. You can combine the filters.
         </p>
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <label className="text-xs font-medium">
-            Search holdings
+            Search projects
             <input
               type="search"
               value={query}
@@ -97,7 +96,7 @@ export function HoldingsTable({ holdings }: { holdings: HoldingRow[] }) {
             </select>
           </label>
           <label className="text-xs font-medium">
-            Sort holdings
+            Sort projects
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}

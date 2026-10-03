@@ -37,30 +37,34 @@ export function Summary({
     >
       <div className="border-b border-border p-6 md:p-8">
         <div>
-          <p className="eyebrow">Recommendation</p>
+          <p className="eyebrow">Our result</p>
           <h2 id="summary-title" className="section-title">
             Build in room for failure.
           </h2>
           <p className="text-sm text-muted-foreground mt-2">
             {portfolio
-              ? `${portfolio.projects} projects · ${formatNumber(portfolio.nominal_tonnes)} purchased tonnes · ${formatCurrency(report.budget)} budget cap · ${portfolio.meets_modelled_requirement ? "passes all tested models" : "requirement not validated"}`
-              : "No validated candidate in this saved run."}
+              ? `${portfolio.projects} projects · ${formatNumber(portfolio.nominal_tonnes)} tonnes bought · ${formatCurrency(report.budget)} spending limit · ${portfolio.meets_modelled_requirement ? "met our chosen success rate at every risk level" : "missed our chosen success rate at a risk level"}`
+              : "This saved run found no portfolio that met our goal."}
           </p>
         </div>
       </div>
       <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border border-b border-border">
         <div className="p-6">
-          <p className="text-sm text-muted-foreground">Delivery target</p>
+          <p className="text-sm text-muted-foreground">
+            Tonnes we need to deliver
+          </p>
           <p className="font-heading text-4xl md:text-5xl mt-2 tabular-nums">
             {formatTonnes(report.target)}
             <span className="text-sm font-sans ml-2">tCO₂e</span>
           </p>
           <p className="text-xs text-muted-foreground mt-2">
-            Required reliability: {formatPercentage(report.reliability)}
+            Our chosen success goal: {formatPercentage(report.reliability)}
           </p>
         </div>
         <div className="p-6">
-          <p className="text-sm text-muted-foreground">Portfolio cost</p>
+          <p className="text-sm text-muted-foreground">
+            Cost to buy these credits
+          </p>
           <p className="font-heading text-4xl md:text-5xl mt-2 tabular-nums">
             {portfolio ? formatCurrency(portfolio.cost_usd) : "—"}
           </p>
@@ -70,7 +74,7 @@ export function Summary({
         </div>
         <div className="p-6" aria-live="polite">
           <p className="text-sm text-muted-foreground">
-            Modelled target hit rate
+            Tests that reached the goal
           </p>
           <p
             key={correlation}
@@ -80,7 +84,7 @@ export function Summary({
           </p>
           <p className="text-xs text-muted-foreground mt-2">
             {evaluation
-              ? `95% interval: ${(evaluation.ci_low * 100).toFixed(2)}–${(evaluation.ci_high * 100).toFixed(2)}% · ρ=${correlation}`
+              ? `Estimated range from test sampling: ${(evaluation.ci_low * 100).toFixed(2)}–${(evaluation.ci_high * 100).toFixed(2)}%`
               : "No evaluation available"}
           </p>
         </div>
@@ -92,7 +96,7 @@ export function Summary({
           onChange={onCorrelationChange}
         />
         <div>
-          <h3 className="eyebrow mb-3">Top 3 concentration risks</h3>
+          <h3 className="eyebrow mb-3">Where too many credits share a risk</h3>
           <ul className="space-y-2">
             {risks.map(([label, values]) => {
               const [name, share] = Object.entries(values).sort(
@@ -117,8 +121,8 @@ export function Summary({
             })}
           </ul>
           <p className="text-xs text-muted-foreground mt-3">
-            Shares of purchased tonnes; these are exposures, not failure
-            probabilities.
+            These percentages show where the credits are concentrated. They do
+            not show how likely failure is.
           </p>
         </div>
       </div>

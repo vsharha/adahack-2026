@@ -48,7 +48,7 @@ export function ShockCheck({
       <div
         className="shock-choices"
         role="group"
-        aria-label="Choose a shared failure"
+        aria-label="Choose a group of projects to fail"
       >
         {scenarios.map((scenario) => (
           <button
@@ -69,7 +69,7 @@ export function ShockCheck({
       </div>
       <div className="shock-result" aria-live="polite">
         <p className="shock-result-label">
-          After a full {selected.label.toLowerCase()} failure
+          If all projects in {selected.name} failed
         </p>
         <div className="shock-result-head">
           <strong>{formatNumber(Math.round(remaining))} tCO₂e</strong>
@@ -93,11 +93,11 @@ export function ShockCheck({
         <p className="shock-rail-caption">
           <span>0</span>
           <span>Target: {formatNumber(target)}</span>
-          <span>{formatNumber(nominal)} nominal</span>
+          <span>{formatNumber(nominal)} bought</span>
         </p>
         <dl className="shock-facts">
           <div>
-            <dt>Lost after buffers</dt>
+            <dt>Tonnes lost after buffer recovery</dt>
             <dd>{formatNumber(Math.round(loss))} t</dd>
           </div>
           <div>
@@ -110,9 +110,9 @@ export function ShockCheck({
           </div>
         </dl>
         <p className="shock-caveat">
-          Hypothetical simultaneous failure of every project in this group, with
-          supplied buffer recovery. This is a severity check, not an estimated
-          probability; the saved portfolio and simulations stay fixed.
+          This assumes every project in the selected group fails at once, with
+          some tonnes returned by buffer pools. It shows how bad that event
+          would be, not how likely it is. The portfolio does not change.
         </p>
       </div>
     </div>

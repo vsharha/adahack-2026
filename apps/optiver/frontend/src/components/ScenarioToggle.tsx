@@ -13,7 +13,7 @@ export function ScenarioToggle({
 }) {
   return (
     <fieldset className="space-y-3">
-      <legend className="eyebrow">Stress the shared risks</legend>
+      <legend className="eyebrow">What if projects fail together?</legend>
       <div className="flex flex-wrap gap-2">
         {values.map((rho) => (
           <button
@@ -28,17 +28,18 @@ export function ScenarioToggle({
                 : "border-border bg-card hover:border-foreground/40",
             )}
           >
-            ρ = {rho}
-            <span className="ml-2 text-xs opacity-80">
-              {rho === 0 ? "Independent" : rho < 0.5 ? "Moderate" : "Strong"}
-            </span>
+            {rho === 0
+              ? "No shared risk"
+              : rho < 0.5
+                ? "Some shared risk"
+                : "High shared risk"}
           </button>
         ))}
       </div>
       <p className="text-xs text-muted-foreground max-w-2xl">
-        ρ is assumed shared latent variance, not measured failure correlation.
-        Changing it updates modelled hit rates across this page; allocations and
-        costs stay fixed.
+        This changes how often projects fail together in our simulation. It is
+        an assumption, not a measured rate. The credits bought and their cost
+        stay the same.
       </p>
     </fieldset>
   );

@@ -38,8 +38,8 @@ export function Frontier({
   )
     return (
       <p className="rounded-lg border p-6">
-        Cost curve unavailable: regenerate the frontier against the current
-        dataset and model settings.
+        This cost chart does not match the saved results. Regenerate the demo
+        data to see it.
       </p>
     );
   const points = data.points.map((p) => ({
@@ -51,13 +51,14 @@ export function Frontier({
     <section aria-labelledby="frontier-title" className="space-y-6">
       <div className="flex flex-wrap justify-between items-end gap-4">
         <div className="max-w-[46rem]">
-          <p className="eyebrow">Cost curve</p>
+          <p className="eyebrow">Cost of confidence</p>
           <h2 id="frontier-title" className="section-title">
-            What does another point of reliability cost?
+            How much does a better chance cost?
           </h2>
           <p className="section-lede">
-            Five allocations, the same delivery target. Higher reliability
-            usually requires more reserve credits.
+            Each point shows the cheapest portfolio our search found for a
+            different success goal. A higher goal usually means buying more
+            credits in case some fail.
           </p>
         </div>
         <a
@@ -65,13 +66,13 @@ export function Frontier({
           href="/data/frontier.json"
           download
         >
-          Download cost curve
+          Download chart data
         </a>
       </div>
       <div className="rounded-lg border bg-card p-4 md:p-8 space-y-6">
         <div
           className="h-72 w-full"
-          aria-label="Reliability requirement versus portfolio cost. Exact values follow in the table."
+          aria-label="Chosen success goal versus portfolio cost. Exact values follow in the table."
         >
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -91,7 +92,7 @@ export function Frontier({
                 tickFormatter={(v) => `${v}%`}
                 tick={{ fontSize: 12 }}
                 label={{
-                  value: "Required modelled reliability",
+                  value: "Chosen success goal",
                   position: "insideBottom",
                   offset: -18,
                   fontSize: 12,
@@ -108,7 +109,7 @@ export function Frontier({
                   formatCurrency(Number(value)),
                   "Portfolio cost",
                 ]}
-                labelFormatter={(value) => `${value}% required reliability`}
+                labelFormatter={(value) => `${value}% chosen success goal`}
                 contentStyle={{ borderRadius: 8, borderColor: "var(--border)" }}
               />
               <Line
@@ -133,16 +134,17 @@ export function Frontier({
         <div className="overflow-x-auto">
           <table className="w-full text-sm tabular-nums">
             <caption className="text-left text-xs text-muted-foreground mb-3">
-              Held-out results at ρ={correlation}. A validated point must pass
-              every tested scenario.
+              Results from new tests at the selected shared-risk level. A
+              portfolio must meet its goal at every risk level to count as a
+              pass.
             </caption>
             <thead>
               <tr className="border-b text-left text-muted-foreground">
-                <th className="py-3 pr-4 font-medium">Required</th>
+                <th className="py-3 pr-4 font-medium">Success goal</th>
                 <th className="pr-4 font-medium">Cost</th>
                 <th className="pr-4 font-medium">Projects</th>
-                <th className="pr-4 font-medium">Target hit rate</th>
-                <th className="pr-4 font-medium">95% lower bound</th>
+                <th className="pr-4 font-medium">Tests that reached 100,000</th>
+                <th className="pr-4 font-medium">Conservative estimate</th>
                 <th className="font-medium">Result</th>
               </tr>
             </thead>
@@ -178,7 +180,11 @@ export function Frontier({
                         p.validated ? "text-accent" : "text-destructive"
                       }
                     >
-                      {p.status}
+                      {p.validated
+                        ? "Met success rate at all risk levels"
+                        : p.cost_usd === null
+                          ? "No portfolio found"
+                          : "Missed success rate at a risk level"}
                     </td>
                   </tr>
                 );
@@ -187,10 +193,11 @@ export function Frontier({
           </table>
         </div>
         <p className="text-xs text-muted-foreground">
-          {data.evaluation_scenarios.toLocaleString()} fresh scenarios per
-          model, per allocation. This is the cost curve of a bounded heuristic,
-          not proof of a globally optimal efficient frontier. Failed or missing
-          candidates are omitted from the line.
+          We ran {data.evaluation_scenarios.toLocaleString()} new tests for each
+          portfolio at each risk level. Our search tried a limited set of
+          options, so a cheaper solution may exist. Points that missed their
+          goal are left off the line. The conservative estimate allows for
+          uncertainty from testing a sample of possible outcomes.
         </p>
       </div>
     </section>

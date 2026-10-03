@@ -2,6 +2,10 @@
 
 The offline Python portfolio builder and Next.js frontend work. All delivery and reliability figures below are modelled challenge results using synthetic prices and ratings, not environmental impact evidence.
 
+## Plain-language dashboard copy
+
+The main dashboard now explains the goal, three portfolio choices, shared-risk control, failure drill, cost chart and test results in everyday language. Detailed assumptions remain in the method section. The underlying portfolio data and simulation were not changed. Verified on 2026-10-03: the frontend production build and TypeScript check passed, six Playwright flows passed, and the live page showed the revised wording with no browser console errors or warnings. Implementation commit: `Simplify Optiver dashboard language`.
+
 ## Features
 
 Backend and frontend checks pass on 2026-10-03. The frontend uses saved demo data and has no live API.

@@ -9,21 +9,28 @@ test.beforeEach(async ({ page }) => {
 test("shows the portfolio decision and comparison", async ({ page }) => {
   await expect(
     page.getByRole("heading", {
-      name: "The cheapest tonne is rarely the safest.",
+      name: "Cheap carbon credits can fail together.",
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "The cost of being wrong" }),
+    page.getByRole("heading", {
+      name: "Why buy more than the cheapest option?",
+    }),
   ).toBeVisible();
   await expect(page.getByText("$181,659").first()).toBeVisible();
 });
 
 test("shared-risk selection updates linked results", async ({ page }) => {
-  await page.getByRole("button", { name: /ρ = 0.3/ }).click();
+  await page.getByRole("button", { name: "Some shared risk" }).click();
   await expect(
-    page.getByText("Modelled target hit rate").locator(".."),
+    page
+      .locator(".summary-board")
+      .getByText("Tests that reached the goal")
+      .locator(".."),
   ).toContainText("98.3%");
-  await expect(page.locator(".comparison-head")).toContainText("ρ=0.3");
+  await expect(page.locator(".comparison-head")).toContainText(
+    "Tests that reached the goal",
+  );
 });
 
 test("full-group shock check shows both failure and resilience", async ({

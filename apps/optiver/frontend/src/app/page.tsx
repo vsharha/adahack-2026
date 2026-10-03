@@ -51,6 +51,11 @@ const portfolioOrder = [
   "Cheapest expected",
   "Diversified candidate",
 ];
+const portfolioLabels: Record<string, string> = {
+  "Cheapest nominal": "Lowest upfront cost",
+  "Cheapest expected": "Lowest cost for average delivery",
+  "Diversified candidate": "Our spread-out portfolio",
+};
 
 const countryColors = [
   "var(--chart-1)",
@@ -63,11 +68,11 @@ const countryColors = [
 
 const sections = [
   ["comparison", "Comparison"],
-  ["cost-curve", "Cost curve"],
-  ["exposure", "Exposure"],
-  ["shock", "Shock check"],
-  ["holdings", "Holdings"],
-  ["method", "Method"],
+  ["cost-curve", "Cost and success"],
+  ["exposure", "Map"],
+  ["shock", "Failure check"],
+  ["holdings", "Projects"],
+  ["method", "How it works"],
 ] as const;
 
 const chartTooltip = {
@@ -136,8 +141,8 @@ export default function Home() {
             onCorrelationChange={setSelectedCorrelation}
           />
           <p>
-            No candidate passed this search. Review the budget, target and
-            search settings before generating another report.
+            We could not find a portfolio that met the spending limit and our
+            success goal. Change the settings and run the analysis again.
           </p>
         </div>
       </main>
@@ -150,7 +155,7 @@ export default function Home() {
   }));
 
   const comparisonData = portfolios.map((p) => ({
-    name: p.name,
+    name: portfolioLabels[p.name],
     cost: p.data.cost_usd,
     successRate:
       p.data.evaluations[selectedCorrelation as keyof typeof p.data.evaluations]
@@ -182,7 +187,7 @@ export default function Home() {
   });
 
   const copySummary = async () => {
-    const text = `Optiver Portfolio: ${formatCurrency(diversifiedPortfolio.cost_usd)} for ${formatTonnes(diversifiedPortfolio.nominal_tonnes)} at ${formatPercentage(diversifiedEval.success_rate)} success rate (ρ=${selectedCorrelation})`;
+    const text = `Our carbon credit portfolio costs ${formatCurrency(diversifiedPortfolio.cost_usd)} and buys ${formatTonnes(diversifiedPortfolio.nominal_tonnes)}. It reached the 100,000-tonne goal in ${formatPercentage(diversifiedEval.success_rate)} of simulated tests at the selected shared-risk level.`;
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -200,7 +205,7 @@ export default function Home() {
         onCopy={copySummary}
       />
 
-      <section className="page-section" aria-label="Recommendation">
+      <section className="page-section" aria-label="Our result">
         <div className="page-wrap">
           <Summary
             report={reportData}
@@ -212,18 +217,21 @@ export default function Home() {
 
       <section id="comparison" className="page-section">
         <div className="page-wrap">
-          <SectionHead eyebrow="Comparison" title="The cost of being wrong">
-            Three strategies, one goal: deliver 100,000 tonnes. The cheapest
-            nominal portfolio minimizes upfront cost. The cheapest expected
-            adjusts for failure probability. The diversified candidate spreads
-            risk across countries, developers, and registries.
+          <SectionHead
+            eyebrow="Compare the options"
+            title="Why buy more than the cheapest option?"
+          >
+            All three options aim to deliver 100,000 tonnes. The cheapest buys
+            only enough credits to reach that number if nothing fails. The
+            second accounts for average losses. Our option buys extra credits
+            from more projects so one failure does less damage.
           </SectionHead>
 
           <div className="comparison-board">
             <div className="comparison-head">
               <span>Strategy</span>
-              <span>Acquisition cost</span>
-              <span>Target hit rate · ρ={selectedCorrelation}</span>
+              <span>Cost to buy</span>
+              <span>Tests that reached the goal</span>
             </div>
             {comparisonData.map((entry, index) => (
               <div
@@ -241,7 +249,7 @@ export default function Home() {
                       {portfolios[index].data.projects === 1
                         ? "project"
                         : "projects"}{" "}
-                      · {formatTonnes(entry.nominalTonnes)} tonnes
+                      · {formatTonnes(entry.nominalTonnes)} tonnes bought
                     </small>
                   </div>
                 </div>
@@ -266,9 +274,9 @@ export default function Home() {
               </div>
             ))}
             <p className="comparison-note">
-              Rates are simulated outcomes under the selected shared-risk
-              setting. The three allocations remain fixed when the setting
-              changes.
+              These percentages come from simulated failures at the selected
+              shared-risk level. Changing the level does not change what each
+              option buys or costs.
             </p>
           </div>
         </div>
@@ -289,12 +297,13 @@ export default function Home() {
       <section id="concentration" className="page-section">
         <div className="page-wrap">
           <SectionHead
-            eyebrow="Concentration"
-            title="Diversification breakdown"
+            eyebrow="Shared risks"
+            title="Where we still rely on the same groups"
           >
-            The diversified candidate spreads purchased tonnes across multiple
-            dimensions to reduce correlated failure risk. Concentration remains:
-            the largest registry accounts for 60% of purchased tonnes.
+            Our portfolio uses several countries, companies, registries and
+            project types. But 60% of the tonnes still come from one registry.
+            If many projects in that group fail together, we could miss the
+            goal.
           </SectionHead>
 
           <Tabs defaultValue="country" className="w-full">
@@ -391,13 +400,12 @@ export default function Home() {
       <section id="shock" className="page-section">
         <div className="page-wrap">
           <SectionHead
-            eyebrow="Failure drill"
-            title="What if a shared risk breaks?"
+            eyebrow="Worst-case check"
+            title="What if every project in one group fails?"
           >
-            Choose the largest exposure in each category. The check removes the
-            affected credits from this saved portfolio and applies their buffer
-            recovery, so you can see whether the 100,000-tonne target still
-            holds.
+            Pick a group to see how many tonnes would remain if all its projects
+            failed at once. Some losses are covered by buffer pools. This shows
+            the size of the damage, not how likely it is.
           </SectionHead>
           <ShockCheck
             holdings={holdings}
@@ -409,14 +417,17 @@ export default function Home() {
 
       <section id="risk" className="page-section">
         <div className="page-wrap">
-          <SectionHead eyebrow="Risk metrics" title="Risk analysis">
-            Modelled performance under 10,000 stress scenarios per correlation
-            setting. Technical terms explained below.
+          <SectionHead
+            eyebrow="Test results"
+            title="How often did we reach the goal?"
+          >
+            We simulated 10,000 possible outcomes for each shared-risk level.
+            The figures below describe those tests, not real-world guarantees.
           </SectionHead>
 
           <Card>
             <CardHeader>
-              <CardTitle>Diversified candidate risk metrics</CardTitle>
+              <CardTitle>Results for our portfolio</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
@@ -426,11 +437,14 @@ export default function Home() {
                     <TableHead>
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          Value at ρ={selectedCorrelation}
+                          Value for this risk level
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Shared latent variance setting</p>
+                          <p>
+                            How strongly our simulation makes projects fail
+                            together
+                          </p>
                         </TooltipContent>
                       </Tooltip>
                     </TableHead>
@@ -439,23 +453,27 @@ export default function Home() {
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell className="font-medium">Success rate</TableCell>
+                    <TableCell className="font-medium">
+                      Reached the goal
+                    </TableCell>
                     <TableCell className="tabular-nums">
                       {formatPercentage(diversifiedEval.success_rate)}
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      Fraction of scenarios delivering ≥100,000 tonnes
+                      Share of tests delivering at least 100,000 tonnes
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          95% confidence interval
+                          Likely range for the test result
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Wilson score interval for binomial proportion</p>
+                          <p>
+                            A statistical range for the simulated success rate
+                          </p>
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
@@ -466,20 +484,20 @@ export default function Home() {
                       )}
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      Statistical uncertainty range for success rate
+                      Range caused by testing a sample of possible outcomes
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          5th percentile delivery
+                          Low-end delivery
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>
-                            Delivery in the worst 5% of scenarios (Value at
-                            Risk)
+                            95% of simulated outcomes delivered at least this
+                            many tonnes
                           </p>
                         </TooltipContent>
                       </Tooltip>
@@ -488,20 +506,20 @@ export default function Home() {
                       {formatTonnes(diversifiedEval.p05_tonnes)} tonnes
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      5th percentile of modelled delivery
+                      Only 5% of tests delivered less than this
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          Mean shortfall
+                          Average missed tonnes
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>
-                            Mean delivery deficit across all scenarios,
-                            including zero deficit when the target is reached
+                            Average gap below the goal across all tests; a
+                            successful test has a gap of zero
                           </p>
                         </TooltipContent>
                       </Tooltip>
@@ -510,7 +528,7 @@ export default function Home() {
                       {formatTonnes(diversifiedEval.mean_shortfall)} tonnes
                     </TableCell>
                     <TableCell className="text-muted-foreground">
-                      Average shortfall across all scenarios
+                      Average gap below the goal across all tests
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -522,10 +540,9 @@ export default function Home() {
 
       <section id="holdings" className="page-section">
         <div className="page-wrap">
-          <SectionHead eyebrow="Holdings" title="Portfolio holdings">
-            Search, filter and sort the individual credits in the diversified
-            candidate. The map and portfolio totals always show the full
-            allocation.
+          <SectionHead eyebrow="Projects" title="What we would buy">
+            Search and filter the projects in our portfolio. The map and totals
+            still show every project, even when you filter this table.
           </SectionHead>
           <HoldingsTable holdings={holdings} />
         </div>
@@ -533,52 +550,54 @@ export default function Home() {
 
       <section id="method" className="page-section">
         <div className="page-wrap">
-          <SectionHead eyebrow="Method" title="Method and limitations" />
+          <SectionHead
+            eyebrow="Behind the numbers"
+            title="How we tested this"
+          />
 
           <Card className="max-w-4xl">
             <CardHeader>
-              <CardTitle>About this demo</CardTitle>
+              <CardTitle>What these results mean</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm leading-relaxed">
               <div>
                 <h3 className="font-semibold mb-2">Data source</h3>
                 <p className="text-muted-foreground">
-                  This demo uses the UC Berkeley Voluntary Registry Offsets
-                  Database with synthetic prices and failure probabilities
-                  provided for the Optiver challenge. Prices and risk ratings
-                  are not real market data.
+                  We used the challenge dataset, which combines carbon-credit
+                  projects from UC Berkeley with made-up prices and failure
+                  ratings. The prices are not real market prices.
                 </p>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-2">Failure model</h3>
                 <p className="text-muted-foreground">
-                  Projects fail as a whole unit. Buffer pools recover 50% of
-                  lost tonnes. Reversal events increase failure probability by
-                  1.5×. Correlated failures use Gaussian shared factors for
-                  country, developer, registry, and project type, preserving
-                  marginal probabilities from risk ratings.
+                  We assume an entire project can fail. A buffer pool returns
+                  half its lost tonnes; a past reversal increases its failure
+                  chance by 50%. Projects can fail together when they share a
+                  country, developer, registry or type. We chose how strong that
+                  shared risk is because the challenge does not say.
                 </p>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-2">Evaluation</h3>
                 <p className="text-muted-foreground">
-                  The diversified candidate is selected using 2,000 training
-                  scenarios and evaluated on 10,000 fresh scenarios per
-                  correlation setting. This is a bounded heuristic search, not a
-                  proof of global optimality. Success rates are modelled
-                  outcomes, not guaranteed delivery.
+                  We tried a small set of portfolio rules using 2,000 simulated
+                  outcomes, then checked the chosen portfolio on 10,000 new
+                  outcomes at each risk level. We cannot claim it is the
+                  cheapest possible portfolio. The percentages describe our
+                  simulation, not guaranteed delivery.
                 </p>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-2">No real-world claims</h3>
                 <p className="text-muted-foreground">
-                  This is an offline simulation for the AdaHack 2026 Optiver
-                  challenge. No actual carbon credits are purchased or retired.
-                  Cost and reliability figures are reproducible outputs from the
-                  assumed model, not environmental impact evidence.
+                  This is an offline challenge demo. We have not bought or
+                  retired any credits, and we have not measured an emissions
+                  reduction. The results show what happened under our assumed
+                  risks.
                 </p>
               </div>
 

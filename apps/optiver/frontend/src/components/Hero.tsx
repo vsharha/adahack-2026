@@ -21,41 +21,33 @@ export function Hero({
       <div className="hero-panel">
         <p className="hero-kicker">Optiver challenge · AdaHack 2026</p>
         <h1 id="hero-title" className="hero-title">
-          The cheapest tonne is rarely the safest.
+          Cheap carbon credits can fail together.
         </h1>
 
         <div className="hero-stage">
           <CarbonCoin className="hero-coin" />
 
           <div className="hero-card hero-card-mandate" data-hero-card="mandate">
-            <p className="hero-card-label">Mandate</p>
+            <p className="hero-card-label">Our goal</p>
             <p className="hero-card-value">
               Deliver {formatNumber(report.target)} tCO₂e
             </p>
           </div>
 
           <div className="hero-card hero-card-constraints">
-            <p className="hero-card-label">Constraints</p>
+            <p className="hero-card-label">Rules we used</p>
             <dl className="hero-card-lines">
               <div>
                 <dt>budget</dt>
                 <dd>max {formatCurrency(report.budget)}</dd>
               </div>
               <div>
-                <dt>reliability</dt>
-                <dd>min {formatPercentage(report.reliability)}</dd>
+                <dt>success goal</dt>
+                <dd>at least {formatPercentage(report.reliability)}</dd>
               </div>
               <div>
-                <dt>scenarios</dt>
-                <dd>{formatNumber(report.evaluation_scenarios)} per ρ</dd>
-              </div>
-              <div>
-                <dt>shared ρ</dt>
-                <dd>{report.shared_latent_variances.join(" · ")}</dd>
-              </div>
-              <div>
-                <dt>seed</dt>
-                <dd>{report.seed}</dd>
+                <dt>tests</dt>
+                <dd>{formatNumber(report.evaluation_scenarios)} each</dd>
               </div>
             </dl>
           </div>
@@ -66,14 +58,14 @@ export function Hero({
             </span>
             <div className="hero-receipt-row">
               <div>
-                <p className="hero-receipt-name">Diversified candidate</p>
+                <p className="hero-receipt-name">Our spread-out portfolio</p>
                 <p className="hero-receipt-meta">
-                  {portfolio.projects} credits ·{" "}
-                  {formatNumber(portfolio.nominal_tonnes)} t
+                  {portfolio.projects} projects ·{" "}
+                  {formatNumber(portfolio.nominal_tonnes)} tonnes bought
                 </p>
                 <p className="hero-receipt-meta">
                   {evaluation ? formatPercentage(evaluation.success_rate) : "—"}{" "}
-                  hit rate · ρ={correlation}
+                  of simulated tests reached the goal
                 </p>
               </div>
               <p className="hero-receipt-amount">
@@ -84,9 +76,8 @@ export function Hero({
         </div>
 
         <p className="hero-lede">
-          A decision desk for carbon credit portfolios. Compare acquisition cost
-          with modelled delivery risk, then stress the assumptions behind the
-          result.
+          We compare the cheapest ways to buy credits with a portfolio spread
+          across more projects. See what the extra cost buys when projects fail.
         </p>
         <div className="hero-actions">
           <a href="#comparison" className="hero-cta">
