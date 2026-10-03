@@ -95,7 +95,6 @@ export function StreetScreen({
             youHouseholdId={me.householdId}
             showNeighbours
             active={active}
-            compact
           />
         </div>
       </section>
