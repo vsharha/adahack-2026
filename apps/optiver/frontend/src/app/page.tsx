@@ -462,7 +462,9 @@ export default function Home() {
               >
                 <Card>
                   <CardHeader>
-                    <CardTitle className="capitalize">{exp.category}</CardTitle>
+                    <CardTitle className="capitalize">
+                      {exp.category.replaceAll("_", " ")}
+                    </CardTitle>
                     <p className="text-sm text-muted-foreground mt-2">
                       Top {exp.data.length} by purchased tonnes
                     </p>
@@ -478,7 +480,7 @@ export default function Home() {
                           <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                           <XAxis
                             type="number"
-                            domain={[0, 'dataMax']}
+                            domain={[0, "dataMax"]}
                             tickFormatter={(value) => `${value}%`}
                           />
                           <YAxis
@@ -493,19 +495,20 @@ export default function Home() {
                               "Share",
                             ]}
                             contentStyle={{
-                              borderRadius: '8px',
-                              border: 'none',
-                              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                              borderRadius: "8px",
+                              border: "none",
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                             }}
                           />
                           <Bar
                             dataKey="value"
                             radius={[0, 4, 4, 0]}
                             label={{
-                              position: 'right',
-                              fill: 'var(--foreground)',
+                              position: "right",
+                              fill: "var(--foreground)",
                               fontSize: 12,
-                              formatter: (value: number) => `${value.toFixed(1)}%`,
+                              formatter: (value) =>
+                                `${Number(value).toFixed(1)}%`,
                             }}
                           >
                             {exp.data.map((entry, index) => (
