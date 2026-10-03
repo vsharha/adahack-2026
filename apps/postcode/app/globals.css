@@ -252,3 +252,11 @@
     transparent 100%
   );
 }
+
+/* Apple's system font (SF Pro) for the drawn iPhone status bar. It cannot be
+   bundled, so this resolves to SF Pro on Apple devices and the platform's own
+   system font elsewhere. */
+.font-system {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+}
