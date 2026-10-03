@@ -9,7 +9,7 @@ We rank Scottish peatland cells for satellite-mapped burning within the next sev
 The report website has three pages:
 
 - The home page introduces PeatPulse.
-- **Read the story** opens a work-in-progress page.
+- **Read the story** opens the presentation: 18 slides on why peat fires matter, what PeatPulse does, how we built and tested it, and a worked example.
 - **Read the report** explains the problem, data, model, historical test, results and limits.
 
 The site is plain HTML and CSS. It has no frontend build step or package dependencies. The peatland cover is an illustration, not a photograph of a study site.
@@ -39,7 +39,7 @@ Then open <http://127.0.0.1:4317>.
 ## Project files
 
 - `index.html`: home page
-- `story.html`: work-in-progress story page
+- `story.html`, `story.css`, `story.js`: the presentation. Use the arrow keys, space, Home or End to move; F toggles full screen. On small screens the slides stack and scroll.
 - `report.html`: technical report
 - `styles.css`: shared page styles
 - `assets/`: illustration, site icon and downloadable shortlist results

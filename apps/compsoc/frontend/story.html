@@ -3,29 +3,711 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#39433f" />
-    <meta name="description" content="The PeatPulse story is in progress." />
-    <title>PeatPulse story: work in progress</title>
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="description"
+      content="The PeatPulse story: why Scottish peatland fires matter and how we rank peat squares to check first."
+    />
+    <title>PeatPulse story</title>
     <link rel="icon" href="./assets/mark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./story.css" />
+    <script>
+      document.documentElement.classList.add("js");
+      if (
+        window.matchMedia("(min-width: 768px) and (min-height: 480px)").matches
+      ) {
+        document.documentElement.classList.add("deck-mode");
+      }
+    </script>
   </head>
-  <body class="landing">
-    <main class="entry" aria-labelledby="story-title">
-      <img
-        class="entry-landscape"
-        src="./assets/peatland.jpg"
-        alt=""
-        width="1672"
-        height="941"
-        fetchpriority="high"
-      />
-      <div class="entry-shade" aria-hidden="true"></div>
-      <a class="wordmark story-home" href="./">PeatPulse</a>
-      <section class="story-message">
-        <p>WIP</p>
-        <h1 id="story-title">The story is coming soon.</h1>
-        <a href="./">Back to PeatPulse</a>
+  <body class="story-page">
+    <a class="deck-mark" href="./">PeatPulse</a>
+
+    <main class="deck" id="slides" aria-label="PeatPulse story">
+      <!-- 1. What peatlands are -->
+      <section
+        class="slide slide-stack slide-quote"
+        data-title="What a peatland is"
+      >
+        <blockquote class="quote rise" style="--i: 0">
+          <p>
+            “A peatland is a type of wetland whose soils consist of organic
+            matter from decaying plants, forming layers of peat.”
+          </p>
+        </blockquote>
+        <p class="source rise" style="--i: 1">
+          <a href="https://en.wikipedia.org/wiki/Peatland"
+            >Wikipedia, Peatland</a
+          >
+        </p>
+      </section>
+
+      <!-- 1. Why peatlands matter -->
+      <section class="slide slide-stack" data-title="Why peatlands matter">
+        <h2 class="headline rise" style="--i: 0">
+          Peatlands cover a tiny share of the land, but hold more carbon than
+          all the world’s forests.
+        </h2>
+        <div class="pair">
+          <figure class="pair-item rise" style="--i: 1">
+            <div
+              class="units units-land"
+              data-total="100"
+              data-filled="3"
+              data-cols="10"
+              role="img"
+              aria-label="100 squares, 3 of them peat: peatlands cover at least 3% of the world's land."
+            ></div>
+            <figcaption>
+              <strong>3%</strong>
+              <span>of the world’s land</span>
+            </figcaption>
+          </figure>
+          <p class="pair-item pair-stat rise" style="--i: 2">
+            <strong>600+ billion tonnes</strong>
+            <span
+              >of carbon in peat soils, more than in all other plants and
+              trees</span
+            >
+          </p>
+        </div>
+        <p class="source rise" style="--i: 3">
+          <a
+            href="https://iucn.org/resources/issues-brief/peatlands-and-climate-change"
+            >IUCN, Peatlands and climate change</a
+          >
+        </p>
+      </section>
+
+      <!-- 1. Burning releases carbon -->
+      <section class="slide slide-stack" data-title="When peat burns">
+        <h2 class="headline rise" style="--i: 0">
+          When peat burns, carbon stored for thousands of years goes back into
+          the air as CO₂.
+        </h2>
+        <div class="callout rise" style="--i: 1">
+          <strong class="callout-number">Up to 90%</strong>
+          <span
+            >of UK fire carbon emissions in dry years came from fires burning
+            into peat.</span
+          >
+        </div>
+        <p class="source rise" style="--i: 2">
+          <a
+            href="https://news.exeter.ac.uk/faculty-of-environment-science-and-economy/dry-years-fuel-uk-peatland-fire-carbon-emissions/"
+            >University of Exeter, 2025</a
+          >
+        </p>
+      </section>
+
+      <!-- 2. Scotland -->
+      <section class="slide slide-map" data-title="Scotland’s peatland">
+        <figure class="map rise" style="--i: 0">
+          <svg
+            viewBox="0 0 356 600"
+            role="img"
+            aria-label="Map of Scotland with the Flow Country marked in the far north."
+          >
+            <use class="map-shape" href="./assets/scotland.svg#outline" />
+          </svg>
+          <span
+            class="map-pin map-pin-peat"
+            style="--x: 55.8%; --y: 40.3%"
+          ></span>
+          <span
+            class="map-label map-label-above map-label-wide"
+            style="--x: 55.8%; --y: 40.3%"
+          >
+            <strong>Flow Country</strong>
+            <span>about 400 million tonnes of carbon</span>
+          </span>
+        </figure>
+        <div class="slide-copy">
+          <h2 class="headline rise" style="--i: 1">
+            Scotland holds two-thirds of the UK’s peatland.
+          </h2>
+          <ul class="stats">
+            <li class="rise" style="--i: 2">
+              <strong>2 million ha</strong>
+              <span>nearly, across the country</span>
+            </li>
+            <li class="rise" style="--i: 3">
+              <span
+                class="units units-quarter"
+                data-total="4"
+                data-filled="3"
+                data-cols="4"
+                aria-hidden="true"
+              ></span>
+              <strong>¾ damaged</strong>
+              <span>nearly three-quarters is degraded</span>
+            </li>
+            <li class="rise" style="--i: 4">
+              <strong>16%</strong>
+              <span>of Scotland’s emissions in 2023 came from peatland</span>
+            </li>
+          </ul>
+          <p class="source rise" style="--i: 5">
+            <a
+              href="https://www.gov.scot/news/record-levels-of-peatland-restored/"
+              >Scottish Government, 2025</a
+            >
+            ·
+            <a
+              href="https://www.gov.scot/publications/scotlands-climate-change-plan-2026-2040-annexes/pages/14/"
+              >Climate Change Plan, 2026</a
+            >
+            ·
+            <a
+              href="https://www.nature.scot/scotlands-flow-country-secures-world-heritage-site-status"
+              >NatureScot, 2024</a
+            >
+          </p>
+        </div>
+      </section>
+
+      <!-- 2. Government response -->
+      <section class="slide slide-stack" data-title="What Scotland is doing">
+        <h2 class="headline rise" style="--i: 0">
+          The Scottish Government is restoring peat and controlling fire.
+        </h2>
+        <ul class="actions">
+          <li class="action rise" style="--i: 1">
+            <h3>Restore</h3>
+            <p><strong>£250m</strong> to restore 250,000 ha by 2030</p>
+            <div
+              class="progress"
+              role="img"
+              aria-label="90,000 of 250,000 hectares restored since 1990."
+            >
+              <span class="progress-fill" style="--p: 36%"></span>
+            </div>
+            <p class="progress-label">90,000 ha restored since 1990</p>
+          </li>
+          <li class="action rise" style="--i: 2">
+            <h3>Regulate</h3>
+            <p>Burning on peat over 40 cm deep needs a licence</p>
+            <p class="progress-label">Muirburn Act, 2024</p>
+          </li>
+          <li class="action rise" style="--i: 3">
+            <h3>Warn</h3>
+            <p>Wildfire danger assessments flag the areas most at risk</p>
+            <p class="progress-label">Scottish Fire and Rescue Service</p>
+          </li>
+        </ul>
+        <p class="source rise" style="--i: 4">
+          <a
+            href="https://www.gov.scot/news/record-levels-of-peatland-restored/"
+            >Scottish Government, 2025</a
+          >
+          ·
+          <a
+            href="https://www.iucn-uk-peatlandprogramme.org/news/muirburn-licencing-made-law-scotland"
+            >IUCN UK Peatland Programme, 2024</a
+          >
+          ·
+          <a
+            href="https://www.firescotland.gov.uk/outdoors/wildfires/wildfire-danger-assessments/"
+            >SFRS</a
+          >
+        </p>
+      </section>
+
+      <!-- 3. Where we come in -->
+      <section
+        class="slide slide-stack slide-center"
+        data-title="Where we come in"
+      >
+        <h2 class="headline headline-xl">Where do we come in?</h2>
+      </section>
+
+      <!-- 4. What PeatPulse does -->
+      <section
+        class="slide slide-stack"
+        data-title="PeatPulse ranks peat squares"
+      >
+        <h2 class="headline rise" style="--i: 0">
+          PeatPulse ranks peat squares every day, highest fire risk first.
+        </h2>
+        <figure
+          class="ladder rise"
+          style="--i: 1"
+          role="img"
+          aria-label="Twelve peat squares sorted from highest to lowest fire risk. The top five are numbered 1 to 5 and marked to check first."
+        >
+          <div class="ladder-grid">
+            <span class="ladder-cell" style="--s: 1"><b>1</b></span>
+            <span class="ladder-cell" style="--s: 0.9"><b>2</b></span>
+            <span class="ladder-cell" style="--s: 0.81"><b>3</b></span>
+            <span class="ladder-cell" style="--s: 0.72"><b>4</b></span>
+            <span class="ladder-cell" style="--s: 0.64"><b>5</b></span>
+            <span class="ladder-cell" style="--s: 0.5"></span>
+            <span class="ladder-cell" style="--s: 0.41"></span>
+            <span class="ladder-cell" style="--s: 0.33"></span>
+            <span class="ladder-cell" style="--s: 0.26"></span>
+            <span class="ladder-cell" style="--s: 0.19"></span>
+            <span class="ladder-cell" style="--s: 0.13"></span>
+            <span class="ladder-cell" style="--s: 0.07"></span>
+            <span class="ladder-pick">Check these first</span>
+          </div>
+          <p class="ladder-scale">
+            <span>Highest risk</span><span>Lowest risk</span>
+          </p>
+        </figure>
+        <p class="figure-note rise" style="--i: 2">
+          Each square is 1 km. Its score uses 16 weather and fire-danger
+          readings.
+        </p>
+      </section>
+
+      <!-- 5. Headline result -->
+      <section class="slide slide-stack" data-title="The result">
+        <h2 class="headline">
+          PeatPulse beat the Fire Weather Index baseline by 20 points.
+        </h2>
+        <ul class="numbers numbers-result">
+          <li class="number-ours">
+            <strong>52%</strong>
+            <span>PeatPulse: 13 of 25 burn areas found</span>
+          </li>
+          <li class="number-fwi">
+            <strong>32%</strong>
+            <span>Fire Weather Index: 8 of 25</span>
+          </li>
+        </ul>
+        <p class="figure-note">
+          Historical test, 2018–2025. Each method picked five squares a day from
+          the same candidates.
+        </p>
+      </section>
+
+      <!-- 6. How -->
+      <section
+        class="slide slide-stack slide-center"
+        data-title="How we did it"
+      >
+        <h2 class="headline headline-xl rise" style="--i: 0">
+          How did we do it?
+        </h2>
+        <ol class="steps">
+          <li class="rise" style="--i: 1">
+            <svg class="icon" viewBox="0 0 48 48" aria-hidden="true">
+              <ellipse cx="24" cy="12" rx="14" ry="5" />
+              <path d="M10 12 V36 C10 39 16 41 24 41 C32 41 38 39 38 36 V12" />
+              <path d="M10 24 C10 27 16 29 24 29 C32 29 38 27 38 24" />
+            </svg>
+            <span>Join open data</span>
+          </li>
+          <li class="rise" style="--i: 2">
+            <svg class="icon" viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="9" r="4" />
+              <circle cx="13" cy="24" r="4" />
+              <circle cx="35" cy="24" r="4" />
+              <circle cx="8" cy="39" r="4" />
+              <circle cx="20" cy="39" r="4" />
+              <circle cx="35" cy="39" r="4" />
+              <path
+                d="M21 12 L16 21 M27 12 L32 21 M11 28 L9 35 M15 28 L19 35 M35 28 V35"
+              />
+            </svg>
+            <span>Train four algorithms</span>
+          </li>
+          <li class="rise" style="--i: 3">
+            <svg class="icon" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M8 40 H40" />
+              <path d="M14 40 V24" />
+              <path d="M24 40 V14" />
+              <path d="M34 40 V28" />
+            </svg>
+            <span>Test against the baseline</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 7. Data sources -->
+      <section class="slide slide-stack" data-title="Our data">
+        <h2 class="headline rise" style="--i: 0">
+          We joined public datasets by place and date.
+        </h2>
+        <figure class="hub rise" style="--i: 1">
+          <svg
+            viewBox="0 0 960 400"
+            role="img"
+            aria-label="Six public sources feed one row per peat square per day: NatureScot peat map, ERA5 weather, Copernicus fire danger, Sentinel-1 radar, MODIS burned area, and NASA FIRMS with NatureScot fire records."
+          >
+            <g class="hub-lines">
+              <path pathLength="1" d="M300 60 C380 60 380 170 405 186" />
+              <path pathLength="1" d="M300 200 H405" />
+              <path pathLength="1" d="M300 340 C380 340 380 230 405 214" />
+              <path pathLength="1" d="M660 60 C580 60 580 170 555 186" />
+              <path pathLength="1" d="M660 200 H555" />
+              <path pathLength="1" d="M660 340 C580 340 580 230 555 214" />
+            </g>
+            <g class="hub-core">
+              <rect x="405" y="125" width="150" height="150" rx="10" />
+              <text x="480" y="192">1 km square</text>
+              <text x="480" y="220">× 1 day</text>
+            </g>
+            <g class="hub-node" style="--i: 0" transform="translate(20 22)">
+              <rect width="280" height="76" rx="10" />
+              <text class="hub-name" x="24" y="34">NatureScot peat map</text>
+              <text class="hub-role" x="24" y="58">Where the peat is</text>
+            </g>
+            <g class="hub-node" style="--i: 1" transform="translate(20 162)">
+              <rect width="280" height="76" rx="10" />
+              <text class="hub-name" x="24" y="34">ERA5 weather</text>
+              <text class="hub-role" x="24" y="58">
+                Rain, heat, humidity, wind
+              </text>
+            </g>
+            <g class="hub-node" style="--i: 2" transform="translate(20 302)">
+              <rect width="280" height="76" rx="10" />
+              <text class="hub-name" x="24" y="34">Copernicus fire danger</text>
+              <text class="hub-role" x="24" y="58">FWI and drought codes</text>
+            </g>
+            <g class="hub-node" style="--i: 3" transform="translate(660 22)">
+              <rect width="280" height="76" rx="10" />
+              <text class="hub-name" x="24" y="34">Sentinel-1 radar</text>
+              <text class="hub-role" x="24" y="58">
+                Ground wetness (tested)
+              </text>
+            </g>
+            <g
+              class="hub-node hub-node-answer"
+              style="--i: 4"
+              transform="translate(660 162)"
+            >
+              <rect width="280" height="76" rx="10" />
+              <text class="hub-name" x="24" y="34">MODIS burned area</text>
+              <text class="hub-role" x="24" y="58">
+                What burned: the answer
+              </text>
+            </g>
+            <g class="hub-node" style="--i: 5" transform="translate(660 302)">
+              <rect width="280" height="76" rx="10" />
+              <text class="hub-name" x="24" y="34">NASA FIRMS, NatureScot</text>
+              <text class="hub-role" x="24" y="58">
+                Fire records to check it
+              </text>
+            </g>
+          </svg>
+          <ul class="hub-list">
+            <li>NatureScot peat map<span>Where the peat is</span></li>
+            <li>ERA5 weather<span>Rain, heat, humidity, wind</span></li>
+            <li>Copernicus fire danger<span>FWI and drought codes</span></li>
+            <li>Sentinel-1 radar<span>Ground wetness (tested)</span></li>
+            <li>MODIS burned area<span>What burned: the answer</span></li>
+            <li>NASA FIRMS, NatureScot<span>Fire records to check it</span></li>
+          </ul>
+        </figure>
+      </section>
+
+      <!-- 7. Dataset -->
+      <section class="slide slide-stack" data-title="Our dataset">
+        <h2 class="headline rise" style="--i: 0">
+          One row is one peat square on one day.
+        </h2>
+        <div class="io rise" style="--i: 1">
+          <p class="io-box">
+            <strong>16 readings</strong>
+            <span>weather and fire danger</span>
+          </p>
+          <span class="io-arrow" aria-hidden="true">→</span>
+          <p class="io-box io-answer">
+            <strong>Burned within 7 days?</strong>
+            <span>yes or no</span>
+          </p>
+        </div>
+        <ul class="facts rise" style="--i: 2">
+          <li><strong>346</strong> peat squares</li>
+          <li><strong>2018–2025</strong></li>
+          <li><strong>535,473</strong> rows</li>
+        </ul>
+      </section>
+
+      <!-- 8. Algorithms -->
+      <section class="slide slide-split" data-title="Four algorithms">
+        <h2 class="headline rise" style="--i: 0">
+          We tested four algorithms. Random Forest was the clear winner.
+        </h2>
+        <div class="board rise" style="--i: 1">
+          <p class="board-title">
+            Burn areas found out of 25, checking one square a day
+          </p>
+          <ol class="ranklist">
+            <li class="is-winner">
+              <span>Random Forest</span><strong>6</strong>
+            </li>
+            <li><span>Gradient boosting</span><strong>3</strong></li>
+            <li><span>Extra Trees</span><strong>2</strong></li>
+            <li><span>Logistic regression</span><strong>2</strong></li>
+            <li class="is-baseline">
+              <span>Fire Weather Index baseline</span><strong>2</strong>
+            </li>
+          </ol>
+          <p class="figure-note">Adding satellite radar never helped.</p>
+        </div>
+      </section>
+
+      <!-- 9. How we compared -->
+      <section class="slide slide-split" data-title="How we tested">
+        <div class="slide-copy">
+          <h2 class="headline rise" style="--i: 0">
+            We tested on fires the model had never seen.
+          </h2>
+          <ul class="checks rise" style="--i: 6">
+            <li>Squares from the same fire stay together</li>
+            <li>FWI ranks the same squares on the same days</li>
+            <li>Both get the same number of checks</li>
+          </ul>
+        </div>
+        <figure
+          class="slide-figure folds"
+          aria-label="Five rounds of testing. In each round, a different fifth of the data is held out for testing and the model trains on the rest."
+        >
+          <div class="folds-legend rise" style="--i: 1">
+            <span><i class="swatch swatch-train"></i>Train</span>
+            <span><i class="swatch swatch-test"></i>Test</span>
+          </div>
+          <div class="fold rise" style="--i: 2">
+            <span>Round 1</span><b class="is-test"></b><b></b><b></b><b></b
+            ><b></b>
+          </div>
+          <div class="fold rise" style="--i: 3">
+            <span>Round 2</span><b></b><b class="is-test"></b><b></b><b></b
+            ><b></b>
+          </div>
+          <div class="fold rise" style="--i: 4">
+            <span>Round 3</span><b></b><b></b><b class="is-test"></b><b></b
+            ><b></b>
+          </div>
+          <div class="fold rise" style="--i: 5">
+            <span>Round 4</span><b></b><b></b><b></b><b class="is-test"></b
+            ><b></b>
+          </div>
+          <div class="fold rise" style="--i: 6">
+            <span>Round 5</span><b></b><b></b><b></b><b></b
+            ><b class="is-test"></b>
+          </div>
+        </figure>
+      </section>
+
+      <!-- 9. Against the baseline -->
+      <section
+        class="slide slide-split slide-split-wide"
+        data-title="Against the baseline"
+      >
+        <div class="slide-copy">
+          <h2 class="headline rise" style="--i: 0">
+            PeatPulse found more burn areas at every budget.
+          </h2>
+          <div class="accuracy rise" style="--i: 5">
+            <p class="board-title">Accuracy can’t tell them apart</p>
+            <dl>
+              <div>
+                <dt>PeatPulse</dt>
+                <dd>98.53%</dd>
+              </div>
+              <div>
+                <dt>Fire Weather Index</dt>
+                <dd>98.46%</dd>
+              </div>
+              <div>
+                <dt>Always “no fire”</dt>
+                <dd>99.96%, finds none</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+        <figure
+          class="slide-figure bars"
+          aria-label="Burn areas found out of 25. One square a day: PeatPulse 6, FWI 2. Three a day: PeatPulse 11, FWI 7. Five a day: PeatPulse 13, FWI 8."
+        >
+          <div class="bars-legend rise" style="--i: 1">
+            <span><i class="swatch swatch-ours"></i>PeatPulse</span>
+            <span><i class="swatch swatch-fwi"></i>Fire Weather Index</span>
+          </div>
+          <div class="bar-group rise" style="--i: 2">
+            <p>1 square a day</p>
+            <div class="bar bar-ours" style="--v: 6"><span>6</span></div>
+            <div class="bar bar-fwi" style="--v: 2"><span>2</span></div>
+          </div>
+          <div class="bar-group rise" style="--i: 3">
+            <p>3 squares a day</p>
+            <div class="bar bar-ours" style="--v: 11"><span>11</span></div>
+            <div class="bar bar-fwi" style="--v: 7"><span>7</span></div>
+          </div>
+          <div class="bar-group rise" style="--i: 4">
+            <p>5 squares a day</p>
+            <div class="bar bar-ours" style="--v: 13"><span>13</span></div>
+            <div class="bar bar-fwi" style="--v: 8"><span>8</span></div>
+          </div>
+          <p class="bars-axis rise" style="--i: 4">
+            Burn areas found, out of 25
+          </p>
+        </figure>
+      </section>
+
+      <!-- 10. Example: the day -->
+      <section class="slide slide-map" data-title="An example day">
+        <figure class="map rise" style="--i: 0">
+          <svg
+            viewBox="0 0 356 600"
+            role="img"
+            aria-label="Map of Scotland with one peat square marked in the northwest."
+          >
+            <use class="map-shape" href="./assets/scotland.svg#outline" />
+          </svg>
+          <span
+            class="map-pin map-pin-target"
+            style="--x: 34.9%; --y: 50%"
+          ></span>
+          <span class="map-label" style="--x: 34.9%; --y: 50%">
+            <strong>This square</strong>
+            <span>57.74° N, 5.29° W</span>
+          </span>
+        </figure>
+        <div class="slide-copy">
+          <h2 class="headline rise" style="--i: 1">
+            Let us walk you through one day: 14 April 2019.
+          </h2>
+          <ul class="stats">
+            <li class="rise" style="--i: 2">
+              <strong>10 days</strong>
+              <span>without rain</span>
+            </li>
+            <li class="rise" style="--i: 3">
+              <strong>48%</strong>
+              <span>humidity, with a 24 km/h wind</span>
+            </li>
+            <li class="rise" style="--i: 4">
+              <strong>103</strong>
+              <span>peat squares to rank that day</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 10. Example: the ranking and the reveal -->
+      <section
+        class="slide slide-stack"
+        data-title="The ranking"
+        data-steps="1"
+      >
+        <h2 class="headline rise" style="--i: 0">
+          PeatPulse put this square 1st. The Fire Weather Index put it 59th.
+        </h2>
+        <div class="rankings">
+          <figure class="ranking-figure rise" style="--i: 1">
+            <figcaption><i class="swatch swatch-ours"></i>PeatPulse</figcaption>
+            <div
+              class="ranking"
+              data-count="103"
+              data-cols="13"
+              data-target="1"
+              role="img"
+              aria-label="PeatPulse ranking of 103 squares: this square is 1st, inside the top five."
+            ></div>
+          </figure>
+          <figure class="ranking-figure rise" style="--i: 2">
+            <figcaption>
+              <i class="swatch swatch-fwi"></i>Fire Weather Index
+            </figcaption>
+            <div
+              class="ranking"
+              data-count="103"
+              data-cols="13"
+              data-target="59"
+              role="img"
+              aria-label="Fire Weather Index ranking of 103 squares: this square is 59th, outside the top five."
+            ></div>
+          </figure>
+        </div>
+        <div class="ranking-key rise" style="--i: 3">
+          <span><i class="key-top"></i>Top five: checked that day</span>
+          <span><i class="key-target"></i>This square</span>
+        </div>
+        <p class="reveal">
+          <span class="reveal-mark" aria-hidden="true"></span>
+          About five days later, satellites mapped burning there.
+        </p>
+      </section>
+
+      <!-- 11. The report -->
+      <section class="slide slide-split" data-title="The report">
+        <div class="slide-copy">
+          <h2 class="headline rise" style="--i: 0">
+            Everything else is in the report.
+          </h2>
+          <ul class="contents-list rise" style="--i: 1">
+            <li>The data</li>
+            <li>The method</li>
+            <li>How we tested it</li>
+            <li>The results</li>
+            <li>What this shows, and what it doesn’t</li>
+          </ul>
+          <a class="button rise" style="--i: 2" href="./report.html"
+            >Read the report</a
+          >
+        </div>
+        <figure class="slide-figure qr-card rise" style="--i: 3">
+          <img
+            src="./assets/qr-report.svg"
+            width="232"
+            height="232"
+            alt="QR code for peatpulse.pages.dev/report"
+          />
+          <figcaption>peatpulse.pages.dev/report</figcaption>
+        </figure>
+      </section>
+
+      <!-- 12. Conclusion -->
+      <section class="slide slide-split" data-title="Our code">
+        <div class="slide-copy">
+          <h2 class="headline rise" style="--i: 0">
+            Thank you. Our code is open on GitHub.
+          </h2>
+          <ul class="chips rise" style="--i: 1">
+            <li>Public data</li>
+            <li>No large models</li>
+            <li>Random Forest, 4.6 MB</li>
+            <li>Runs on a laptop CPU</li>
+          </ul>
+          <a
+            class="button rise"
+            style="--i: 2"
+            href="https://github.com/vsharha/adahack-2026/tree/main/apps/compsoc"
+            >View on GitHub</a
+          >
+        </div>
+        <figure class="slide-figure qr-card rise" style="--i: 3">
+          <img
+            src="./assets/qr-github.svg"
+            width="232"
+            height="232"
+            alt="QR code for the PeatPulse code on GitHub"
+          />
+          <figcaption>github.com/vsharha/adahack-2026</figcaption>
+        </figure>
       </section>
     </main>
+
+    <nav class="deck-nav" aria-label="Slides">
+      <ol class="deck-cells"></ol>
+      <span class="deck-count" aria-live="polite"></span>
+      <button
+        class="deck-step deck-prev"
+        type="button"
+        aria-label="Previous slide"
+      >
+        ←
+      </button>
+      <button class="deck-step deck-next" type="button" aria-label="Next slide">
+        →
+      </button>
+    </nav>
+
+    <script src="./story.js"></script>
   </body>
 </html>

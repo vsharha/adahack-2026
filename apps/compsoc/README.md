@@ -16,7 +16,7 @@ We tested the model with five-fold grouped cross-validation. Related locations s
 
 ## Try the demo
 
-Open the [PeatPulse website](https://peatpulse.pages.dev/). Choose **Read the report** for the data, model, historical example, results and limitations. **Read the story** opens a work-in-progress page.
+Open the [PeatPulse website](https://peatpulse.pages.dev/). Choose **Read the report** for the data, model, historical example, results and limitations. **Read the story** opens the presentation slides.
 
 To serve the website locally from the repository root:
 

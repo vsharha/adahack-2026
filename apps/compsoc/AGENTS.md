@@ -24,7 +24,7 @@ From the repository root, `pnpm check:compsoc` runs Ruff linting, the Ruff forma
 
 ## Frontend
 
-`frontend/` contains the standalone PeatPulse website. It uses semantic HTML and local CSS. The landing page has two choices: “Read the story” opens a work-in-progress page; “Read the report” opens the technical report. Keep this website separate from `map-preview/`.
+`frontend/` contains the standalone PeatPulse website. It uses semantic HTML and local CSS. The landing page has two choices: “Read the story” opens the presentation (`story.html`, `story.css`, `story.js`); “Read the report” opens the technical report. Keep this website separate from `map-preview/`.
 
 Run from the repository root:
 

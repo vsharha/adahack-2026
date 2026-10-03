@@ -7,9 +7,11 @@ The [four-family algorithm comparison](peatpulse-algorithm-comparison.md) confir
 ## Decisions
 
 - Write the Devpost description in the same plain language as the technical report, using its measured FWI comparison and stating the limits of the historical satellite benchmark. **3 October 2026.**
+- Make the story page the presentation deck the user presents from, in their twelve sections: what peatlands are and why burning them matters, Scotland's response, where PeatPulse comes in, the daily ranking, the result against FWI, how we built it (data, algorithms, testing), a worked example, the report and the GitHub close, because the user will present with it. **3 October 2026.**
+- Keep the story slides light, with little text and simple figures only: the 3% squares, the Scotland maps, a ranked-squares strip, the testing rounds, the budget chart and the example rankings. Decorative illustrations, icons on the government and data-source slides, and square-by-square result animations were removed, because the user found them too much. **3 October 2026.**
 - Reduce the overall page scale and report text width after the user found the site too zoomed in, because the report fonts, cover image and text column should fit more comfortably on screen. **3 October 2026.**
 - Create a fresh PeatPulse demo website and develop it one agreed step at a time, because the user wants a new presentation experience rather than reuse of the existing data explorer. **3 October 2026.**
-- Start the website with a subdued peatland background and two choices: “Read the story” opens a simple work-in-progress page, while “Read the report” opens the technical report. Remove the report’s print button and link the source section to GitHub. **3 October 2026.**
+- Start the website with a subdued peatland background and two choices: “Read the story” opens the presentation, while “Read the report” opens the technical report. Remove the report’s print button and link the source section to GitHub. **3 October 2026.**
 - Let the user review website views themselves and stop further automated visual checks for this slice, because they explicitly asked to build and move on. **3 October 2026.**
 - Use the same simple, concrete language as the model explanations, with standalone headings and no decorative text above or supporting subtext below them, because the user explicitly rejects that heading pattern. **3 October 2026.**
 - Avoid em dashes throughout CompSoc copy, because the user asked to remove them everywhere. **3 October 2026.**
