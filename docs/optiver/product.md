@@ -1,15 +1,23 @@
 # Optiver: product
 
-Product direction is not chosen yet. Brainstorm with the user and record the intended user, problem, approach, data and demo scope here before building. The challenge brief is in [`brief.md`](brief.md).
+A Python command-line tool for the Optiver challenge: construct a low-cost carbon-credit portfolio, compare it with simple baselines and report how it performs under project failures and shared risks. The initial audience is the team and judges reviewing the challenge submission.
 
 ## Decisions
 
 - Start Optiver as a third independent project, with a Python backend managed by uv and an empty frontend folder, matching CompSoc's structure, so Python work can start before choosing a UI; 2026-10-03.
 - Brainstorm and document the product direction before building features, so implementation follows an agreed plan; 2026-10-03.
+- Build the proposed Python portfolio builder using the inspected challenge dataset, cheap baselines and resilience comparisons, following the user's instruction to build after reviewing the dataset research; 2026-10-03.
 
-## Open questions for brainstorming
+## Implementation assumptions
 
-- Who is the portfolio tool for, and what decision will it help them make?
-- What budget, target units and failure scenarios does the supplied dataset support?
-- What baseline and method will we compare, and how will we demonstrate resilience?
-- What is the smallest convincing demo achievable before submission?
+These are configurable engineering defaults, not confirmed organiser rules: a 100,000-tonne target, 95% reliability, whole-project binary failures with the supplied buffer recovery, and several assumed correlation strengths. The USD 1m budget, rating probabilities and recovery/reversal rules come from the workbook. Report modelled outcomes and uncertainty, not guarantees or real-world carbon impact.
+
+## Demo scope
+
+Offline dataset snapshot, validated inputs, bounded portfolio search, independent evaluation scenarios, baseline comparison, concentration and stress reporting, and CSV/JSON/Markdown outputs. No frontend or external API is required. The search is a heuristic, not a proof of global optimality.
+
+## Open organiser questions
+
+- Does achieving the target mean realised delivery, expected delivery or a required probability?
+- How are correlated failures generated and scored?
+- Are fractional quantities allowed, and how does cost ranking interact with general judging criteria?

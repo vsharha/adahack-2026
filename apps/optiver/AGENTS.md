@@ -9,7 +9,7 @@ This folder is the Optiver project: a Python backend in `backend/` and an empty 
 
 ## Backend
 
-A Python package managed with uv. Python 3.12 is pinned in `backend/.python-version`; `pyproject.toml` allows 3.12 or newer. The package contains no product code yet.
+A Python package managed with uv. Python 3.12 is pinned in `backend/.python-version`; `pyproject.toml` allows 3.12 or newer. The package implements the offline portfolio CLI; see `backend/README.md` for usage and modelling assumptions.
 
 - `backend/src/optiver/`: the package.
 - `backend/tests/`: tests, once there are any.
@@ -22,7 +22,7 @@ Run these inside `apps/optiver/backend/`:
 
 From the repository root, `pnpm check:optiver` runs Ruff linting, the Ruff format check and Pyright, and `pnpm fix:optiver` applies Ruff fixes and formatting. The root `pnpm verify` and `pnpm fix` include them.
 
-There is no server, API or application entry point yet.
+Run `uv --directory apps/optiver/backend run python -m optiver` from the repository root. Run tests with `uv --directory apps/optiver/backend run python -m unittest discover -s tests -v`. There is no HTTP server or API.
 
 ## Frontend
 
@@ -30,4 +30,4 @@ There is no server, API or application entry point yet.
 
 ## Data
 
-The challenge workbook has been downloaded temporarily and inspected for research; see `docs/optiver/dataset-research.md`. No dataset is committed or selected for implementation. The supplied brief links to the challenge dataset. Keep large downloads out of Git; commit only small snapshots needed for an offline demo.
+The challenge workbook has been downloaded temporarily and inspected for research; see `docs/optiver/dataset-research.md`. The CREDITS sheet is committed as `backend/data/credits.csv` for the offline demo, with provenance in `backend/data/README.md`. The supplied brief links to the challenge dataset. Keep large downloads out of Git; commit only small snapshots needed for an offline demo.
