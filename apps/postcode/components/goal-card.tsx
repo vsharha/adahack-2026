@@ -31,7 +31,7 @@ function PledgeMeter({ goal }: { goal: Goal & { threshold: number } }) {
   const slots = Math.max(goal.threshold, pledgers.length);
 
   return (
-    <ol className="flex flex-wrap gap-1.5" aria-hidden>
+    <ol className="flex flex-wrap gap-3 py-1.5" aria-hidden>
       {Array.from({ length: slots }, (_, i) => {
         const pledger = pledgers[i];
         return (
