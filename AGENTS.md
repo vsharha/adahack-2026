@@ -38,8 +38,10 @@ Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cove
 - Use uv for all Python: running, dependencies and environments. Never use pip, venv or Poetry directly.
 - Use pnpm for all JavaScript. Never use npm, npx, Yarn or Bun; run one-off tools with `pnpm dlx`.
 - Style a frontend with Tailwind CSS v4 and shadcn/ui when its framework supports them. Add shadcn components with its CLI, run inside the app's folder, so they are copied into the app rather than installed as a package.
+- Use the `frontend-design` skill for all frontend work. Load it before building or changing UI.
 - Keep the design consistent. Reuse the app's existing components, colours, spacing and type before adding new ones.
-- Agent skills live in `.agents/skills/`, one folder each; `.claude/skills` is a symlink to it, so Claude Code sees the same skills. Add or edit skills only in `.agents/skills/`. The `frontend-design` skill covers building or restyling UI.
+- Check frontend changes on the live dev server with Playwright or a browser before reporting them done: look at the page, use the changed flow, and read the console for errors.
+- Agent skills live in `.agents/skills/`, one folder each; `.claude/skills` is a symlink to it, so Claude Code sees the same skills. Add or edit skills only in `.agents/skills/`.
 
 ## Docs
 
