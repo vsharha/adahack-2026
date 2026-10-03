@@ -4,7 +4,7 @@ The offline Python portfolio builder and Next.js frontend are working. All deliv
 
 ## Features
 
-Verified 2026-10-03 for commit `Build Optiver frontend with portfolio comparison and risk analysis` (the commit introducing this entry).
+Verified 2026-10-03 for commit `Build Optiver frontend with portfolio comparison and risk analysis` (the commit introducing this entry). Sample report pre-generated at 18:00 for demo.
 
 | Feature                                 | State | Verification or reason                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | --------------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

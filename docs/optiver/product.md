@@ -23,6 +23,8 @@ Offline dataset snapshot, validated inputs, bounded portfolio search, independen
 
 ## Open organiser questions
 
+Reviewed for judges at 18:00 on 2026-10-03.
+
 - Does achieving the target mean realised delivery, expected delivery or a required probability?
 - How are correlated failures generated and scored?
 - Are fractional quantities allowed, and how does cost ranking interact with general judging criteria?
