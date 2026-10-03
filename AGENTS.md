@@ -32,14 +32,15 @@ Update `docs/reference/status.md` whenever a feature is built, mocked or cut, or
 - Before starting the dev server, check whether one is already running for this project (for example `ps aux | grep "[n]ext dev"`, or probe port 3000) and reuse it.
 - When a change needs a fresh process (config, dependencies, env), stop the running dev server and start a new one. Never leave several instances running.
 
-## Committing
+## Committing and pushing
 
+- At the start of a session, run `git pull --rebase --autostash` before changing anything.
 - Commit automatically after each working change, without asking first. Commit as the user, never as the agent.
 - Subject line only, short, describing what was done. Match the style of previous commits.
 - Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
-- Before committing, run `git pull --rebase --autostash` so history stays linear without merge commits.
 - Stage only the files you changed, by path. Never `git add -A` or `git add .`.
-- Push only when the user asks.
+- After each commit, run `git pull --rebase --autostash` so history stays linear without merge commits, then `git push` without asking first. If the pull brought in changes to `pnpm-lock.yaml`, `package.json` files or root config, run `pnpm install` and `pnpm verify` again before pushing.
+- If the push is rejected because the remote moved, pull and push again. If the pull stops on a conflict, resolve it as described under "Protecting shared work", or stop and ask.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
 
 ## Protecting shared work
