@@ -25,6 +25,7 @@ export function Celebration({
       role="dialog"
       aria-modal
       aria-labelledby="celebration-title"
+      data-status-surface="moss"
       className="celebration-in absolute inset-0 z-50 flex flex-col items-center bg-moss px-6 pt-16 pb-8 text-center text-on-moss"
     >
       <div className="rounded-illustration bg-background/20 px-6 pt-5 pb-3">

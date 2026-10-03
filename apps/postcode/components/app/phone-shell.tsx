@@ -8,7 +8,10 @@ import { useHydrated } from "@/lib/demo-store";
 
 function Splash() {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-3 bg-moss text-on-moss">
+    <div
+      data-status-surface="moss"
+      className="flex h-full flex-col items-center justify-center gap-3 bg-moss text-on-moss"
+    >
       <Sprout className="size-12" />
       <p className="font-heading text-lg font-bold tracking-tight">
         Greener by postcode
