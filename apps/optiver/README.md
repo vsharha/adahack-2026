@@ -2,21 +2,36 @@
 
 AdaHack 2026 challenge: Build a carbon credit portfolio that delivers 100,000 tCO₂e on a budget and survives project failures.
 
-## Demo Screenshot
+## Demo Screenshots
 
-![Optiver Dashboard](../../docs/optiver/screenshot.png)
-*Dashboard showing portfolio comparison, diversification breakdown, and risk metrics*
+### Hero Section
+![Hero Section](../../docs/optiver/screenshot-hero.png)
+_Key metrics, correlation selector, and portfolio summary_
+
+### Portfolio Comparison
+![Portfolio Comparison](../../docs/optiver/screenshot-comparison.png)
+_Bar chart comparing cost and success rate across 3 strategies_
+
+### Holdings Table
+![Holdings Table](../../docs/optiver/screenshot-holdings.png)
+_Searchable, filterable table with 13 projects_
+
+### Geographic Map
+![Map](../../docs/optiver/screenshot-map.png)
+_Project locations with circle size proportional to tonnes_
+
+> 📸 **Screenshots pending** - Capture from http://localhost:3000 at 1920×1080. Save to `docs/optiver/`.
 
 ## Quick Results
 
-| Metric | Value |
-|--------|------:|
-| **Target** | 100,000 tCO₂e |
-| **Budget** | $1,000,000 |
-| **Diversified Cost** | $181,659 |
-| **Projects** | 13 credits |
-| **Success Rate** | 98.3% (ρ=0.3) |
-| **5th Percentile** | 110,970 tonnes |
+| Metric               |          Value |
+| -------------------- | -------------: |
+| **Target**           |  100,000 tCO₂e |
+| **Budget**           |     $1,000,000 |
+| **Diversified Cost** |       $181,659 |
+| **Projects**         |     13 credits |
+| **Success Rate**     |  98.3% (ρ=0.3) |
+| **5th Percentile**   | 110,970 tonnes |
 
 **Status:** ✅ PASS under tested models
 
@@ -157,6 +172,7 @@ apps/optiver/
 ## Key Features
 
 ### Backend
+
 - ✅ Portfolio optimization with diversification constraints
 - ✅ Correlated failure simulation (Gaussian shared factors)
 - ✅ Concentration risk warnings (>40% threshold)
@@ -166,6 +182,7 @@ apps/optiver/
 - ✅ One-pager export for judges
 
 ### Frontend
+
 - ✅ Interactive dashboard with portfolio comparison charts
 - ✅ Dark/Light/System theme toggle
 - ✅ Copy-to-clipboard summary
