@@ -3,6 +3,7 @@
 import { Sprout } from "lucide-react";
 import { NotificationBanner } from "@/components/app/notification-banner";
 import { PhoneFrame } from "@/components/app/phone-frame";
+import { useSystemThemeSync } from "@/lib/appearance";
 import { useHydrated } from "@/lib/demo-store";
 
 function Splash() {
@@ -19,6 +20,7 @@ function Splash() {
 /** The phone around every app screen; shows a splash until saved state is read. */
 export function PhoneShell({ children }: { children: React.ReactNode }) {
   const hydrated = useHydrated();
+  useSystemThemeSync();
   return (
     <PhoneFrame>
       {hydrated ? children : <Splash />}

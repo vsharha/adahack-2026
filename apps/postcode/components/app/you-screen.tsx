@@ -6,7 +6,53 @@ import { Avatar } from "@/components/avatar";
 import { Button } from "@/components/ui/button";
 import { households, interestGroups } from "@/data/seed";
 import { dispatch, isPremade, useDemoState, useMe } from "@/lib/demo-store";
+import {
+  type Appearance,
+  setAppearance,
+  useAppearance,
+} from "@/lib/appearance";
 import { householdPoints } from "@/lib/progress";
+import { cn } from "@/lib/utils";
+
+const appearances: { value: Appearance; label: string }[] = [
+  { value: "system", label: "System" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+];
+
+function AppearancePicker() {
+  const appearance = useAppearance();
+  return (
+    <section className="space-y-2">
+      <h2 id="appearance" className="font-bold">
+        Appearance
+      </h2>
+      <div
+        role="radiogroup"
+        aria-labelledby="appearance"
+        className="grid grid-cols-3 gap-1 rounded-xl bg-muted p-1"
+      >
+        {appearances.map(({ value, label }) => (
+          <button
+            key={value}
+            type="button"
+            role="radio"
+            aria-checked={appearance === value}
+            onClick={() => setAppearance(value)}
+            className={cn(
+              "rounded-lg py-2 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+              appearance === value
+                ? "bg-card font-bold shadow-sm"
+                : "text-muted-foreground",
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export function YouScreen() {
   const state = useDemoState();
@@ -69,6 +115,8 @@ export function YouScreen() {
             ))}
         </ul>
       </section>
+
+      <AppearancePicker />
 
       <section className="space-y-2 border-t pt-6">
         <Button

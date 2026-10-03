@@ -5,7 +5,7 @@ import {
   Atkinson_Hyperlegible_Next,
   Cinzel,
 } from "next/font/google";
-import { theme } from "@/lib/theme";
+import { appearanceScript } from "@/lib/appearance-script";
 import { cn } from "@/lib/utils";
 
 const body = Atkinson_Hyperlegible_Next({
@@ -34,9 +34,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme={theme}
+      // The script in <head> sets data-theme before React hydrates.
+      suppressHydrationWarning
       className={cn("font-sans", body.variable, data.variable, sign.variable)}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />
+      </head>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );

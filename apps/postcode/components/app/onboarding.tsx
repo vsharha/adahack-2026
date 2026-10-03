@@ -126,7 +126,7 @@ export function Onboarding({
               checkPostcode();
             }}
           >
-            <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss">
+            <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss-ink">
               GREENER BY POSTCODE
             </p>
             <h1 className="mt-3 text-3xl leading-tight font-bold">

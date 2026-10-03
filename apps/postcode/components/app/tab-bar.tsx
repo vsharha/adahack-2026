@@ -37,7 +37,7 @@ export function TabBar({ badges }: { badges?: Partial<Record<Tab, number>> }) {
             aria-current={active ? "page" : undefined}
             className={cn(
               "flex flex-col items-center gap-0.5 pt-2.5 pb-1 text-xs outline-none focus-visible:bg-muted",
-              active ? "font-bold text-moss" : "text-muted-foreground",
+              active ? "font-bold text-moss-ink" : "text-muted-foreground",
             )}
           >
             <span className="relative">

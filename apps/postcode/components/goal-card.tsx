@@ -64,7 +64,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
     >
       <header className="flex items-baseline justify-between gap-3">
         <p className="text-sm text-muted-foreground">{scope}</p>
-        <p className="shrink-0 font-mono text-sm text-moss">
+        <p className="shrink-0 font-mono text-sm text-moss-ink">
           +{goal.points} points
         </p>
       </header>
@@ -80,7 +80,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
           <PledgeMeter goal={goal} />
           <p className="text-sm" aria-live="polite">
             {unlocked ? (
-              <span className="font-bold text-moss">
+              <span className="font-bold text-moss-ink">
                 Going ahead: {pledges} neighbours pledged
               </span>
             ) : (
@@ -97,7 +97,7 @@ export function GoalCard({ goal, scope }: { goal: Goal; scope: string }) {
 
       <footer className="mt-auto flex flex-wrap items-center gap-3">
         {done ? (
-          <p className="flex items-center gap-1.5 font-bold text-moss">
+          <p className="flex items-center gap-1.5 font-bold text-moss-ink">
             <Check className="size-4" /> Your household has done this
           </p>
         ) : canMarkDone ? (

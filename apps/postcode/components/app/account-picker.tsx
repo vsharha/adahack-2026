@@ -19,7 +19,7 @@ export function AccountPicker({ onJoin }: { onJoin: () => void }) {
 
   return (
     <div className="flex h-full flex-col px-6 pt-[calc(var(--status-bar)+3.5rem)] pb-8">
-      <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss">
+      <p className="font-sign text-sm font-semibold tracking-[0.2em] text-moss-ink">
         GREENER BY POSTCODE
       </p>
       <h1 className="mt-3 text-3xl leading-tight font-bold">
@@ -70,7 +70,7 @@ export function AccountPicker({ onJoin }: { onJoin: () => void }) {
               onClick={onJoin}
               className="group flex w-full flex-col items-center gap-2 rounded-xl p-1 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
             >
-              <span className="grid size-18 place-items-center rounded-full border-2 border-dashed border-moss text-moss transition-transform group-hover:scale-105 group-active:scale-95">
+              <span className="grid size-18 place-items-center rounded-full border-2 border-dashed border-moss text-moss-ink transition-transform group-hover:scale-105 group-active:scale-95">
                 <Plus className="size-7" />
               </span>
               <span className="text-center leading-tight font-bold">

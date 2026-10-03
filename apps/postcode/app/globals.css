@@ -4,9 +4,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Dusk: a dark theme with a soft leaf green, and the street at evening with
-   lit windows. */
-:root[data-theme="dusk"] {
+/* Dark: navy with a soft leaf green, and the street at evening with lit
+   windows. The light theme in :root is its daytime counterpart. */
+:root[data-theme="dark"] {
   color-scheme: dark;
   --background: #252a3c;
   --foreground: #eef1f5;
@@ -29,6 +29,7 @@
 
   --moss: #97c49c;
   --on-moss: #18241b;
+  --moss-ink: #97c49c;
   --leaf: #7fb886;
   --leaf-light: #b8dcb9;
   --lamp: #f0c45a;
@@ -71,6 +72,7 @@
   --font-mono: var(--font-data);
   --color-moss: var(--moss);
   --color-on-moss: var(--on-moss);
+  --color-moss-ink: var(--moss-ink);
   --color-leaf: var(--leaf);
   --color-lamp: var(--lamp);
   --color-on-lamp: var(--on-lamp);
@@ -128,30 +130,30 @@
 }
 
 :root {
-  --background: #e6ebe8;
-  --foreground: #1f2a30;
-  --card: #f4f6f4;
-  --card-foreground: #1f2a30;
-  --popover: #f4f6f4;
-  --popover-foreground: #1f2a30;
-  --primary: #2f6b3f;
-  --primary-foreground: #f4f6f4;
-  --secondary: #d7dfda;
-  --secondary-foreground: #1f2a30;
-  --muted: #d7dfda;
-  --muted-foreground: #55626a;
-  --accent: #d7dfda;
-  --accent-foreground: #1f2a30;
+  --background: #f3f5f8;
+  --foreground: #252a3c;
+  --card: #ffffff;
+  --card-foreground: #252a3c;
+  --popover: #ffffff;
+  --popover-foreground: #252a3c;
+  --primary: #97c49c;
+  --primary-foreground: #18241b;
+  --secondary: #e8ecf1;
+  --secondary-foreground: #252a3c;
+  --muted: #e8ecf1;
+  --muted-foreground: #5a6478;
+  --accent: #e8ecf1;
+  --accent-foreground: #252a3c;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #c3cdc7;
-  --input: #c3cdc7;
-  --ring: #2f6b3f;
+  --border: #d8dee6;
+  --input: #d8dee6;
+  --ring: #3f7a4b;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0.875rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -162,44 +164,45 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* Brand */
-  --moss: #2f6b3f;
-  --on-moss: #f4f6f4;
-  --leaf: #79b26a;
-  --leaf-light: #9ccc8c;
-  --lamp: #e3b23c;
-  --on-lamp: #1f2a30;
+  --moss: #97c49c;
+  --on-moss: #18241b;
+  --moss-ink: #3f7a4b;
+  --leaf: #6fae78;
+  --leaf-light: #b8dcb9;
+  --lamp: #f0c45a;
+  --on-lamp: #1d1d1d;
 
   /* Street drawing */
-  --sandstone: #cdb88f;
-  --sandstone-dark: #a8925f;
-  --roof: #46525a;
-  --window: #e9eef0;
-  --window-frame: #46525a;
-  --door: #46525a;
-  --trunk: #5b4a37;
-  --pavement: #9aa3a0;
-  --verge-bare: #b9ad8e;
-  --verge-full: #79b26a;
-  --tag: #46525a;
-  --on-tag: #f4f6f4;
+  --sandstone: #d9c6a0;
+  --sandstone-dark: #b49e70;
+  --roof: #3b4256;
+  --window: #eef3f8;
+  --window-frame: #3b4256;
+  --door: #3b4256;
+  --trunk: #6b5440;
+  --pavement: #c3c9d1;
+  --verge-bare: #c9c3a8;
+  --verge-full: #7fbf88;
+  --tag: #3b4256;
+  --on-tag: #ffffff;
 
   /* Avatars, one pair per colour */
-  --avatar-1: #2f6b3f;
-  --on-avatar-1: #f4f6f4;
-  --avatar-2: #46525a;
-  --on-avatar-2: #f4f6f4;
-  --avatar-3: #e3b23c;
-  --on-avatar-3: #1f2a30;
-  --avatar-4: #a8925f;
-  --on-avatar-4: #1f2a30;
-  --avatar-5: #7a4e6e;
-  --on-avatar-5: #f4f6f4;
-  --avatar-6: #2d6e73;
-  --on-avatar-6: #f4f6f4;
+  --avatar-1: #97c49c;
+  --on-avatar-1: #18241b;
+  --avatar-2: #9fb6d6;
+  --on-avatar-2: #141c2a;
+  --avatar-3: #f0c45a;
+  --on-avatar-3: #1d1d1d;
+  --avatar-4: #e2b48d;
+  --on-avatar-4: #22170f;
+  --avatar-5: #d3abc9;
+  --on-avatar-5: #24161f;
+  --avatar-6: #8fcfd1;
+  --on-avatar-6: #10292a;
 
   /* Phone mockup */
   --device: #1f2224;
-  --device-shadow: rgb(31 42 48 / 0.45);
+  --device-shadow: rgb(37 42 60 / 0.35);
 }
 
 .dark {
