@@ -12,6 +12,19 @@ echo "🚀 Optiver Quick Start"
 echo "====================="
 echo ""
 
+# Check dependencies
+echo "🔍 Checking dependencies..."
+if ! command -v uv &> /dev/null; then
+    echo "❌ uv not found. Install from https://docs.astral.sh/uv/"
+    exit 1
+fi
+if ! command -v pnpm &> /dev/null; then
+    echo "❌ pnpm not found. Install with: npm install -g pnpm"
+    exit 1
+fi
+echo "✅ Dependencies OK"
+echo ""
+
 # Step 1: Generate fresh report from backend
 echo "📊 Generating portfolio report..."
 REPORT_DIR="/tmp/optiver-$(date +%Y%m%d-%H%M%S)"
@@ -22,15 +35,25 @@ echo "📁 Copying report to frontend..."
 mkdir -p "$DATA_DIR"
 cp "$REPORT_DIR/report.json" "$DATA_DIR/"
 cp "$REPORT_DIR/portfolio.csv" "$DATA_DIR/" 2>/dev/null || true
-
+cp "$REPORT_DIR/report.md" "$DATA_DIR/" 2>/dev/null || true
 echo "✅ Report generated: $DATA_DIR/report.json"
 echo ""
 
-# Step 3: Start frontend dev server
+# Step 3: Install frontend deps if needed
+if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
+    echo "📦 Installing frontend dependencies..."
+    cd "$FRONTEND_DIR" && pnpm install
+    echo ""
+fi
+
+# Step 4: Start frontend dev server
 echo "🌐 Starting frontend dev server..."
-echo "   Open http://localhost:3000 in your browser"
 echo ""
-echo "Press Ctrl+C to stop"
+echo "   ┌─────────────────────────────────────┐"
+echo "   │  📍 Open: http://localhost:3000     │"
+echo "   │  📊 Data: $DATA_DIR/report.json     │"
+echo "   │  💡 Tip: Press Ctrl+C to stop       │"
+echo "   └─────────────────────────────────────┘"
 echo ""
 
 cd "$FRONTEND_DIR"
