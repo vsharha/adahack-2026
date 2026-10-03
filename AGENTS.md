@@ -34,11 +34,26 @@ Update `docs/reference/status.md` whenever a feature is built, mocked or cut, or
 
 ## Committing
 
-- Pull before committing.
-- Commit after each working change, as the user, never as the agent.
+- Commit automatically after each working change, without asking first. Commit as the user, never as the agent.
 - Subject line only, short, describing what was done. Match the style of previous commits.
 - Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
+- Before committing, run `git pull --rebase --autostash` so history stays linear without merge commits.
+- Stage only the files you changed, by path. Never `git add -A` or `git add .`.
+- Push only when the user asks.
 - Run `git status` before describing the repository's state. Teammates push to the same branch, so earlier output goes stale.
+
+## Protecting shared work
+
+- Never force push. Never rewrite pushed commits with `git commit --amend`, `rebase` or `reset`.
+- Resolve pull conflicts by keeping the intent of both sides. Never take one side wholesale (`--ours` or `--theirs`) on files you didn't write. If the right resolution is unclear, stop and ask.
+- Ask before `git reset --hard`, `git checkout -- <path>`, `git restore`, `git clean` or `git stash drop`.
+- Don't commit build output, screenshots, or downloaded data over a few MB. Commit data only when the demo needs it offline.
+- Never pass `--no-verify`, disable a lint rule, or delete failing code to get past a check.
+
+## Dependencies and config
+
+- Add dependencies with `pnpm add`, and commit `pnpm-lock.yaml` in the same commit. Never delete the lockfile to resolve a conflict: run `pnpm install` and commit the result.
+- Ask before upgrading a major version or changing `eslint.config.mjs`, `tsconfig.json` or `pnpm-workspace.yaml`. TypeScript is pinned to 6.0 and ESLint to 9 because `eslint-config-next` 16 supports nothing newer.
 
 ## Secrets
 
