@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ActivityFeed } from "@/components/activity-feed";
 import { Avatar } from "@/components/avatar";
-import { StreetDrawing } from "@/components/street-drawing";
+import { StreetView } from "@/components/street-view";
 import { Button } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
@@ -78,8 +78,8 @@ export function StreetScreen() {
             {neighbours} neighbours on the app
           </p>
         </div>
-        <div className="mx-5 mt-3">
-          <StreetDrawing youHouseholdId={me.householdId} />
+        <div className="mt-1">
+          <StreetView youHouseholdId={me.householdId} showNeighbours />
         </div>
         <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
           <div className="flex flex-col gap-1 p-3">

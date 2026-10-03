@@ -3,7 +3,7 @@
 import { ArrowLeft, Check, LoaderCircle, Navigation } from "lucide-react";
 import { useState } from "react";
 import { Avatar } from "@/components/avatar";
-import { StreetDrawing } from "@/components/street-drawing";
+import { StreetView } from "@/components/street-view";
 import { Button } from "@/components/ui/button";
 import { households, interestGroups } from "@/data/seed";
 import { dispatch, nextHousehold, useDemoState } from "@/lib/demo-store";
@@ -198,8 +198,8 @@ export function Onboarding({
                 </li>
               ))}
             </ul>
-            <div className="mt-6">
-              <StreetDrawing youHouseholdId={householdId} showNeighbours />
+            <div className="-mx-6 mt-4">
+              <StreetView youHouseholdId={householdId} showNeighbours />
             </div>
             <p className="mt-4">
               {housemates.length > 0 ? (
