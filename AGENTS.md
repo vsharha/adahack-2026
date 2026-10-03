@@ -56,7 +56,7 @@ When the user makes or changes a decision about the product or how it is built, 
 
 ## Committing and pushing
 
-- At the start of a session, run `git pull --rebase --autostash` before changing anything.
+- Before starting each task, run `git pull --rebase --autostash`, so files you read reflect teammates' latest pushes.
 - Commit automatically after each working change, without asking first. Commit as the user, never as the agent.
 - Subject line only, short, describing what was done. Match the style of previous commits.
 - Before committing, run `pnpm fix`, then `pnpm verify`, and fix any failure. Skip both when they have already run since the last change to files other than documentation.
