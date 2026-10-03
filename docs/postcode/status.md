@@ -97,6 +97,12 @@ The source links on all three local-context panels are small footers with an 8px
 
 The walkthrough is in [pitch/demo.md](pitch/demo.md) and the narration in [pitch/script.md](pitch/script.md). The local captured-screen backup follows the shorter flow. Eighteen participation tests cover the new starting rewards, idempotent migration, date and pledge prerequisites, single approval and existing reward rules. All 18 tests, `pnpm fix:postcode`, `pnpm verify:postcode` and `pnpm build:postcode` passed.
 
+## Spectacle presentation
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Add the Greener Spectacle presentation`. All five slides were inspected and the navigation controls worked. The fourth slide embeds the live app; its Goals navigation worked. Presenter mode displayed speaker notes, the timer and the next-slide preview. The export view rendered five slides without interactive frames or navigation controls.
+
+The narration follows pledge → report attendance → one organiser confirmation → redemption. It distinguishes saved local information from demo suggestions and fictional rewards, and states that environmental savings have not been measured. Browser logs contained no JavaScript errors. `pnpm fix:postcode`, `pnpm verify:postcode` and `pnpm build:postcode` passed. Usage and print instructions are in [pitch/presentation.md](pitch/presentation.md).
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

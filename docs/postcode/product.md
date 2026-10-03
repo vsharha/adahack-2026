@@ -38,6 +38,8 @@ Not yet checked against existing projects. Candidates to check include condition
 
 ## Decisions
 
+- A five-slide Spectacle presentation at `/presentation` frames the live demo with the problem, conditional pledges and next steps. It uses the app’s colours and typography, with speaker notes and a printable view, to keep the pitch consistent with Greener. 3 October 2026.
+
 - Each local-context panel has a full-width goal action and a smaller source footer with a compact gap and no divider, so the internal action and external evidence link do not compete. 3 October 2026.
 - The Street illustration sits 32px below the postcode row, so the house labels remain below the heading without changing its background or stacking order. 3 October 2026.
 
