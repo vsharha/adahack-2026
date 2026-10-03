@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ActivityFeed } from "@/components/activity-feed";
 import { Avatar } from "@/components/avatar";
 import { StreetDrawing } from "@/components/street-drawing";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
   goalsForUser,
@@ -38,6 +38,7 @@ function useGoalThatNeedsYou() {
 }
 
 export function StreetScreen() {
+  const router = useRouter();
   const state = useDemoState();
   const me = useMe();
   const needsYou = useGoalThatNeedsYou();
@@ -58,13 +59,14 @@ export function StreetScreen() {
           <p className="text-muted-foreground">{greeting(new Date())},</p>
           <h1 className="text-2xl font-bold">{me.name}</h1>
         </div>
-        <Link
-          href="/you"
+        <button
+          type="button"
+          onClick={() => router.push("/you")}
           aria-label="Your profile"
           className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <Avatar user={me} />
-        </Link>
+        </button>
       </header>
 
       <section>
@@ -78,12 +80,16 @@ export function StreetScreen() {
           <StreetDrawing youHouseholdId={me.householdId} />
         </div>
         <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
-          <div className="flex flex-col justify-between gap-1 p-3">
-            <dt className="text-sm text-muted-foreground">Street points</dt>
+          <div className="flex flex-col gap-1 p-3">
+            <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+              Street points
+            </dt>
             <dd className="font-mono text-xl font-bold">{total}</dd>
           </div>
-          <div className="flex flex-col justify-between gap-1 p-3">
-            <dt className="text-sm text-muted-foreground">Goals going ahead</dt>
+          <div className="flex flex-col gap-1 p-3">
+            <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+              Goals going ahead
+            </dt>
             <dd className="font-mono text-xl font-bold">{goingAhead}</dd>
           </div>
         </dl>
@@ -126,12 +132,13 @@ export function StreetScreen() {
       <section className="px-5">
         <div className="mb-3 flex items-baseline justify-between">
           <h2 className="text-lg font-bold">Done on the street</h2>
-          <Link
-            href="/activity"
-            className={buttonVariants({ variant: "link", className: "px-0" })}
+          <Button
+            variant="link"
+            className="px-0"
+            onClick={() => router.push("/activity")}
           >
             See all
-          </Link>
+          </Button>
         </div>
         <ActivityFeed limit={2} />
       </section>

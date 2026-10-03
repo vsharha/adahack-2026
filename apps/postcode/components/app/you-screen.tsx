@@ -32,18 +32,24 @@ export function YouScreen() {
       </header>
 
       <dl className="grid grid-cols-3 divide-x rounded-xl border bg-card text-center">
-        <div className="flex flex-col justify-between gap-1 p-3">
-          <dt className="text-sm text-muted-foreground">Household points</dt>
+        <div className="flex flex-col gap-1 p-3">
+          <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+            Household points
+          </dt>
           <dd className="font-mono text-xl font-bold">
             {householdPoints(state, me.householdId)}
           </dd>
         </div>
-        <div className="flex flex-col justify-between gap-1 p-3">
-          <dt className="text-sm text-muted-foreground">Pledges</dt>
+        <div className="flex flex-col gap-1 p-3">
+          <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+            Pledges
+          </dt>
           <dd className="font-mono text-xl font-bold">{pledges}</dd>
         </div>
-        <div className="flex flex-col justify-between gap-1 p-3">
-          <dt className="text-sm text-muted-foreground">Goals done</dt>
+        <div className="flex flex-col gap-1 p-3">
+          <dt className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+            Goals done
+          </dt>
           <dd className="font-mono text-xl font-bold">{done}</dd>
         </div>
       </dl>
