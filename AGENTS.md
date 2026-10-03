@@ -10,15 +10,15 @@
 
 ## Projects
 
-The repository holds two independent projects. Each pair works only in its own folders.
+The repository holds two independent projects, each built by its own pair.
 
 | Project          | Code             | Docs             |
 | ---------------- | ---------------- | ---------------- |
 | Postcode Lottery | `apps/postcode/` | `docs/postcode/` |
 | CompSoc          | `apps/compsoc/`  | `docs/compsoc/`  |
 
-- Before changing anything, establish which project the user is working on. If they started the session inside a project folder, it is that one; otherwise ask.
-- Change files only in that project's code and docs folders. Never edit, move or delete the other project's files, even to fix a check that fails there; tell the user instead.
+- Before changing anything, establish which project the user is working on. If they started the session inside a project folder, it is that one; otherwise infer it from the request, and ask if it is unclear.
+- Stay on that project. Change the other project's files only when the user asks; otherwise, such as when a check fails there, tell the user instead.
 - Shared files need the user's approval before changing: root `package.json`, `pnpm-workspace.yaml`, `eslint.config.mjs`, `.gitignore`, `.prettierignore`, the `AGENTS.md` and `CLAUDE.md` files outside the project, `docs/event/` and `reference/`. The shared `pnpm-lock.yaml` is the exception: it changes whenever a project adds a dependency.
 - Each project folder has its own `AGENTS.md` with its commands. Read it before working there.
 
