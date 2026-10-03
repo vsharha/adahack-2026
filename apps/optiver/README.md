@@ -1,259 +1,53 @@
-# Optiver - Carbon Portfolio Optimizer
+# Optiver carbon portfolio
 
-AdaHack 2026 challenge: Build a carbon credit portfolio that delivers 100,000 tCO₂e on a budget and survives project failures.
+AdaHack 2026 challenge demo: build a carbon credit portfolio that aims to deliver 100,000 tCO₂e within a budget while accounting for project failure and shared risks. The Python CLI searches for a diversified candidate and compares it with two cheap baselines. The Next.js dashboard presents a saved, audited run; it does not call a live backend.
 
-## Demo Screenshots
+## Run the demo
 
-### Hero Section
-
-![Hero Section](../../docs/optiver/screenshot-hero.png)
-_Key metrics, correlation selector, and portfolio summary_
-
-### Portfolio Comparison
-
-![Portfolio Comparison](../../docs/optiver/screenshot-comparison.png)
-_Bar chart comparing cost and success rate across 3 strategies_
-
-### Holdings Table
-
-![Holdings Table](../../docs/optiver/screenshot-holdings.png)
-_Searchable, filterable table with 13 projects_
-
-### Geographic Map
-
-![Map](../../docs/optiver/screenshot-map.png)
-_Project locations with circle size proportional to tonnes_
-
-> 📸 **Screenshots pending** - Capture from http://localhost:3000 at 1920×1080. Save to `docs/optiver/`.
-
-## Quick Results
-
-| Metric               |          Value |
-| -------------------- | -------------: |
-| **Target**           |  100,000 tCO₂e |
-| **Budget**           |     $1,000,000 |
-| **Diversified Cost** |       $181,659 |
-| **Projects**         |     13 credits |
-| **Success Rate**     |  98.3% (ρ=0.3) |
-| **5th Percentile**   | 110,970 tonnes |
-
-**Status:** ✅ PASS under tested models
-
----
-
-## Quick Start
-
-### Launch Everything (Backend + Frontend)
+From the repository root, with [uv](https://docs.astral.sh/uv/) and [pnpm](https://pnpm.io/) installed:
 
 ```bash
-./apps/optiver/start.sh
+bash apps/optiver/start.sh
 ```
 
-This will:
+The script regenerates and audits the report, cost curve and downloads, then starts the dashboard at <http://localhost:3000>. Refreshing the saved data runs the simulation and may take a few minutes. If you only need to view the committed snapshot, run `pnpm --dir apps/optiver/frontend dev` from the repository root.
 
-1. Generate a fresh portfolio report from the backend
-2. Copy the data to the frontend
-3. Start the Next.js dev server on http://localhost:3000
+In the dashboard, choose a shared-risk scenario (ρ = 0, 0.3 or 0.6), compare the three portfolios, inspect the cost curve and map, and search or filter the 13 selected holdings. The PDF summary and data downloads reflect the saved run. The PDF does not change with the selected scenario or table filters.
 
-Access the dashboard at **http://localhost:3000**
+## Saved result
 
----
+The committed demo snapshot has a 100,000 tCO₂e target, a $1 million budget and a 95% modelled reliability requirement. The diversified candidate costs $181,658.56, buys 166,671 nominal tonnes across 13 projects, and has a 98.31% simulated target-hit rate at the ρ = 0.3 setting. It passes the configured checks in all three tested shared-risk settings. These are simulation results, not delivery guarantees or measured environmental impact.
 
-## Manual Commands
+The two comparison baselines cost $94,276.70 (cheapest nominal) and $115,294.12 (cheapest expected delivery). They illustrate the cost of adding resilience under the model; neither is selected as the validated candidate. The search is a bounded heuristic, so the result is not a proven global optimum.
 
-### Backend (Python CLI)
+## Run the CLI
+
+All commands below run from the repository root:
 
 ```bash
-# Basic run - shows report in terminal
 uv --directory apps/optiver/backend run python -m optiver
-
-# Export full report (Markdown + JSON + CSV)
-uv --directory apps/optiver/backend run python -m optiver --output /tmp/optiver-report
-
-# With stress tests and one-pager export
-uv --directory apps/optiver/backend run python -m optiver --output /tmp/report --stress --one-pager
-
-# Sensitivity analysis (90%, 95%, 99% reliability)
-uv --directory apps/optiver/backend run python -m optiver --sensitivity
-
-# Custom settings
-uv --directory apps/optiver/backend run python -m optiver \
-  --target 100000 \
-  --budget 500000 \
-  --reliability 0.90 \
-  --output /tmp/my-report
-
-# Help
 uv --directory apps/optiver/backend run python -m optiver --help
+uv --directory apps/optiver/backend run python -m optiver \
+  --frontier --csv-summary --one-pager --output /tmp/optiver-report
 ```
 
-### Frontend (Next.js Dashboard)
+Use a **new output directory** for each export; the CLI rejects an existing one. The last command writes `report.md`, `report.json`, `portfolio.csv`, `frontier.json`, `frontier.md`, `comparison.csv` and `one-pager.md`. For a fresh dashboard snapshot and PDF, run `bash apps/optiver/refresh-demo.sh` from the repository root. See the [backend README](backend/README.md) for modelling assumptions and more CLI options.
+
+## Verify
+
+From the repository root:
 
 ```bash
-# Start dev server
-cd apps/optiver/frontend
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Run E2E tests
-pnpm exec playwright test
-```
-
----
-
-## Sample CLI Output
-
-```
-Loaded 4,355 projects. Searching candidates...
-Evaluating Cheapest nominal...
-Evaluating Cheapest expected...
-Evaluating Diversified candidate...
-
-# Carbon portfolio report
-
-PASS under tested models
-
-Target: 100,000 tCO2e. Budget: $1,000,000.00. Required modelled reliability: 95.0%.
-
-| Portfolio            | Cost        | Projects | Nominal tonnes | Within budget |
-|----------------------|------------:|---------:|---------------:|--------------:|
-| Cheapest nominal     | $94,276.70  |        2 |        100,000 | True          |
-| Cheapest expected    | $115,294.12 |        1 |        117,647 | True          |
-| Diversified candidate| $181,658.56 |       13 |        166,671 | True          |
-
-## Stress Test Scenarios
-
-### Scenario 1: Budget Cut (-20%)
-Budget: $1,000,000 → $800,000
-Within stressed budget: ✓ Yes
-
-### Scenario 2: Target Increase (+25%)
-Target: 100,000 → 125,000 tonnes
-  ρ=0: Hit rate 89.8% (vs 100,000t: 99.3%)
-  ρ=0.3: Hit rate 87.7% (vs 100,000t: 98.3%)
-
-### Scenario 3: Developer Failure Stress
-  Developer: Jaiprakash Power Ventures Limited
-  ρ=0.3: Hit rate 98.3% → 96.1% (Δ -2.2pp)
-```
-
----
-
-## Project Structure
-
-```
-apps/optiver/
-├── backend/           # Python portfolio optimizer
-│   ├── src/optiver/   # Main code (model.py, search.py, __main__.py)
-│   ├── tests/         # Unit tests (14 tests)
-│   └── data/          # Dataset (credits.csv - 4,355 projects)
-├── frontend/          # Next.js dashboard
-│   ├── src/app/       # Pages (page.tsx, layout.tsx)
-│   ├── src/components/# UI (theme-toggle, skeletons, charts)
-│   ├── src/lib/       # Utilities (appearance, data)
-│   ├── tests/         # E2E tests (Playwright)
-│   └── data/          # report.json, portfolio.csv
-├── start.sh           # Quick launch script
-└── README.md          # This file
-```
-
----
-
-## What It Does
-
-1. **Loads 4,355 carbon credit projects** from the UC Berkeley dataset
-2. **Compares 3 strategies:**
-   - Cheapest nominal (~68% success rate, $94k)
-   - Cheapest expected (~85% success rate, $115k)
-   - **Diversified candidate** (~98% success rate, $182k) ← Our solution
-3. **Stress-tests** with 10,000 simulated failure scenarios per correlation setting
-4. **Exports** Markdown report, JSON data, CSV holdings, and judge one-pager
-
----
-
-## Key Features
-
-### Backend
-
-- ✅ Portfolio optimization with diversification constraints
-- ✅ Correlated failure simulation (Gaussian shared factors)
-- ✅ Concentration risk warnings (>40% threshold)
-- ✅ Stress testing (budget cut, target increase, developer failure)
-- ✅ Quality scoring (vintage, removal/reduction, completion status)
-- ✅ Sensitivity analysis (90%/95%/99% reliability)
-- ✅ One-pager export for judges
-
-### Frontend
-
-- ✅ Interactive dashboard with portfolio comparison charts
-- ✅ Dark/Light/System theme toggle
-- ✅ Copy-to-clipboard summary
-- ✅ Print-ready stylesheet (Ctrl+P)
-- ✅ Mobile responsive (390px width tested)
-- ✅ Loading skeletons for future API integration
-- ✅ E2E tests with Playwright
-
----
-
-## Key Outputs
-
-| File            | Description                        |
-| --------------- | ---------------------------------- |
-| `report.md`     | Human-readable summary with tables |
-| `report.json`   | Machine-readable data for frontend |
-| `portfolio.csv` | Selected projects with details     |
-| `one-pager.md`  | Judge-facing executive summary     |
-
----
-
-## Judge Resources
-
-- **[Pitch Notes](../../docs/optiver/pitch/judges/talking-points.md)**: 2-minute demo flow, Q&A prep
-- **[Summary](../../docs/optiver/pitch/judges/summary.md)**: 1-page problem/approach/results
-- **[Status](../../docs/optiver/status.md)**: Feature verification table
-
----
-
-## Tech Stack
-
-- **Backend:** Python 3.12, uv, standard library only
-- **Frontend:** Next.js 16, React 19, Tailwind CSS 4, shadcn/ui, Recharts, Radix UI
-- **Testing:** Playwright (E2E), unittest (backend)
-- **Dataset:** UC Berkeley Voluntary Registry (4,355 projects)
-
----
-
-## Verification
-
-```bash
-# Backend tests (14 tests)
+pnpm fix:optiver
+pnpm verify:optiver
 uv --directory apps/optiver/backend run python -m unittest discover -s tests -v
-
-# Frontend E2E tests
-cd apps/optiver/frontend && pnpm exec playwright test
-
-# Full verification (lint + type check)
-pnpm verify
 ```
 
----
+The [frontend README](frontend/README.md) has its local commands and saved-data details.
 
-## Caveats
+## Scope and sources
 
-- Prices and ratings are **synthetic** (organiser-provided)
-- Correlation strengths are **assumptions** (0, 0.3, 0.6 shared variance)
-- Search is a **heuristic** (6 templates, not global optimum)
-- Results are **modelled** (not real-world delivery guarantees)
-- No real carbon transactions or environmental impact claims
-
----
-
-## Demo Video
-
-A 2-minute walkthrough is available at: [Loom link pending]
-
----
-
-**Built for AdaHack 2026 • Optiver Challenge**
+- The organiser's dataset provides 4,355 UC Berkeley registry projects with synthetic prices and failure ratings. The committed CSV and its provenance are documented in [backend/data/README.md](backend/data/README.md).
+- The model treats each project as a whole-project failure, includes the supplied reversal and buffer fields, and tests assumed shared country, developer, registry and type risks. Correlation strengths and the 95% requirement are demo assumptions.
+- The dashboard uses static files in `frontend/src/data/`; `refresh-demo.sh` regenerates them and the matching downloads in `frontend/public/data/`. There is no live API or carbon transaction.
+- The [challenge brief](../../docs/optiver/brief.md), [product decisions](../../docs/optiver/product.md), [verified status](../../docs/optiver/status.md) and [judge demo notes](../../docs/optiver/pitch/judges/demo-checklist.md) give the wider context.
