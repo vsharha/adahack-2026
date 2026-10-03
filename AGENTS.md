@@ -39,6 +39,7 @@ Both commands need [uv](https://docs.astral.sh/uv/) installed, because they cove
 - Use pnpm for all JavaScript. Never use npm, npx, Yarn or Bun; run one-off tools with `pnpm dlx`.
 - Style a frontend with Tailwind CSS v4 and shadcn/ui when its framework supports them. Add shadcn components with its CLI, run inside the app's folder, so they are copied into the app rather than installed as a package.
 - Keep the design consistent. Reuse the app's existing components, colours, spacing and type before adding new ones.
+- Agent skills live in `.agents/skills/`, one folder each; `.claude/skills` is a symlink to it, so Claude Code sees the same skills. Add or edit skills only in `.agents/skills/`. The `frontend-design` skill covers building or restyling UI.
 
 ## Docs
 
