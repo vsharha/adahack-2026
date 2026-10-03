@@ -37,11 +37,8 @@ export function Summary({
     >
       <div className="border-b border-border p-6 md:p-8">
         <div>
-          <p className="eyebrow mb-2">Portfolio / recommendation</p>
-          <h2
-            id="summary-title"
-            className="font-heading text-3xl md:text-4xl font-bold tracking-tight"
-          >
+          <p className="eyebrow">Recommendation</p>
+          <h2 id="summary-title" className="section-title">
             Build in room for failure.
           </h2>
           <p className="text-sm text-muted-foreground mt-2">
@@ -77,7 +74,7 @@ export function Summary({
           </p>
           <p
             key={correlation}
-            className="scenario-value font-heading text-4xl md:text-5xl font-semibold text-primary mt-2 tabular-nums"
+            className="scenario-value font-heading text-4xl md:text-5xl font-semibold tracking-tight text-accent mt-2 tabular-nums"
           >
             {evaluation ? formatPercentage(evaluation.success_rate) : "—"}
           </p>
@@ -95,9 +92,7 @@ export function Summary({
           onChange={onCorrelationChange}
         />
         <div>
-          <h3 className="text-sm font-semibold mb-3">
-            Top 3 concentration risks
-          </h3>
+          <h3 className="eyebrow mb-3">Top 3 concentration risks</h3>
           <ul className="space-y-2">
             {risks.map(([label, values]) => {
               const [name, share] = Object.entries(values).sort(

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { CircleHelp, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function HelpModal() {
@@ -9,18 +9,18 @@ export function HelpModal() {
   return (
     <>
       <Button
-        variant="outline"
+        variant="secondary"
         onClick={() => dialog.current?.showModal()}
         aria-haspopup="dialog"
+        className="h-9 px-3.5 font-mono text-[13px] font-normal"
       >
-        <CircleHelp />
-        <span>How to use</span>
+        How to read
       </Button>
       <dialog
         ref={dialog}
         aria-labelledby="help-title"
         aria-describedby="help-intro"
-        className="m-auto w-[calc(100%-2rem)] max-w-lg max-h-[85vh] overflow-y-auto rounded-xl border border-border bg-card text-foreground p-6 shadow-xl backdrop:bg-black/40"
+        className="m-auto w-[calc(100%-2rem)] max-w-lg max-h-[85vh] overflow-y-auto rounded-lg border border-border bg-card text-foreground p-6 shadow-[0_24px_64px_-24px_rgb(14_26_12/0.45)] backdrop:bg-black/40"
       >
         <div className="flex items-start justify-between gap-4">
           <h2 id="help-title" className="font-heading text-2xl font-bold">

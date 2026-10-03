@@ -1,29 +1,20 @@
 import type { Metadata } from "next";
-import {
-  IBM_Plex_Mono,
-  IBM_Plex_Sans,
-  IBM_Plex_Sans_Condensed,
-} from "next/font/google";
+import { Hanken_Grotesk, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeSync } from "@/components/theme-sync";
 
-const display = IBM_Plex_Sans_Condensed({
-  variable: "--font-display-face",
+const grotesk = Hanken_Grotesk({
+  variable: "--font-grotesk",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const body = IBM_Plex_Sans({
-  variable: "--font-body-face",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const mono = IBM_Plex_Mono({
+// Greek subset carries ρ, the shared-risk symbol used throughout the page.
+const mono = Source_Code_Pro({
   variable: "--font-mono-face",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  subsets: ["latin", "greek"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -44,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
+      className={`${grotesk.variable} ${mono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans">

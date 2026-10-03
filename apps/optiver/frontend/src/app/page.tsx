@@ -32,21 +32,14 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import {
-  Shield,
-  Info,
-  Download,
-  FileText,
-  Copy,
-  Check,
-  ArrowUpRight,
-} from "lucide-react";
+import { Info, Download } from "lucide-react";
 import { useState } from "react";
 import { Summary } from "@/components/Summary";
 import { HelpModal } from "@/components/HelpModal";
 import { HoldingsTable } from "@/components/HoldingsTable";
 import { Frontier } from "@/components/Frontier";
 import { Map } from "@/components/Map";
+import { Hero } from "@/components/Hero";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const reportData = getReportData();
@@ -67,6 +60,40 @@ const countryColors = [
   "var(--muted-foreground)",
 ];
 
+const sections = [
+  ["comparison", "Comparison"],
+  ["cost-curve", "Cost curve"],
+  ["exposure", "Exposure"],
+  ["holdings", "Holdings"],
+  ["method", "Method"],
+] as const;
+
+const chartTooltip = {
+  background: "var(--popover)",
+  border: "1px solid var(--border)",
+  borderRadius: 4,
+  fontFamily: "var(--font-mono-face)",
+  fontSize: 12,
+};
+
+function SectionHead({
+  eyebrow,
+  title,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="section-head">
+      <p className="eyebrow">{eyebrow}</p>
+      <h2 className="section-title">{title}</h2>
+      {children && <p className="section-lede">{children}</p>}
+    </div>
+  );
+}
+
 export default function Home() {
   const [selectedCorrelation, setSelectedCorrelation] = useState<string>(
     reportData.shared_latent_variances[0].toString(),
@@ -74,19 +101,43 @@ export default function Home() {
 
   const [copied, setCopied] = useState(false);
 
+  const header = (
+    <header className="site-nav">
+      <div className="site-nav-inner">
+        <a href="#top" className="wordmark">
+          Carbon/risk
+        </a>
+        <nav aria-label="Sections" className="site-nav-links">
+          {sections.map(([id, label]) => (
+            <a key={id} href={`#${id}`}>
+              {label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
+          <HelpModal />
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+  );
+
   if (!reportData.portfolios["Diversified candidate"]) {
     return (
-      <main className="container mx-auto p-6 space-y-8">
-        <h1 className="text-3xl font-heading">Carbon portfolio results</h1>
-        <Summary
-          report={reportData}
-          correlation={selectedCorrelation}
-          onCorrelationChange={setSelectedCorrelation}
-        />
-        <p>
-          No candidate passed this search. Review the budget, target and search
-          settings before generating another report.
-        </p>
+      <main id="top" className="min-h-screen bg-background">
+        {header}
+        <div className="page-wrap page-section space-y-8">
+          <h1 className="section-title">Carbon portfolio results</h1>
+          <Summary
+            report={reportData}
+            correlation={selectedCorrelation}
+            onCorrelationChange={setSelectedCorrelation}
+          />
+          <p>
+            No candidate passed this search. Review the budget, target and
+            search settings before generating another report.
+          </p>
+        </div>
       </main>
     );
   }
@@ -136,102 +187,19 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-background">
-      <header className="border-b border-border bg-background/95 sticky top-0 z-50 backdrop-blur">
-        <div className="mx-auto max-w-[1440px] px-5 md:px-10 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 min-w-0">
-            <span className="brand-mark" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-            <div className="min-w-0">
-              <p className="font-heading text-xl font-bold tracking-tight leading-none">
-                Carbon / risk
-              </p>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground mt-1">
-                Optiver · AdaHack 2026
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="#comparison"
-              className="hidden sm:inline-flex text-xs font-semibold uppercase tracking-wider px-3 py-2 hover:text-primary"
-            >
-              Compare portfolios
-            </a>
-            <HelpModal />
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+    <main id="top" className="min-h-screen bg-background">
+      {header}
 
-      <section className="hero-shell animate-fade-in">
-        <div className="mx-auto max-w-[1440px] px-5 md:px-10 py-12 md:py-20 grid lg:grid-cols-[1.2fr_.8fr] gap-12 lg:gap-16 items-end">
-          <div>
-            <h1 className="hero-title">
-              The cheapest tonne is rarely the safest.
-            </h1>
-            <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mt-7">
-              A decision desk for carbon credit portfolios. Compare acquisition
-              cost with modelled delivery risk, then stress the assumptions
-              behind the result.
-            </p>
-            <div className="flex flex-wrap items-center gap-5 mt-9">
-              <a href="#comparison" className="hero-action">
-                Explore the comparison <ArrowUpRight size={17} />
-              </a>
-              <a
-                href="/data/optiver-executive-summary.pdf"
-                download
-                className="text-sm font-medium underline underline-offset-4 hover:text-primary"
-              >
-                Download summary
-              </a>
-              <button
-                type="button"
-                onClick={copySummary}
-                className="inline-flex items-center gap-2 text-sm font-medium underline underline-offset-4 hover:text-primary"
-                aria-label="Copy summary to clipboard"
-              >
-                {copied ? (
-                  <>
-                    <Check size={15} /> Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy size={15} /> Copy summary
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-          <div className="hero-ledger" aria-label="Simulation parameters">
-            <div className="ledger-feature">
-              <span>Mandate</span>
-              <strong>
-                {reportData.target.toLocaleString()} <small>tCO₂e</small>
-              </strong>
-              <p>Target delivery across modelled failure scenarios</p>
-            </div>
-            <div className="ledger-row">
-              <span>Budget ceiling</span>
-              <strong>{formatCurrency(reportData.budget)}</strong>
-            </div>
-            <div className="ledger-row">
-              <span>Reliability floor</span>
-              <strong>{formatPercentage(reportData.reliability)}</strong>
-            </div>
-            <div className="ledger-foot">
-              Illustrative prices &amp; risk ratings · no credits purchased
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        report={reportData}
+        portfolio={diversifiedPortfolio}
+        correlation={selectedCorrelation}
+        copied={copied}
+        onCopy={copySummary}
+      />
 
-      <section className="animate-fade-in-delay-1 container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+      <section className="page-section" aria-label="Recommendation">
+        <div className="page-wrap">
           <Summary
             report={reportData}
             correlation={selectedCorrelation}
@@ -240,23 +208,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="comparison"
-        className="animate-fade-in-delay-2 container mx-auto px-4 py-12 scroll-mt-24"
-      >
-        <div className="max-w-6xl mx-auto space-y-8">
-          <div>
-            <p className="eyebrow mb-3">Decision / 01</p>
-            <h2 className="text-3xl font-heading font-bold mb-3">
-              The cost of being wrong
-            </h2>
-            <p className="text-muted-foreground max-w-3xl">
-              Three strategies, one goal: deliver 100,000 tonnes. The cheapest
-              nominal portfolio minimizes upfront cost. The cheapest expected
-              adjusts for failure probability. The diversified candidate spreads
-              risk across countries, developers, and registries.
-            </p>
-          </div>
+      <section id="comparison" className="page-section">
+        <div className="page-wrap">
+          <SectionHead eyebrow="Comparison" title="The cost of being wrong">
+            Three strategies, one goal: deliver 100,000 tonnes. The cheapest
+            nominal portfolio minimizes upfront cost. The cheapest expected
+            adjusts for failure probability. The diversified candidate spreads
+            risk across countries, developers, and registries.
+          </SectionHead>
 
           <div className="comparison-board">
             <div className="comparison-head">
@@ -276,8 +235,11 @@ export default function Home() {
                   <div>
                     <strong>{entry.name}</strong>
                     <small>
-                      {portfolios[index].data.projects} projects ·{" "}
-                      {formatTonnes(entry.nominalTonnes)} tonnes
+                      {portfolios[index].data.projects}{" "}
+                      {portfolios[index].data.projects === 1
+                        ? "project"
+                        : "projects"}{" "}
+                      · {formatTonnes(entry.nominalTonnes)} tonnes
                     </small>
                   </div>
                 </div>
@@ -310,38 +272,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+      <section id="cost-curve" className="page-section">
+        <div className="page-wrap">
           <Frontier correlation={selectedCorrelation} report={reportData} />
         </div>
       </section>
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+
+      <section id="exposure" className="page-section">
+        <div className="page-wrap">
           <Map holdings={holdings} />
         </div>
       </section>
 
-      {/* Diversification Breakdown */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <div>
-            <h2 className="text-3xl font-heading font-bold mb-3">
-              Diversification Breakdown
-            </h2>
-            <p className="text-muted-foreground max-w-3xl">
-              The diversified candidate spreads purchased tonnes across multiple
-              dimensions to reduce correlated failure risk. Concentration
-              remains: the largest registry accounts for 60% of purchased
-              tonnes.
-            </p>
-          </div>
+      <section id="concentration" className="page-section">
+        <div className="page-wrap">
+          <SectionHead
+            eyebrow="Concentration"
+            title="Diversification breakdown"
+          >
+            The diversified candidate spreads purchased tonnes across multiple
+            dimensions to reduce correlated failure risk. Concentration remains:
+            the largest registry accounts for 60% of purchased tonnes.
+          </SectionHead>
 
           <Tabs defaultValue="country" className="w-full">
             <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-4">
               <TabsTrigger value="country">Country</TabsTrigger>
               <TabsTrigger value="developer">Developer</TabsTrigger>
               <TabsTrigger value="registry">Registry</TabsTrigger>
-              <TabsTrigger value="project_type">Project Type</TabsTrigger>
+              <TabsTrigger value="project_type">Project type</TabsTrigger>
             </TabsList>
 
             {exposureData.map((exp) => (
@@ -355,7 +314,7 @@ export default function Home() {
                     <CardTitle className="capitalize">
                       {exp.category.replaceAll("_", " ")}
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="font-mono text-xs text-muted-foreground mt-1">
                       Top {exp.data.length} by purchased tonnes
                     </p>
                   </CardHeader>
@@ -365,34 +324,38 @@ export default function Home() {
                         <BarChart
                           data={exp.data}
                           layout="vertical"
-                          margin={{ top: 5, right: 120, left: 20, bottom: 5 }}
+                          margin={{ top: 5, right: 64, left: 8, bottom: 5 }}
                         >
-                          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="var(--border)"
+                            horizontal={false}
+                          />
                           <XAxis
                             type="number"
                             domain={[0, "dataMax"]}
                             tickFormatter={(value) => `${value}%`}
+                            tick={{ fontSize: 11 }}
+                            stroke="var(--muted-foreground)"
                           />
                           <YAxis
                             type="category"
                             dataKey="name"
                             width={120}
                             tick={{ fontSize: 11 }}
+                            stroke="var(--muted-foreground)"
                           />
                           <RechartsTooltip
                             formatter={(value) => [
                               `${(value as number).toFixed(1)}%`,
                               "Share",
                             ]}
-                            contentStyle={{
-                              borderRadius: "8px",
-                              border: "none",
-                              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                            }}
+                            contentStyle={chartTooltip}
+                            cursor={{ fill: "var(--muted)" }}
                           />
                           <Bar
                             dataKey="value"
-                            radius={[0, 4, 4, 0]}
+                            radius={[0, 2, 2, 0]}
                             label={{
                               position: "right",
                               fill: "var(--foreground)",
@@ -421,25 +384,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Risk Results */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <div>
-            <h2 className="text-3xl font-heading font-bold mb-3">
-              Risk Analysis
-            </h2>
-            <p className="text-muted-foreground max-w-3xl">
-              Modelled performance under 10,000 stress scenarios per correlation
-              setting. Technical terms explained below.
-            </p>
-          </div>
+      <section id="risk" className="page-section">
+        <div className="page-wrap">
+          <SectionHead eyebrow="Risk metrics" title="Risk analysis">
+            Modelled performance under 10,000 stress scenarios per correlation
+            setting. Technical terms explained below.
+          </SectionHead>
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="w-5 h-5" />
-                Diversified Candidate Risk Metrics
-              </CardTitle>
+              <CardTitle>Diversified candidate risk metrics</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
@@ -462,8 +416,8 @@ export default function Home() {
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell className="font-medium">Success Rate</TableCell>
-                    <TableCell>
+                    <TableCell className="font-medium">Success rate</TableCell>
+                    <TableCell className="tabular-nums">
                       {formatPercentage(diversifiedEval.success_rate)}
                     </TableCell>
                     <TableCell className="text-muted-foreground">
@@ -474,7 +428,7 @@ export default function Home() {
                     <TableCell className="font-medium">
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          95% Confidence Interval
+                          95% confidence interval
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
@@ -482,7 +436,7 @@ export default function Home() {
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="tabular-nums">
                       {formatConfidenceInterval(
                         diversifiedEval.ci_low,
                         diversifiedEval.ci_high,
@@ -496,7 +450,7 @@ export default function Home() {
                     <TableCell className="font-medium">
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          5th Percentile Delivery
+                          5th percentile delivery
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
@@ -507,7 +461,7 @@ export default function Home() {
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="tabular-nums">
                       {formatTonnes(diversifiedEval.p05_tonnes)} tonnes
                     </TableCell>
                     <TableCell className="text-muted-foreground">
@@ -518,7 +472,7 @@ export default function Home() {
                     <TableCell className="font-medium">
                       <Tooltip>
                         <TooltipTrigger className="flex items-center gap-1">
-                          Mean Shortfall
+                          Mean shortfall
                           <Info className="w-4 h-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
@@ -529,7 +483,7 @@ export default function Home() {
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="tabular-nums">
                       {formatTonnes(diversifiedEval.mean_shortfall)} tonnes
                     </TableCell>
                     <TableCell className="text-muted-foreground">
@@ -543,43 +497,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Holdings Table */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <div>
-            <h2 className="text-3xl font-heading font-bold mb-3">
-              Portfolio Holdings
-            </h2>
-            <p className="text-muted-foreground max-w-3xl">
-              Search, filter and sort the individual credits in the diversified
-              candidate. The map and portfolio totals always show the full
-              allocation.
-            </p>
-          </div>
-
+      <section id="holdings" className="page-section">
+        <div className="page-wrap">
+          <SectionHead eyebrow="Holdings" title="Portfolio holdings">
+            Search, filter and sort the individual credits in the diversified
+            candidate. The map and portfolio totals always show the full
+            allocation.
+          </SectionHead>
           <HoldingsTable holdings={holdings} />
         </div>
       </section>
 
-      {/* Method and Limitations */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div>
-            <h2 className="text-3xl font-heading font-bold mb-3">
-              Method and Limitations
-            </h2>
-          </div>
+      <section id="method" className="page-section">
+        <div className="page-wrap">
+          <SectionHead eyebrow="Method" title="Method and limitations" />
 
-          <Card>
+          <Card className="max-w-4xl">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                About This Demo
-              </CardTitle>
+              <CardTitle>About this demo</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm leading-relaxed">
               <div>
-                <h3 className="font-semibold mb-2">Data Source</h3>
+                <h3 className="font-semibold mb-2">Data source</h3>
                 <p className="text-muted-foreground">
                   This demo uses the UC Berkeley Voluntary Registry Offsets
                   Database with synthetic prices and failure probabilities
@@ -589,7 +528,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="font-semibold mb-2">Failure Model</h3>
+                <h3 className="font-semibold mb-2">Failure model</h3>
                 <p className="text-muted-foreground">
                   Projects fail as a whole unit. Buffer pools recover 50% of
                   lost tonnes. Reversal events increase failure probability by
@@ -611,7 +550,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="font-semibold mb-2">No Real-World Claims</h3>
+                <h3 className="font-semibold mb-2">No real-world claims</h3>
                 <p className="text-muted-foreground">
                   This is an offline simulation for the AdaHack 2026 Optiver
                   challenge. No actual carbon credits are purchased or retired.
@@ -620,45 +559,42 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-4 pt-4 border-t">
+              <div className="flex flex-wrap gap-x-6 gap-y-2 pt-4 border-t font-mono text-sm">
                 <a
                   href="/data/optiver-executive-summary.pdf"
                   download
-                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                  className="inline-flex items-center gap-2 underline underline-offset-4 hover:text-accent"
                 >
                   <Download className="w-4 h-4" />
-                  Download PDF summary
+                  PDF summary
                 </a>
                 <a
                   href="/data/report.json"
                   download
-                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                  className="inline-flex items-center gap-2 underline underline-offset-4 hover:text-accent"
                 >
                   <Download className="w-4 h-4" />
-                  Download report.json
+                  report.json
                 </a>
                 <a
                   href="/data/portfolio.csv"
                   download
-                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                  className="inline-flex items-center gap-2 underline underline-offset-4 hover:text-accent"
                 >
                   <Download className="w-4 h-4" />
-                  Download portfolio.csv
+                  portfolio.csv
                 </a>
               </div>
             </CardContent>
           </Card>
 
-          <div className="text-center text-xs text-muted-foreground pt-8">
+          <footer className="mt-16 pt-6 border-t font-mono text-xs text-muted-foreground flex flex-wrap justify-between gap-2">
+            <p>Built for AdaHack 2026 · Optiver challenge · saved demo run</p>
             <p>
-              Built for AdaHack 2026 • Optiver Challenge •{" "}
-              <span className="text-primary">Saved demo run</span>
-            </p>
-            <p className="mt-1">
               Simulation seeds: training {reportData.seed}, evaluation{" "}
               {reportData.seed + 1}
             </p>
-          </div>
+          </footer>
         </div>
       </section>
     </main>

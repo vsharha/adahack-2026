@@ -41,7 +41,9 @@ test("mobile layout keeps the hero and page within the viewport", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator(".ledger-feature strong")).toContainText("100,000");
+  await expect(page.locator('[data-hero-card="mandate"]')).toContainText(
+    "100,000",
+  );
   const hasOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
   );

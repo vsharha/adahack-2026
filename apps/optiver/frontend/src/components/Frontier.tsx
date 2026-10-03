@@ -50,27 +50,25 @@ export function Frontier({
   return (
     <section aria-labelledby="frontier-title" className="space-y-6">
       <div className="flex flex-wrap justify-between items-end gap-4">
-        <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground font-semibold mb-2">
-            The price of confidence
-          </p>
-          <h2 id="frontier-title" className="text-3xl font-heading font-bold">
+        <div className="max-w-[46rem]">
+          <p className="eyebrow">Cost curve</p>
+          <h2 id="frontier-title" className="section-title">
             What does another point of reliability cost?
           </h2>
-          <p className="text-muted-foreground mt-3">
+          <p className="section-lede">
             Five allocations, the same delivery target. Higher reliability
             usually requires more reserve credits.
           </p>
         </div>
         <a
-          className="text-sm font-medium text-primary underline underline-offset-4"
+          className="font-mono text-sm underline underline-offset-4 hover:text-accent"
           href="/data/frontier.json"
           download
         >
           Download cost curve
         </a>
       </div>
-      <div className="rounded-xl border bg-card p-4 md:p-8 space-y-6">
+      <div className="rounded-lg border bg-card p-4 md:p-8 space-y-6">
         <div
           className="h-72 w-full"
           aria-label="Reliability requirement versus portfolio cost. Exact values follow in the table."
@@ -177,7 +175,7 @@ export function Frontier({
                     </td>
                     <td
                       className={
-                        p.validated ? "text-primary" : "text-amber-700"
+                        p.validated ? "text-accent" : "text-destructive"
                       }
                     >
                       {p.status}

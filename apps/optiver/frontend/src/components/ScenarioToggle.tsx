@@ -13,7 +13,7 @@ export function ScenarioToggle({
 }) {
   return (
     <fieldset className="space-y-3">
-      <legend className="text-sm font-semibold">Stress the shared risks</legend>
+      <legend className="eyebrow">Stress the shared risks</legend>
       <div className="flex flex-wrap gap-2">
         {values.map((rho) => (
           <button
@@ -22,10 +22,10 @@ export function ScenarioToggle({
             aria-pressed={selected === String(rho)}
             onClick={() => onChange(String(rho))}
             className={cn(
-              "rounded-md border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "min-h-11 rounded-md border px-4 py-2 font-mono text-sm transition-colors",
               selected === String(rho)
                 ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-background hover:bg-secondary",
+                : "border-border bg-card hover:border-foreground/40",
             )}
           >
             ρ = {rho}
