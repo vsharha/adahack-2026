@@ -79,6 +79,14 @@ Works. Checked in an isolated Chromium session on the running dev server on 3 Oc
 
 Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Darken Postcode secondary button backgrounds`. On You, "Switch account" rendered with a grey-blue fill in Light (`#dde3eb`) and navy fill in Dark (`#2f3a51`), visibly distinct from the page. Clicking it opened the account picker. Outlined and secondary variants share the themed fill and retain hover feedback. The console had no JavaScript errors; it showed the existing `THREE.Clock` deprecation warning.
 
+## Street pledge confirmation
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Confirm Street pledges before showing the next goal`. Margaret's school-run pledge opened the threshold celebration with no acceptance overlay in the DOM. Closing "Let's do it" showed the original card beneath a centred checkmark, "Accepted" and "You pledged to join". The overlay and card had the same computed corner radius, with a 12px backdrop blur clipped by the container's hidden overflow.
+
+Priya's play-afternoon pledge showed the confirmation immediately without a threshold celebration. The original title remained underneath it; only after dismissal did the draught-proofing goal appear. Re-pledging to that goal showed the same confirmation, then removed the card when no eligible goals remained. The two temporarily withdrawn group pledges were restored. The overlay was inspected in light and dark; the dark view at 320 × 760 had no horizontal overflow. Browser logs contained no errors and the existing `THREE.Clock` deprecation warning.
+
+The confirmation holds for about 1.4 seconds and fades over about 300ms. Reduced-motion styling omits the fade; a 1.7-second timer still dismisses it. Confirmation timing waits while Street is hidden or a full-screen celebration is open. All 16 participation tests, `pnpm fix:postcode` and `pnpm verify:postcode` passed.
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

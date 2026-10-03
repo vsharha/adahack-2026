@@ -2,12 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { ActivityFeed } from "@/components/activity-feed";
+import { StreetGoalInvitation } from "@/components/app/street-goal-invitation";
 import { Avatar } from "@/components/avatar";
 import { LocalContext } from "@/components/local-context";
 import { StreetView } from "@/components/street-view";
 import { Button } from "@/components/ui/button";
 import { streetPostcode } from "@/data/seed";
-import { dispatch, findUser, useDemoState, useMe } from "@/lib/demo-store";
+import { findUser, useDemoState, useMe } from "@/lib/demo-store";
 import {
   goalsForUser,
   hasPledged,
@@ -40,7 +41,13 @@ function useGoalThatNeedsYou() {
 }
 
 /** `active` is false while the screen is kept alive behind another tab. */
-export function StreetScreen({ active = true }: { active?: boolean }) {
+export function StreetScreen({
+  active = true,
+  celebrating = false,
+}: {
+  active?: boolean;
+  celebrating?: boolean;
+}) {
   const router = useRouter();
   const state = useDemoState();
   const me = useMe();
@@ -109,39 +116,11 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
         </p>
       </section>
 
-      {needsYou && (
-        <section className="mx-5 rounded-2xl bg-moss p-5 text-on-moss">
-          <p className="text-sm text-on-moss/80">
-            {needsYou.missing === 1
-              ? "1 more neighbour needed"
-              : `${needsYou.missing} more neighbours needed`}
-          </p>
-          <h2 className="mt-1 text-xl leading-snug font-bold">
-            {needsYou.goal.title}
-          </h2>
-          <div className="mt-3 flex items-center">
-            {pledgers.map((u) => (
-              <Avatar
-                key={u.id}
-                user={u}
-                className="-mr-2 size-8 text-sm ring-2 ring-background"
-              />
-            ))}
-            <p className="ml-4 text-sm text-on-moss/90">
-              {pledgers.length > 0 &&
-                `${pledgers.map((u) => u.name).join(", ")} pledged`}
-            </p>
-          </div>
-          <Button
-            className="mt-4 w-full bg-on-moss text-moss hover:bg-on-moss/90"
-            onClick={() =>
-              dispatch({ type: "pledge", goalId: needsYou.goal.id })
-            }
-          >
-            I&apos;ll do it too
-          </Button>
-        </section>
-      )}
+      <StreetGoalInvitation
+        key={me.id}
+        invitation={needsYou ? { ...needsYou, pledgers } : undefined}
+        paused={!active || celebrating}
+      />
 
       <LocalContext />
 

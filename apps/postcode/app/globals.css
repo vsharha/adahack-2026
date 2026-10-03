@@ -377,6 +377,16 @@
   transform: translateY(-120%);
 }
 
+@keyframes street-pledge-accepted {
+  0%,
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes celebration-in {
   from {
     opacity: 0;

@@ -38,6 +38,7 @@ Not yet checked against existing projects. Candidates to check include condition
 
 ## Decisions
 
+- A Street pledge keeps its original goal card beneath a blurred, rounded overlay with a centred checkmark and "Accepted". The confirmation appears only after any full-screen celebration closes, then fades before the next goal appears, so accepting a goal cannot look like a failed tap. 3 October 2026.
 - Secondary buttons use a slightly darker themed background, including outlined actions, so they stand out from cards and page backgrounds. 3 October 2026.
 - App text is not selectable, and "Use my location" uses the primary button style during onboarding, to match the requested phone-app interaction and emphasise location lookup. 3 October 2026.
 - Goals exist at three levels, postcode-wide, interest group and household, so people can act alone, with like-minded neighbours or with the whole area. 3 October 2026.

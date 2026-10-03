@@ -61,7 +61,7 @@ export function SignedInShell({ children }: { children: React.ReactNode }) {
         {/* The Street tab stays mounted behind the other tabs, so its 3D scene
             is built once instead of on every visit. */}
         <div hidden={!onStreet} className="tab-content-enter">
-          <StreetScreen active={onStreet} />
+          <StreetScreen active={onStreet} celebrating={celebrating !== null} />
         </div>
         <div key={pathname} className="tab-content-enter">
           {children}
