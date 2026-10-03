@@ -163,7 +163,7 @@ export function Onboarding({
               id="postcode"
               value={postcode}
               onChange={(e) => setPostcode(e.target.value)}
-              autoComplete="postal-code"
+              autoComplete="off"
               placeholder="e.g. EH8 9YL"
               aria-invalid={postcodeError ? true : undefined}
               aria-describedby={postcodeError ? "postcode-error" : undefined}

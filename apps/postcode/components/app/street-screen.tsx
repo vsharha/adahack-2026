@@ -78,11 +78,11 @@ export function StreetScreen() {
           <StreetDrawing youHouseholdId={me.householdId} />
         </div>
         <dl className="mx-5 mt-3 grid grid-cols-2 divide-x rounded-xl border bg-card text-center">
-          <div className="p-3">
+          <div className="flex flex-col justify-between gap-1 p-3">
             <dt className="text-sm text-muted-foreground">Street points</dt>
             <dd className="font-mono text-xl font-bold">{total}</dd>
           </div>
-          <div className="p-3">
+          <div className="flex flex-col justify-between gap-1 p-3">
             <dt className="text-sm text-muted-foreground">Goals going ahead</dt>
             <dd className="font-mono text-xl font-bold">{goingAhead}</dd>
           </div>
