@@ -1,5 +1,7 @@
 """Held-out evaluation of a cost/reliability sweep over the bounded search."""
 
+from collections.abc import Sequence
+
 from optiver.model import Credit, cost, metrics, simulate, validate
 from optiver.search import build
 
@@ -14,9 +16,10 @@ def analyse_frontier(
     evaluation_scenarios: int,
     seed: int,
     correlations: list[float],
+    levels: Sequence[float] = LEVELS,
 ) -> dict:
     points = []
-    for reliability in LEVELS:
+    for reliability in levels:
         portfolio, attempted = build(
             credits, target, budget, reliability, training_scenarios, seed, correlations
         )

@@ -48,6 +48,8 @@ import {
   FileText,
   Copy,
   Check,
+  Search,
+  X,
 } from "lucide-react";
 import { useState } from "react";
 import { Summary } from "@/components/Summary";
@@ -165,6 +167,12 @@ export default function Home() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const filteredHoldings = holdings.filter(
+    (h) =>
+      h.project_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      h.country.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <main className="min-h-screen bg-background">
       {/* Header with Theme Toggle */}
@@ -193,23 +201,33 @@ export default function Home() {
                   AdaHack 2026
                 </Badge>
               </div>
-              <button
-                onClick={copySummary}
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Copy summary to clipboard"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4" />
-                    <span>Copy summary</span>
-                  </>
-                )}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => window.print()}
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Download PDF"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download PDF</span>
+                </button>
+                <button
+                  onClick={copySummary}
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Copy summary to clipboard"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>Copy summary</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
             <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground tracking-tight">
               How much does it cost to make a carbon portfolio more reliable?
@@ -630,13 +648,32 @@ export default function Home() {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Diversified Candidate Credits</CardTitle>
               <div className="flex gap-2">
-                <Badge variant="outline">{holdings.length} projects</Badge>
+                <Badge variant="outline">{filteredHoldings.length} projects</Badge>
                 <Badge variant="outline">
                   {formatCurrency(diversifiedPortfolio.cost_usd)} total
                 </Badge>
               </div>
             </CardHeader>
             <CardContent>
+              <div className="mb-4 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search by project name or country..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-10 py-2 text-sm border rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label="Clear search"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
               <ScrollArea className="h-[400px]">
                 <Table>
                   <TableHeader>
@@ -648,20 +685,28 @@ export default function Home() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {holdings.map((holding) => (
-                      <TableRow key={holding.credit_id}>
-                        <TableCell className="font-medium max-w-[250px] truncate" title={holding.project_name}>
-                          {holding.project_name}
-                        </TableCell>
-                        <TableCell>{holding.country}</TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(holding.tonnes)}
-                        </TableCell>
-                        <TableCell className="text-right font-medium">
-                          {formatCurrencyPrecise(holding.cost_usd)}
+                    {filteredHoldings.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                          No projects match "{searchQuery}"
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ) : (
+                      filteredHoldings.map((holding) => (
+                        <TableRow key={holding.credit_id} className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                          <TableCell className="font-medium max-w-[250px] truncate" title={holding.project_name}>
+                            {holding.project_name}
+                          </TableCell>
+                          <TableCell>{holding.country}</TableCell>
+                          <TableCell className="text-right">
+                            {formatNumber(holding.tonnes)}
+                          </TableCell>
+                          <TableCell className="text-right font-medium">
+                            {formatCurrencyPrecise(holding.cost_usd)}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </ScrollArea>

@@ -1,13 +1,19 @@
 """Run with uv run python -m optiver."""
 
 import argparse
-import csv
 import hashlib
 import json
 import math
 import sys
 from pathlib import Path
 
+from optiver.exports import (
+    QUALITY_METHOD,
+    holding_records,
+    weighted_quality,
+    write_comparison,
+    write_holdings,
+)
 from optiver.frontier import analyse_frontier
 from optiver.frontier import markdown as frontier_markdown
 from optiver.model import (
@@ -69,7 +75,40 @@ def main() -> int:
             "export frontier.json and frontier.md"
         ),
     )
+    parser.add_argument(
+        "--csv-summary",
+        action="store_true",
+        help="Write comparison.csv (one row per portfolio and shared-risk model); needs --output",
+    )
+    parser.add_argument(
+        "--batch",
+        type=float,
+        nargs="*",
+        default=None,
+        help="Evaluate supplied reliability levels, or ten defaults (0.80 to 0.99)",
+    )
     args = parser.parse_args()
+    if args.csv_summary and args.output is None:
+        parser.error("--csv-summary requires --output")
+    if args.batch is not None:
+        args.batch = args.batch or [
+            0.80,
+            0.82,
+            0.84,
+            0.86,
+            0.88,
+            0.90,
+            0.92,
+            0.94,
+            0.96,
+            0.99,
+        ]
+        if any(
+            not math.isfinite(level) or not 0.5 <= level < 1 for level in args.batch
+        ):
+            parser.error("Batch reliability levels must be finite and in [0.5,1)")
+        if len(set(args.batch)) != len(args.batch):
+            parser.error("Batch reliability levels must be unique")
     if (
         not math.isfinite(args.target)
         or args.target <= 0
@@ -129,6 +168,8 @@ def main() -> int:
                 "nominal_tonnes": sum(q for _, q in portfolio),
                 "expected_tonnes": sum(q * c.retained for c, q in portfolio),
                 "projects": len(portfolio),
+                "holdings": holding_records(portfolio),
+                "tonnes_weighted_quality_score": weighted_quality(portfolio),
                 "evaluations": evaluations,
                 "exposures_by_tonnes": exposures(portfolio),
                 "meets_modelled_requirement": cost(portfolio) <= args.budget
@@ -213,6 +254,7 @@ def main() -> int:
                 json.dumps(
                     {
                         "status": state,
+                        "quality_score_method": QUALITY_METHOD,
                         "target": args.target,
                         "budget": args.budget,
                         "reliability": args.reliability,
@@ -231,6 +273,10 @@ def main() -> int:
             )
             if selected:
                 write_portfolio(args.output / "portfolio.csv", selected)
+            if args.csv_summary:
+                write_comparison(
+                    args.output / "comparison.csv", reports, args.reliability
+                )
         if args.frontier:
             frontier = analyse_frontier(
                 credits,
@@ -248,6 +294,24 @@ def main() -> int:
                     json.dumps(frontier, indent=2) + "\n"
                 )
                 (args.output / "frontier.md").write_text(frontier_markdown(frontier))
+        if args.batch is not None:
+            batch = analyse_frontier(
+                credits,
+                args.target,
+                args.budget,
+                args.training_scenarios,
+                args.scenarios,
+                args.seed,
+                args.correlations,
+                levels=args.batch,
+            )
+            batch["data_sha256"] = hashlib.sha256(args.data.read_bytes()).hexdigest()
+            print(frontier_markdown(batch))
+            if args.output:
+                (args.output / "batch.json").write_text(
+                    json.dumps(batch, indent=2) + "\n"
+                )
+                (args.output / "batch.md").write_text(frontier_markdown(batch))
         if args.sensitivity:
             run_sensitivity_analysis(
                 credits,
@@ -557,39 +621,7 @@ def generate_one_pager(
 
 
 def write_portfolio(path: Path, portfolio: Portfolio) -> None:
-    with path.open("w", newline="") as handle:
-        writer = csv.writer(handle)
-        writer.writerow(
-            [
-                "credit_id",
-                "project_name",
-                "tonnes",
-                "price_usd_per_t",
-                "cost_usd",
-                "failure_probability",
-                "loss_fraction",
-                "country",
-                "developer",
-                "registry",
-                "project_type",
-            ]
-        )
-        for c, q in portfolio:
-            writer.writerow(
-                [
-                    c.credit_id,
-                    c.name,
-                    q,
-                    c.price,
-                    round(q * c.price, 2),
-                    c.probability,
-                    c.loss,
-                    c.country,
-                    c.developer,
-                    c.registry,
-                    c.project_type,
-                ]
-            )
+    write_holdings(path, portfolio)
 
 
 if __name__ == "__main__":

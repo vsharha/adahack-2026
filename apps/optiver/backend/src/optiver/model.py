@@ -43,21 +43,21 @@ class Credit:
 
     @property
     def quality_score(self) -> float:
-        """Higher is better: vintage recency, removal preference, completed status."""
+        """Metadata heuristic, not a calibrated quality or delivery-risk rating."""
         score = 0.0
         # Vintage recency (newer projects potentially more durable)
         if self.vintage_year and self.vintage_year > 0:
-            vintage_score = min(1.0, (self.vintage_year - 2000) / 25)
+            vintage_score = max(0.0, min(1.0, (self.vintage_year - 2000) / 25))
             score += vintage_score * 0.3
         # Removal projects may have higher permanence
-        if self.reduction_or_removal.lower() == "removal":
+        if self.reduction_or_removal.strip().lower() == "removal":
             score += 0.4
-        elif self.reduction_or_removal.lower() == "reduction":
+        elif self.reduction_or_removal.strip().lower() == "reduction":
             score += 0.2
         # Completed status indicates operational track record
-        if self.status.lower() == "completed":
+        if self.status.strip().lower() == "completed":
             score += 0.3
-        elif self.status.lower() == "registered":
+        elif self.status.strip().lower() == "registered":
             score += 0.15
         return score
 
@@ -104,6 +104,8 @@ def load_credits(path: Path) -> list[Credit]:
                 # Parse optional quality signals
                 vintage = row.get("vintage_year", "")
                 vintage_year = float(vintage) if vintage else None
+                if vintage_year is not None and not math.isfinite(vintage_year):
+                    raise ValueError("vintage year must be finite when supplied")
                 reduction_or_removal = row.get("reduction_or_removal", "")
                 status = row.get("status", "")
                 credits.append(
