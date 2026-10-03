@@ -1,14 +1,14 @@
-credit_id,project_name,tonnes,price_usd_per_t,cost_usd,failure_probability,loss_fraction,country,developer,registry,project_type
-VCS173,Vishnuprayag Hydro-electric Project (VHEP) by Jaiprakash Power Ventures Ltd.(JPVL),16667.0,0.98,16333.66,0.15,1,India,Jaiprakash Power Ventures Limited,VCS,Hydropower
-VCS1974,Srepok 1 Solar Power Project,16667.0,0.93,15500.31,0.2,1,Viet Nam,Dai Hai Power Development and Invesment Joint Stock Company,VCS,Solar - Centralized
-VCS296,Energy from renewables,5328.0,1.0,5328.0,0.15,1,India,Poonawalla Fincorp Ltd,VCS,RE Bundled
-VCS1143,Ningxia Angli Lingwu Photovoltaic Grid Connected Power Plant Project,16667.0,1.04,17333.68,0.15,1,China,"Datang Angli (Lingwu) New Energy Co., Ltd.",VCS,Solar - Centralized
-GS5928,2x50 MW Orange Suvaan Solar Photovoltaic Power Project in Maharashtra India,16667.0,1.05,17500.35,0.15,1,India,Orange Renewable Power Pvt Ltd,GOLD,Solar - Centralized
-VCS1248,CGN Hami Phase I 20MWp Grid-connected PV Power Plant Project,8334.0,1.05,8750.7,0.15,1,China,"CGN Solar Power Development Co., LTD",VCS,Solar - Centralized
-VCS395,Inner Mongolia Sunjiaying 50.25MW Wind Power Project,16667.0,1.1,18333.7,0.12,1,China,"Chifeng Xinsheng Wind Power Co., Ltd.",VCS,Wind
-GS906,Canakkale WPP,16667.0,1.19,19833.73,0.12,0.5,Türkiye,Enerjisa Enerji Uretim A.S.,GOLD,Wind
-GS636,GUNAYSE  HPP,5700.0,1.13,6441.0,0.12,1,Türkiye,ARSIN Enerji,GOLD,Hydropower
-VCS1032,Xundian Jinfeng 12.6MW Hydropower Project,16667.0,1.2,20000.4,0.07,1,China,"Yunnan Xudong Phosphate Chemical Group Jinfeng Power Generation Co., Ltd.",VCS,Hydropower
-VCS869,"2 x 3.5 MW Ullunkal Hydro Power Project in Kerala, India.",3006.0,1.13,3396.78,0.15,1,India,EDCL Power Projects Limited,VCS,Hydropower
-ACR0177,Monjolinho Energética S/A Hydropower Plant Project (Alzir dos Santos Antunes),16295.0,1.08,17598.6,0.2,1,Brazil,Statkraft Energias Renováveis S.A.,ACR,Hydropower
-GS472,InfraVest Changbin and Taichung bundled Wind Farms Project - Taiwan (300190),11339.0,1.35,15307.65,0.12,0.5,Taiwan,South Pole Ltd,GOLD,Wind
+credit_id,project_name,tonnes,price_usd_per_t,cost_usd,failure_probability,loss_fraction,country,developer,registry,project_type,quality_score,vintage_year,reduction_or_removal,status
+VCS173,Vishnuprayag Hydro-electric Project (VHEP) by Jaiprakash Power Ventures Ltd.(JPVL),16667.0,0.98,16333.66,0.15,1,India,Jaiprakash Power Ventures Limited,VCS,Hydropower,0.272,2006.0,Reduction,Late to verify
+VCS1974,Srepok 1 Solar Power Project,16667.0,0.93,15500.31,0.2,1,Viet Nam,Dai Hai Power Development and Invesment Joint Stock Company,VCS,Solar - Centralized,0.578,2019.0,Reduction,Registered
+VCS296,Energy from renewables,5328.0,1.0,5328.0,0.15,1,India,Poonawalla Fincorp Ltd,VCS,RE Bundled,0.272,2006.0,Reduction,Late to verify
+VCS1143,Ningxia Angli Lingwu Photovoltaic Grid Connected Power Plant Project,16667.0,1.04,17333.68,0.15,1,China,"Datang Angli (Lingwu) New Energy Co., Ltd.",VCS,Solar - Centralized,0.482,2011.0,Reduction,Registered
+GS5928,2x50 MW Orange Suvaan Solar Photovoltaic Power Project in Maharashtra India,16667.0,1.05,17500.35,0.15,1,India,Orange Renewable Power Pvt Ltd,GOLD,Solar - Centralized,0.404,2017.0,Reduction,Gold Standard Certified Project
+VCS1248,CGN Hami Phase I 20MWp Grid-connected PV Power Plant Project,8334.0,1.05,8750.7,0.15,1,China,"CGN Solar Power Development Co., LTD",VCS,Solar - Centralized,0.494,2012.0,Reduction,Registered
+VCS395,Inner Mongolia Sunjiaying 50.25MW Wind Power Project,16667.0,1.1,18333.7,0.12,1,China,"Chifeng Xinsheng Wind Power Co., Ltd.",VCS,Wind,0.446,2008.0,Reduction,Registered
+GS906,Canakkale WPP,16667.0,1.19,19833.73,0.12,0.5,Türkiye,Enerjisa Enerji Uretim A.S.,GOLD,Wind,0.332,2011.0,Reduction,Gold Standard Certified Project
+GS636,GUNAYSE  HPP,5700.0,1.13,6441.0,0.12,1,Türkiye,ARSIN Enerji,GOLD,Hydropower,0.308,2009.0,Reduction,Gold Standard Certified Project
+VCS1032,Xundian Jinfeng 12.6MW Hydropower Project,16667.0,1.2,20000.4,0.07,1,China,"Yunnan Xudong Phosphate Chemical Group Jinfeng Power Generation Co., Ltd.",VCS,Hydropower,0.446,2008.0,Reduction,Registered
+VCS869,"2 x 3.5 MW Ullunkal Hydro Power Project in Kerala, India.",3006.0,1.13,3396.78,0.15,1,India,EDCL Power Projects Limited,VCS,Hydropower,0.296,2008.0,Reduction,Late to verify
+ACR0177,Monjolinho Energética S/A Hydropower Plant Project (Alzir dos Santos Antunes),16295.0,1.08,17598.6,0.2,1,Brazil,Statkraft Energias Renováveis S.A.,ACR,Hydropower,0.608,2009.0,Reduction,Completed
+GS472,InfraVest Changbin and Taichung bundled Wind Farms Project - Taiwan (300190),11339.0,1.35,15307.65,0.12,0.5,Taiwan,South Pole Ltd,GOLD,Wind,0.296,2008.0,Reduction,Gold Standard Certified Project

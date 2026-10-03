@@ -79,7 +79,10 @@ export function Summary({
           <p className="text-sm text-muted-foreground">
             Modelled target hit rate
           </p>
-          <p className="font-heading text-4xl text-primary mt-2">
+          <p
+            key={correlation}
+            className="scenario-value font-heading text-4xl text-primary mt-2"
+          >
             {evaluation ? formatPercentage(evaluation.success_rate) : "—"}
           </p>
           <p className="text-xs text-muted-foreground mt-2">

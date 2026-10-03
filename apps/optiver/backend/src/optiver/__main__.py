@@ -91,6 +91,8 @@ def main() -> int:
         help="Evaluate supplied reliability levels, or ten defaults (0.80 to 0.99)",
     )
     args = parser.parse_args()
+    if args.one_pager and args.output is None:
+        parser.error("--one-pager requires --output")
     if args.csv_summary and args.output is None:
         parser.error("--csv-summary requires --output")
     if args.batch is not None:
@@ -537,20 +539,24 @@ def generate_one_pager(
     eval_data = div_candidate["evaluations"].get(rho_key, {})
 
     # Calculate quality metrics
-    avg_quality = (
-        sum(c.quality_score for c, _ in portfolio) / len(portfolio) if portfolio else 0
-    )
+    avg_quality = weighted_quality(portfolio)
     removal_share = (
-        sum(q for c, q in portfolio if c.reduction_or_removal == "Removal")
+        sum(
+            q
+            for c, q in portfolio
+            if c.reduction_or_removal.strip().lower() == "removal"
+        )
         / sum(q for _, q in portfolio)
         if portfolio
         else 0
     )
+    vintages = [(c.vintage_year, q) for c, q in portfolio if c.vintage_year is not None]
     avg_vintage = (
-        sum(c.vintage_year or 0 for c, _ in portfolio) / len(portfolio)
-        if portfolio
-        else 0
+        sum(year * q for year, q in vintages) / sum(q for _, q in vintages)
+        if vintages
+        else None
     )
+    vintage_label = f"{avg_vintage:.0f}" if avg_vintage is not None else "Unavailable"
 
     lines = [
         "# Optiver Carbon Portfolio — Executive Summary",
@@ -583,9 +589,11 @@ def generate_one_pager(
         "",
         "## Portfolio Quality Signals",
         "",
-        f"- **Average Quality Score:** {avg_quality:.2f}/1.0",
+        f"- **Tonnes-weighted metadata score:** {avg_quality:.2f}/1.0",
+        "- Metadata heuristic, not a certified quality rating; "
+        "unused by the optimiser.",
         f"- **Removal Projects:** {removal_share:.1%} of portfolio",
-        f"- **Average Vintage:** {avg_vintage:.0f}",
+        f"- **Known-vintage weighted average:** {vintage_label}",
         "",
         "## Top Holdings (by cost)",
         "",

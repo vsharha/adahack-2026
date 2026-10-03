@@ -6,7 +6,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$SCRIPT_DIR/backend"
 FRONTEND_DIR="$SCRIPT_DIR/frontend"
-DATA_DIR="$FRONTEND_DIR/data"
+DATA_DIR="$FRONTEND_DIR/src/data"
 
 echo "🚀 Optiver Quick Start"
 echo "====================="
@@ -19,25 +19,14 @@ if ! command -v uv &> /dev/null; then
     exit 1
 fi
 if ! command -v pnpm &> /dev/null; then
-    echo "❌ pnpm not found. Install with: npm install -g pnpm"
+    echo "❌ pnpm not found. Install from https://pnpm.io/installation"
     exit 1
 fi
 echo "✅ Dependencies OK"
 echo ""
 
-# Step 1: Generate fresh report from backend
-echo "📊 Generating portfolio report..."
-REPORT_DIR="/tmp/optiver-$(date +%Y%m%d-%H%M%S)"
-uv --directory "$BACKEND_DIR" run python -m optiver --output "$REPORT_DIR" --sensitivity
-
-# Step 2: Copy to frontend data folder
-echo "📁 Copying report to frontend..."
-mkdir -p "$DATA_DIR"
-cp "$REPORT_DIR/report.json" "$DATA_DIR/"
-cp "$REPORT_DIR/portfolio.csv" "$DATA_DIR/" 2>/dev/null || true
-cp "$REPORT_DIR/report.md" "$DATA_DIR/" 2>/dev/null || true
-echo "✅ Report generated: $DATA_DIR/report.json"
-echo ""
+# Refresh the single displayed report, downloads and PDF together.
+bash "$SCRIPT_DIR/refresh-demo.sh"
 
 # Step 3: Install frontend deps if needed
 if [ ! -d "$FRONTEND_DIR/node_modules" ]; then

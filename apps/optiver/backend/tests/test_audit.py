@@ -67,6 +67,20 @@ class ExportAuditTests(unittest.TestCase):
         with self.assertRaises((ValueError, KeyError)):
             self.check_report()
 
+    def test_wrong_quality_aggregate_is_rejected(self):
+        self.report["portfolios"]["Diversified candidate"][
+            "tonnes_weighted_quality_score"
+        ] = 1
+        with self.assertRaisesRegex(ValueError, "weighted quality"):
+            self.check_report()
+
+    def test_wrong_json_holding_quality_is_rejected(self):
+        self.report["portfolios"]["Diversified candidate"]["holdings"][0][
+            "quality_score"
+        ] = -1
+        with self.assertRaisesRegex(ValueError, "JSON holdings"):
+            self.check_report()
+
     def test_no_candidate_cannot_keep_stale_holdings(self):
         del self.report["portfolios"]["Diversified candidate"]
         self.report["status"] = "NO VALIDATED CANDIDATE"

@@ -20,6 +20,8 @@ export interface PortfolioExposures {
 }
 
 export interface PortfolioData {
+  holdings?: HoldingRow[];
+  tonnes_weighted_quality_score?: number;
   cost_usd: number;
   within_budget: boolean;
   nominal_tonnes: number;
@@ -32,6 +34,7 @@ export interface PortfolioData {
 
 export interface ReportData {
   status: string;
+  quality_score_method?: string;
   target: number;
   budget: number;
   reliability: number;
@@ -44,6 +47,10 @@ export interface ReportData {
 }
 
 export interface HoldingRow {
+  quality_score?: number;
+  vintage_year?: number | null;
+  reduction_or_removal?: string;
+  status?: string;
   credit_id: string;
   project_name: string;
   tonnes: number;

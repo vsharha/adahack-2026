@@ -1,0 +1,187 @@
+{
+  "target": 100000,
+  "budget": 1000000,
+  "training_scenarios": 2000,
+  "evaluation_scenarios": 10000,
+  "seed": 20261003,
+  "shared_latent_variances": [0, 0.3, 0.6],
+  "method": "Bounded heuristic cost curve; not a globally optimal frontier",
+  "points": [
+    {
+      "required_reliability": 0.8,
+      "cost_usd": 140197.45,
+      "projects": 9,
+      "nominal_tonnes": 134522.0,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.8374,
+          "ci_low": 0.8300383935699639,
+          "ci_high": 0.8445024843295036,
+          "mean_tonnes": 115796.9931,
+          "p05_tonnes": 80714.0,
+          "mean_shortfall": 2572.8052
+        },
+        "0.3": {
+          "success_rate": 0.8264,
+          "ci_low": 0.8188513696604273,
+          "ci_high": 0.8336979562031951,
+          "mean_tonnes": 115832.5292,
+          "p05_tonnes": 80413.0,
+          "mean_shortfall": 3033.3536
+        },
+        "0.6": {
+          "success_rate": 0.8171,
+          "ci_low": 0.8094017931321401,
+          "ci_high": 0.8245546751011769,
+          "mean_tonnes": 115741.4112,
+          "p05_tonnes": 76413.0,
+          "mean_shortfall": 3639.1705
+        }
+      },
+      "validated": true,
+      "status": "Validated",
+      "templates_searched": 6
+    },
+    {
+      "required_reliability": 0.85,
+      "cost_usd": 148534.58000000002,
+      "projects": 13,
+      "nominal_tonnes": 136280.0,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.9069,
+          "ci_low": 0.9010475844640515,
+          "ci_high": 0.9124399176618918,
+          "mean_tonnes": 118416.3397,
+          "p05_tonnes": 95396.0,
+          "mean_shortfall": 814.1022
+        },
+        "0.3": {
+          "success_rate": 0.8868,
+          "ci_low": 0.8804409920243146,
+          "ci_high": 0.8928619468361301,
+          "mean_tonnes": 118505.7275,
+          "p05_tonnes": 90735.0,
+          "mean_shortfall": 1216.03395
+        },
+        "0.6": {
+          "success_rate": 0.866,
+          "ci_low": 0.8591825966026595,
+          "ci_high": 0.8725363165900052,
+          "mean_tonnes": 118526.71165,
+          "p05_tonnes": 86124.0,
+          "mean_shortfall": 1761.51285
+        }
+      },
+      "validated": true,
+      "status": "Validated",
+      "templates_searched": 6
+    },
+    {
+      "required_reliability": 0.9,
+      "cost_usd": 161727.02,
+      "projects": 8,
+      "nominal_tonnes": 136207.0,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.9445,
+          "ci_low": 0.9398395206647528,
+          "ci_high": 0.9488191047837157,
+          "mean_tonnes": 124854.28025,
+          "p05_tonnes": 98276.0,
+          "mean_shortfall": 623.732
+        },
+        "0.3": {
+          "success_rate": 0.9372,
+          "ci_low": 0.932275136344256,
+          "ci_high": 0.9417890954804243,
+          "mean_tonnes": 124804.75355,
+          "p05_tonnes": 95345.5,
+          "mean_shortfall": 826.72885
+        },
+        "0.6": {
+          "success_rate": 0.9319,
+          "ci_low": 0.9267948231923746,
+          "ci_high": 0.9366734790150348,
+          "mean_tonnes": 124827.4602,
+          "p05_tonnes": 94566.0,
+          "mean_shortfall": 1109.28635
+        }
+      },
+      "validated": true,
+      "status": "Validated",
+      "templates_searched": 6
+    },
+    {
+      "required_reliability": 0.95,
+      "cost_usd": 181658.56,
+      "projects": 13,
+      "nominal_tonnes": 166671.0,
+      "evaluations": {
+        "0": {
+          "success_rate": 0.9927,
+          "ci_low": 0.9908319591742815,
+          "ci_high": 0.9941896488312537,
+          "mean_tonnes": 144823.64525,
+          "p05_tonnes": 116669.5,
+          "mean_shortfall": 77.158
+        },
+        "0.3": {
+          "success_rate": 0.9831,
+          "ci_low": 0.9803818410813093,
+          "ci_high": 0.9854471396929428,
+          "mean_tonnes": 144932.96825,
+          "p05_tonnes": 110970.0,
+          "mean_shortfall": 182.33945
+        },
+        "0.6": {
+          "success_rate": 0.9699,
+          "ci_low": 0.9663665003399703,
+          "ci_high": 0.9730726179912678,
+          "mean_tonnes": 144958.63865,
+          "p05_tonnes": 105330.5,
+          "mean_shortfall": 426.43355
+        }
+      },
+      "validated": true,
+      "status": "Validated",
+      "templates_searched": 6
+    },
+    {
+      "required_reliability": 0.99,
+      "cost_usd": 282130.45,
+      "projects": 15,
+      "nominal_tonnes": 238511.0,
+      "evaluations": {
+        "0": {
+          "success_rate": 1.0,
+          "ci_low": 0.9996160016293234,
+          "ci_high": 1,
+          "mean_tonnes": 213616.54105,
+          "p05_tonnes": 177518.5,
+          "mean_shortfall": 0.0
+        },
+        "0.3": {
+          "success_rate": 1.0,
+          "ci_low": 0.9996160016293234,
+          "ci_high": 1,
+          "mean_tonnes": 213751.51225,
+          "p05_tonnes": 170726.0,
+          "mean_shortfall": 0.0
+        },
+        "0.6": {
+          "success_rate": 0.999,
+          "ci_low": 0.9981600556125619,
+          "ci_high": 0.9994567140135028,
+          "mean_tonnes": 213615.8982,
+          "p05_tonnes": 163696.5,
+          "mean_shortfall": 7.9482
+        }
+      },
+      "validated": true,
+      "status": "Validated",
+      "templates_searched": 6
+    }
+  ],
+  "data_sha256": "de00ad3a0d0d9f7f5b31ddead836584ed89e3d90eb7c5013b0285fda8dacf6f4"
+}

@@ -8,6 +8,7 @@ import math
 import sys
 from pathlib import Path
 
+from optiver.exports import holding_records, weighted_quality
 from optiver.model import GROUPS, Portfolio, cost, exposures, load_credits, validate
 
 
@@ -101,11 +102,24 @@ def audit(report_path: Path, holdings_path: Path, source_path: Path) -> list[str
             )
             close(float(row["failure_probability"]), credit.probability, "failure risk")
             close(float(row["loss_fraction"]), credit.loss, "recovery")
+            if "quality_score" in row:
+                close(
+                    float(row["quality_score"]), credit.quality_score, "quality score"
+                )
             if row["project_name"] != credit.name or any(
                 row[group] != getattr(credit, group) for group in GROUPS
             ):
                 raise ValueError(f"{credit.credit_id}: metadata differs from source")
     validate(holdings, budget)
+    if "tonnes_weighted_quality_score" in candidate:
+        close(
+            candidate["tonnes_weighted_quality_score"],
+            weighted_quality(holdings),
+            "weighted quality score",
+        )
+    if "holdings" in candidate:
+        if candidate["holdings"] != holding_records(holdings):
+            raise ValueError("JSON holdings do not reconcile with CSV and source")
     close(candidate["projects"], len(holdings), "project count")
     close(candidate["cost_usd"], cost(holdings), "candidate cost")
     close(candidate["nominal_tonnes"], sum(q for _, q in holdings), "nominal tonnes")

@@ -19,6 +19,9 @@ A Python command-line tool and Next.js web app for the Optiver challenge: constr
 
 - Add the five P1 judge-demo features: an 80/85/90/95/99% CLI cost curve, a reliability-versus-cost chart, a geographic portfolio map, an executive summary with three concentration risks, and connected shared-risk scenario selection; the user explicitly requested this scope to improve judge appeal; 2026-10-03.
 
+- Add the requested comparison CSV, per-project quality fields in JSON/CSV, and a configurable batch reliability runner to make backend results easier to inspect and compare; 2026-10-03.
+- Add judge-facing frontend polish from the requested list: motion, a downloadable one-pager PDF, project-type verification, a usage guide and holdings exploration; 2026-10-03.
+
 ## Implementation assumptions
 
 These are configurable engineering defaults, not confirmed organiser rules: a 100,000-tonne target, 95% reliability, whole-project binary failures with the supplied buffer recovery, and several assumed correlation strengths. The USD 1m budget, rating probabilities and recovery/reversal rules come from the workbook. Report modelled outcomes and uncertainty, not guarantees or real-world carbon impact.

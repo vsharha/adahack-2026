@@ -55,3 +55,15 @@ The tests cover marginal probabilities with correlated failures, shared-group fa
 Run `uv run python -m optiver --frontier --output /tmp/optiver-frontier` with a new output directory. This runs the bounded search at 80%, 85%, 90%, 95% and 99% required reliability and writes `frontier.json` and `frontier.md` alongside the usual report and holdings. All CLI target, budget, seed and scenario settings apply to the sweep. Each point is checked against fresh scenarios for every configured shared-risk model; a candidate that misses its confidence threshold is recorded as failed, and a search with no candidate has a null cost. These are heuristic results, not a globally optimal efficient frontier.
 
 The frontend's curve is an offline snapshot in `frontend/src/data/frontier.json`, with its download copy in `frontend/public/data/frontier.json`. Regenerate both together when the source data or modelling settings change.
+
+### Comparison CSV and reliability batches
+
+`uv run python -m optiver --csv-summary --output /tmp/optiver-comparison` writes `comparison.csv`: one row per portfolio and shared-risk model, with cost, project count, target hit rate, confidence bounds and validation status. The usual outputs are retained. `--csv-summary` and `--one-pager` require a new output directory.
+
+`uv run python -m optiver --batch --output /tmp/optiver-batch` evaluates ten default reliability requirements: 80/82/84/86/88/90/92/94/96/99%. Supply explicit levels with `--batch 0.81 0.91 0.98`. Levels must be unique and in [0.5, 1). `batch.json` and `batch.md` retain missing searches and failed held-out checks; an unsuccessful search is not a proof of infeasibility. CLI target, budget, seeds and scenario counts apply to every run.
+
+Holdings now include `quality_score`, vintage, reduction/removal and status in both JSON and CSV. Each portfolio also includes a tonnes-weighted score. This is the existing metadata heuristic (30% vintage recency, 40% removal/reduction, 30% status), bounded to [0,1], with zero contribution from missing signals. It is not a certified quality rating, not a failure probability, and does not influence allocation or simulated reliability. The source-export audit reconciles these fields.
+
+### Saved PDF and dashboard refresh
+
+From the repository root, run `bash apps/optiver/refresh-demo.sh`. It builds and audits the report, cost curve and comparison, renders the one-pager Markdown to a PDF with ReportLab through uv, then refreshes the displayed JSON and the downloadable assets together. The renderer needs DejaVu Sans fonts (available on this development machine). The page loads its holdings from the same JSON as its metrics. The PDF is the saved executive summary at the representative shared-risk setting (default 0.3), rather than a capture of the current table filters.
