@@ -23,8 +23,15 @@ function resolveTheme(appearance: Appearance): "light" | "dark" {
   return matchMedia(darkQuery).matches ? "dark" : "light";
 }
 
+/** Applies the theme with transitions switched off, so colours change at once. */
 function apply() {
+  const pause = document.createElement("style");
+  pause.textContent = "*, *::before, *::after { transition: none !important; }";
+  document.head.appendChild(pause);
   document.documentElement.dataset.theme = resolveTheme(read());
+  // Reading a style forces the new colours to apply before transitions return.
+  void getComputedStyle(document.documentElement).color;
+  requestAnimationFrame(() => pause.remove());
 }
 
 export function setAppearance(appearance: Appearance) {

@@ -187,9 +187,13 @@ function House({
   const walls = useRef<THREE.MeshLambertMaterial>(null);
   const roofMaterial = useRef<THREE.MeshLambertMaterial>(null);
   const skip = useMemo(() => reducedMotion(), []);
+  const shownTokens = useRef(tokens);
 
   useFrame((_, delta) => {
-    const t = skip ? 1 : 1 - Math.exp(-4 * delta);
+    // A theme change snaps to the new colours; a change in points eases.
+    const themeChanged = shownTokens.current !== tokens;
+    shownTokens.current = tokens;
+    const t = skip || themeChanged ? 1 : 1 - Math.exp(-4 * delta);
     walls.current?.color.lerp(target, t);
     roofMaterial.current?.color.lerp(target, t);
   });
