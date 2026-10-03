@@ -47,6 +47,12 @@ Light mode at 320 × 760 had no horizontal overflow; the bar sat 12px from each 
 
 | Fictional partner rewards and persistent demo vouchers | Works | Checked in the Codex browser on 3 October 2026, commit `Add fictional household reward vouchers`. Priya’s confirmed litter pick gave her 30 contribution and 20 rewards. You showed bicycle repair, refill and secondhand offers with costs, benefits and restrictions. Redeeming the 20-point repair offer created a DEMO voucher, reduced rewards to zero and retained 30 contribution and 20 of 100 earned that month. Reload retained the voucher and balances. Insufficient-balance offers were disabled. No browser errors. Twelve unit tests, `pnpm fix:postcode` and `pnpm verify:postcode` passed. All partners and vouchers are fictional, with no real redemption. |
 
+## Stable scrolling and initial 3D reveal
+
+Works. Checked on the running dev server in the Codex browser on 3 October 2026, commit `Stabilise Postcode scrolling and scene loading`. At 390 × 1200, Goals' Street panel overflowed while Groups and Home did not. The scrolling area stayed 384px wide and its tab strip stayed 344px wide across all three panels. At 320 × 760, the page stayed 320px wide without horizontal overflow. CSS reserves the scrollbar gutter even when content fits.
+
+Fresh Street loads kept the scene's 256px height throughout a 500ms opacity transition. Browser samples recorded opacity increasing from 0.07 to 1 after the canvas rendered. Houses and avatar pins share the fade. Returning from Goals kept the scene ready at opacity 1, without restarting its loading fade. Light and dark views rendered correctly. Reduced-motion CSS disables the transition. The browser logged no errors; the existing THREE.Clock deprecation warning remains. All 16 existing participation tests, `pnpm fix:postcode` and `pnpm verify:postcode` passed.
+
 ## Impact evidence
 
 Each figure records its basis: a measured result with the method, or an estimate with its inputs, sources, calculation and limits. External facts include their source and retrieval date.

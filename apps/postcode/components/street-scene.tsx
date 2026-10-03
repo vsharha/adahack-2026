@@ -7,6 +7,7 @@ import {
 } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -289,7 +290,25 @@ function PinAnchors({ onChange }: { onChange: (anchors: Anchor[]) => void }) {
   return null;
 }
 
-function Street({ onAnchors }: { onAnchors: (anchors: Anchor[]) => void }) {
+function SceneReady({ onReady }: { onReady: () => void }) {
+  const frames = useRef(0);
+  useFrame(() => {
+    // Frame callbacks run before drawing, so the second callback confirms
+    // that the scene has already rendered once before its reveal starts.
+    if (frames.current >= 2) return;
+    frames.current += 1;
+    if (frames.current === 2) onReady();
+  });
+  return null;
+}
+
+function Street({
+  onAnchors,
+  onReady,
+}: {
+  onAnchors: (anchors: Anchor[]) => void;
+  onReady: () => void;
+}) {
   const state = useDemoState();
   const tokens = useTokens();
   const roof = useMemo(() => roofGeometry(), []);
@@ -344,6 +363,7 @@ function Street({ onAnchors }: { onAnchors: (anchors: Anchor[]) => void }) {
         far={2.5}
         resolution={512}
       />
+      <SceneReady onReady={onReady} />
     </>
   );
 }
@@ -362,6 +382,8 @@ export function StreetScene({
 }) {
   const state = useDemoState();
   const [anchors, setAnchors] = useState<Anchor[]>([]);
+  const [ready, setReady] = useState(false);
+  const revealScene = useCallback(() => setReady(true), []);
 
   function pinFor(householdId: string): ReactNode {
     if (householdId === youHouseholdId)
@@ -389,14 +411,20 @@ export function StreetScene({
   }
 
   return (
-    <div role="img" aria-label={label} className="relative h-64 w-full">
+    <div
+      role="img"
+      aria-label={label}
+      aria-busy={!ready}
+      className="relative h-64 w-full motion-safe:transition-opacity motion-safe:duration-500 motion-safe:ease-out"
+      style={{ opacity: ready ? 1 : 0 }}
+    >
       <Canvas
         dpr={[1, 2]}
         gl={{ alpha: true, antialias: true }}
         frameloop={active ? "always" : "never"}
         className="mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"
       >
-        <Street onAnchors={setAnchors} />
+        <Street onAnchors={setAnchors} onReady={revealScene} />
       </Canvas>
       {anchors.map(({ householdId, left, top }) => {
         const pin = pinFor(householdId);
