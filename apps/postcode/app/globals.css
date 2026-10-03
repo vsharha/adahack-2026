@@ -260,3 +260,20 @@
   font-family:
     -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
 }
+
+/* An iOS-style scroll indicator whose track starts below the drawn status
+   bar, which content scrolls underneath. */
+.app-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app-scroll::-webkit-scrollbar-track {
+  margin-top: calc(var(--status-bar) + 4px);
+  margin-bottom: 4px;
+  background: transparent;
+}
+
+.app-scroll::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--foreground) 30%, transparent);
+}

@@ -54,7 +54,7 @@ export function SignedInShell({ children }: { children: React.ReactNode }) {
     <div className="flex h-full flex-col">
       <main
         ref={scroller}
-        className="min-h-0 flex-1 overflow-y-auto pt-(--status-bar)"
+        className="app-scroll min-h-0 flex-1 overflow-y-auto pt-(--status-bar)"
       >
         {children}
       </main>
