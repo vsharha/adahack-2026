@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 const body = Atkinson_Hyperlegible_Next({
   subsets: ["latin"],
   variable: "--font-body",
+  fallback: ["Arial", "sans-serif"],
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
