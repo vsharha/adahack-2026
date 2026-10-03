@@ -63,8 +63,7 @@ export const premadeUsers: User[] = [
   },
 ];
 
-// Hand-written placeholders: the pre-generated suggestions from the EH8 data
-// replace these goals and household suggestions.
+// Demo suggestions are written from the saved local context; no model runs.
 export const householdSuggestions: HouseholdSuggestion[] = [
   {
     id: "s-thermostat",
@@ -121,7 +120,8 @@ export const initialState: DemoState = {
       threshold: 3,
       title: "Tidy the nearest park's paths",
       description: "Clear litter and leaves from the paths for an hour.",
-      basis: "Green space near EH8 and nearby heritage grants.",
+      basis:
+        "Nicolson Square Gardens is listed in Edinburgh Council’s parks directory.",
       points: 12,
       origin: "suggested",
     },

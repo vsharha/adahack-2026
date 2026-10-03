@@ -1,0 +1,122 @@
+{
+  "retrievedOn": "2026-10-03",
+  "electricity": {
+    "district": "EH8",
+    "year": 2024,
+    "meters": 12539,
+    "meanKwh": 2807.021195867933,
+    "medianKwh": 2037.0,
+    "totalKwh": 35197238.77498801,
+    "source": "https://www.gov.uk/government/statistics/postcode-level-electricity-statistics-2024"
+  },
+  "greenSpaces": [
+    {
+      "name": "Nicolson Square Gardens",
+      "kind": "Public gardens",
+      "source": "https://www.edinburghoutdoors.org.uk/directory-record/100/nicolson-square"
+    }
+  ],
+  "air": {
+    "latitude": 55.9,
+    "longitude": -3.1999989,
+    "source": "https://open-meteo.com/en/docs/air-quality-api",
+    "hours": [
+      {
+        "time": "2026-10-03T00:00:00Z",
+        "europeanAqi": 18
+      },
+      {
+        "time": "2026-10-03T01:00:00Z",
+        "europeanAqi": 19
+      },
+      {
+        "time": "2026-10-03T02:00:00Z",
+        "europeanAqi": 19
+      },
+      {
+        "time": "2026-10-03T03:00:00Z",
+        "europeanAqi": 22
+      },
+      {
+        "time": "2026-10-03T04:00:00Z",
+        "europeanAqi": 22
+      },
+      {
+        "time": "2026-10-03T05:00:00Z",
+        "europeanAqi": 21
+      },
+      {
+        "time": "2026-10-03T06:00:00Z",
+        "europeanAqi": 20
+      },
+      {
+        "time": "2026-10-03T07:00:00Z",
+        "europeanAqi": 20
+      },
+      {
+        "time": "2026-10-03T08:00:00Z",
+        "europeanAqi": 21
+      },
+      {
+        "time": "2026-10-03T09:00:00Z",
+        "europeanAqi": 22
+      },
+      {
+        "time": "2026-10-03T10:00:00Z",
+        "europeanAqi": 25
+      },
+      {
+        "time": "2026-10-03T11:00:00Z",
+        "europeanAqi": 27
+      },
+      {
+        "time": "2026-10-03T12:00:00Z",
+        "europeanAqi": 26
+      },
+      {
+        "time": "2026-10-03T13:00:00Z",
+        "europeanAqi": 24
+      },
+      {
+        "time": "2026-10-03T14:00:00Z",
+        "europeanAqi": 25
+      },
+      {
+        "time": "2026-10-03T15:00:00Z",
+        "europeanAqi": 26
+      },
+      {
+        "time": "2026-10-03T16:00:00Z",
+        "europeanAqi": 25
+      },
+      {
+        "time": "2026-10-03T17:00:00Z",
+        "europeanAqi": 23
+      },
+      {
+        "time": "2026-10-03T18:00:00Z",
+        "europeanAqi": 22
+      },
+      {
+        "time": "2026-10-03T19:00:00Z",
+        "europeanAqi": 20
+      },
+      {
+        "time": "2026-10-03T20:00:00Z",
+        "europeanAqi": 20
+      },
+      {
+        "time": "2026-10-03T21:00:00Z",
+        "europeanAqi": 20
+      },
+      {
+        "time": "2026-10-03T22:00:00Z",
+        "europeanAqi": 19
+      },
+      {
+        "time": "2026-10-03T23:00:00Z",
+        "europeanAqi": 19
+      }
+    ]
+  }
+}

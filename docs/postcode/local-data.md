@@ -1,0 +1,9 @@
+# Saved local context
+
+The demo ships a small source-linked snapshot in `apps/postcode/data/area.json`. Retrieved on 3 October 2026. It remains readable offline; it does not update automatically.
+
+- Electricity: [DESNZ postcode-level all domestic meters, 2024](https://www.gov.uk/government/statistics/postcode-level-electricity-statistics-2024). Select the CSV row with `Outcode = EH8` and `Postcode = All postcodes`. Mean consumption is 2,807.021195867933 kWh across 12,539 recorded meters; the UI rounds the mean to 2,807. EH8 9YL has no individual row in this release. This is district context, not a household reading or a measurement of savings. The full CSV is excluded from the repository.
+- Green space: [Edinburgh Council’s Nicolson Square directory entry](https://www.edinburghoutdoors.org.uk/directory-record/100/nicolson-square). The app names the public garden without estimating walking distance, condition or litter levels. An attempted OpenStreetMap Overpass retrieval failed, so no map-derived distance is claimed.
+- Air: [Open-Meteo’s CAMS air-quality API](https://open-meteo.com/en/docs/air-quality-api), requested at the EH8 9YL coordinates returned by [postcodes.io](https://api.postcodes.io/postcodes/EH89YL): latitude 55.947687, longitude -3.187349. Request `/v1/air-quality?latitude=55.947687&longitude=-3.187349&hourly=european_aqi&forecast_days=1`. The returned grid coordinate is 55.9, -3.1999989. The saved forecast covers 00:00–23:00 UTC on 3 October 2026, with European AQI between 18 and 27. It is modelled surrounding-area context, not a street sensor.
+
+The fictional litter pick is a demonstration of participation in a real local place. The data does not establish that the place needs a litter pick. Goal suggestions are written demo examples, not model outputs. Grants and live forecast refresh remain planned.

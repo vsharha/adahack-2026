@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ActivityFeed } from "@/components/activity-feed";
 import { Avatar } from "@/components/avatar";
+import { LocalContext } from "@/components/local-context";
 import { StreetView } from "@/components/street-view";
 import { Button } from "@/components/ui/button";
 import { streetPostcode } from "@/data/seed";
@@ -136,6 +137,8 @@ export function StreetScreen({ active = true }: { active?: boolean }) {
           </Button>
         </section>
       )}
+
+      <LocalContext />
 
       <section className="px-5">
         <div className="mb-3 flex items-baseline justify-between">
