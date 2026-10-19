@@ -9,11 +9,12 @@ import { cn } from "@/lib/utils";
 const REPOSITORY_URL =
   "https://github.com/vsharha/adahack-2026/tree/main/apps/postcode";
 
-// The stage keeps the same light neutral in both themes, so the links take the
-// device colour rather than theme tokens.
+/** The links' column width plus its 24px margin on each side, in pixels. */
+const SPACE_NEEDED = 208 + 2 * 24;
+
 const linkClass = cn(
-  buttonVariants({ variant: "ghost", size: "sm" }),
-  "border-device/15 text-device hover:bg-device/8 hover:text-device dark:hover:bg-device/8",
+  buttonVariants({ size: "lg" }),
+  "w-full justify-start gap-2.5 text-base [&_svg:not([class*='size-'])]:size-5",
 );
 
 function GitHubMark() {
@@ -27,22 +28,22 @@ function GitHubMark() {
 const subscribe = () => () => {};
 
 /**
- * Links shown beside the drawn phone on screens wide enough to keep them clear
- * of it. Hidden when the app is framed, such as in the presentation's live
- * demo slide.
+ * Links shown beside the drawn phone when the space between it and the
+ * window's edge, `gutter`, fits them. Hidden when the app is framed, such as
+ * in the presentation's live demo slide.
  */
-export function StageLinks() {
+export function StageLinks({ gutter }: { gutter: number }) {
   const topLevel = useSyncExternalStore(
     subscribe,
     () => window.self === window.top,
     () => false,
   );
-  if (!topLevel) return null;
+  if (!topLevel || gutter < SPACE_NEEDED) return null;
 
   return (
     <nav
       aria-label="About this project"
-      className="absolute top-6 right-6 hidden gap-2 lg:flex"
+      className="absolute top-6 right-6 hidden w-52 flex-col gap-2 framed:flex"
     >
       <Link href="/presentation" className={linkClass}>
         <Presentation />

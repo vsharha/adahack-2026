@@ -422,6 +422,9 @@ export function StreetScene({
     >
       <Canvas
         dpr={[1, 2]}
+        // The drawn phone is scaled with a transform, which bounding-box
+        // measurement would include.
+        resize={{ offsetSize: true }}
         gl={{ alpha: true, antialias: true }}
         frameloop={active ? "always" : "never"}
         className="mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"

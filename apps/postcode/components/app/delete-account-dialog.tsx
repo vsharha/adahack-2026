@@ -10,6 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { usePhoneScreen } from "@/components/app/phone-frame";
 import { dispatch } from "@/lib/demo-store";
 import type { User } from "@/lib/types";
 
@@ -22,9 +23,10 @@ export function DeleteAccountDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const phoneScreen = usePhoneScreen();
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent container={phoneScreen}>
         <AlertDialogHeader>
           <AlertDialogTitle>
             Delete {user.name}&apos;s account?

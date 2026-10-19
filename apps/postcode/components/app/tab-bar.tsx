@@ -29,7 +29,7 @@ export function TabBar({ badges }: { badges?: Partial<Record<Tab, number>> }) {
   return (
     <nav
       aria-label="Main navigation"
-      className="absolute inset-x-3 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+0.5rem))] z-40 rounded-full border border-border/70 bg-card/90 p-1.5 shadow-[0_8px_28px_-8px_var(--device-shadow)] backdrop-blur-xl md:bottom-6"
+      className="absolute inset-x-3 bottom-[max(1rem,calc(env(safe-area-inset-bottom)+0.5rem))] z-40 rounded-full border border-border/70 bg-card/90 p-1.5 shadow-[0_8px_28px_-8px_var(--device-shadow)] backdrop-blur-xl framed:bottom-6"
     >
       <div className="relative grid grid-cols-5">
         <span

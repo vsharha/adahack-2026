@@ -2,6 +2,7 @@
 
 import { SmilePlus } from "lucide-react";
 import { useState } from "react";
+import { usePhoneScreen } from "@/components/app/phone-frame";
 import { Avatar } from "@/components/avatar";
 import { ClaimApproval } from "@/components/claim-approval";
 import {
@@ -26,6 +27,7 @@ function Reactions({
 }) {
   const state = useDemoState();
   const [picking, setPicking] = useState(false);
+  const phoneScreen = usePhoneScreen();
   const used = reactionEmojis.filter((emoji) =>
     action.reactions.some((r) => r.emoji === emoji),
   );
@@ -74,6 +76,7 @@ function Reactions({
             {mine ? "Reacted" : "React"}
           </PopoverTrigger>
           <PopoverContent
+            container={phoneScreen}
             align="end"
             aria-label="Choose a reaction"
             className="w-auto flex-row gap-0.5 rounded-full p-1"

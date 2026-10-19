@@ -3,6 +3,13 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Where the app is drawn inside a phone: wide screens, and any screen with a
+   mouse, so zooming in on a laptop never switches to the full-screen layout. */
+@custom-variant framed {
+  @media (width >= 48rem), (hover: hover) and (pointer: fine) {
+    @slot;
+  }
+}
 
 /* Dark: navy with a soft leaf green, and the street at evening with lit
    windows. The light theme in :root is its daytime counterpart. */
